@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Pulse" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/pulse_color</item>
+        <item name="colorPrimaryDark">@color/pulse_color</item>
+        <item name="colorAccent">@color/pulse_color</item>
+    </style>
+
+    <style name="Theme.Pulse" parent="Base.Theme.Pulse" />
+
+</resources>

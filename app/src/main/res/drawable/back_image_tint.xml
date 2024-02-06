@@ -1,0 +1,12 @@
+<!-- res/drawable/tinted_back_drawable.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background" android:drawable="@drawable/back" />
+
+    <!-- Use a color filter to tint the drawable -->
+    <item android:id="@android:id/mask">
+        <bitmap
+            android:src="@drawable/back"
+            android:tint="@color/white"
+            android:tintMode="src_in" />
+    </item>
+</layer-list>
