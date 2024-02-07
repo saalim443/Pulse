@@ -31,6 +31,9 @@
             android:name=".Home.Fragments.Leaves.NewLeaveActivity"
             android:exported="true" />
         <activity
+            android:name=".Notifications.NotificationActivity"
+            android:exported="true" />
+        <activity
             android:name=".Intro.IntroScreenActivity"
             android:exported="true" />
         <activity
