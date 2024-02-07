@@ -70,6 +70,7 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/person" />
@@ -82,7 +83,7 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
                 android:gravity="center_vertical"
-                android:text="Abhishek Kumar Bharaty"
+                android:text=""
                 android:textColor="@color/black"
                 android:layout_gravity="center"
                 android:textStyle="bold"

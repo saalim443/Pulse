@@ -10,6 +10,7 @@ import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.LeaveItemListBinding
+import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
 

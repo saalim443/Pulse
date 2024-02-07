@@ -20,6 +20,7 @@ import codeflies.com.pulse.Models.UserData.ResponseProfile
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityLoginBinding
 import codeflies.com.pulse.databinding.ActivityProfileBinding
+import com.bumptech.glide.Glide
 import com.example.ehcf_doctor.Retrofit.GetData
 import retrofit2.Call
 import retrofit2.Callback
@@ -73,6 +74,8 @@ class Profile : AppCompatActivity() {
                     binding.email.text = response.body()!!.user?.email
 //                    binding.dob.text= response.body()!!.user?.name
                     binding.job.text = response.body()!!.user?.roles?.get(0)?.name
+
+                    Glide.with(applicationContext).load(response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.image)
 
                 } else {
                     Toast.makeText(
