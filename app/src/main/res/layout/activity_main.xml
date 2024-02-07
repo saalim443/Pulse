@@ -44,6 +44,7 @@
                 app:tint="@color/black" />
 
             <TextView
+                android:id="@+id/count"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentRight="true"
