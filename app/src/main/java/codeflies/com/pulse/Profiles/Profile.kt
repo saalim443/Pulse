@@ -15,6 +15,7 @@ import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Home.MainActivity
 import codeflies.com.pulse.Intro.SplashActivity
 import codeflies.com.pulse.Models.Login.ResponseLogin
+import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.Models.UserData.ResponseProfile
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityLoginBinding
@@ -35,11 +36,9 @@ class Profile : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        progressDisplay = ProgressDisplay(this);
 
-
-        progressDisplay=ProgressDisplay(this);
-
-        sharedPreference= SharedPreference(this);
+        sharedPreference = SharedPreference(this);
 
 
         binding.back.setOnClickListener {
@@ -59,7 +58,10 @@ class Profile : AppCompatActivity() {
         val getData: GetData =
             RetrofitClient.getRetrofit().create(GetData::class.java)
         val call: Call<ResponseProfile> =
-            getData.profile("Bearer "+sharedPreference.getData("token"),sharedPreference.getData("user_id"))
+            getData.profile(
+                "Bearer " + sharedPreference.getData("token"),
+                sharedPreference.getData("user_id")
+            )
         call.enqueue(object : Callback<ResponseProfile?> {
             override fun onResponse(
                 call: Call<ResponseProfile?>,
@@ -67,11 +69,11 @@ class Profile : AppCompatActivity() {
             ) {
                 if (response.body()?.status == true) {
 
-                    binding.name.text= response.body()!!.user?.name
-                    binding.mobile.text= response.body()!!.user?.mobile
-                    binding.email.text= response.body()!!.user?.email
+                    binding.name.text = response.body()!!.user?.name
+                    binding.mobile.text = response.body()!!.user?.mobile
+                    binding.email.text = response.body()!!.user?.email
 //                    binding.dob.text= response.body()!!.user?.name
-                    binding.job.text= response.body()!!.user?.roles?.get(0)?.name
+                    binding.job.text = response.body()!!.user?.roles?.get(0)?.name
 
                 } else {
                     Toast.makeText(
@@ -111,17 +113,12 @@ class Profile : AppCompatActivity() {
         val title = dialog?.findViewById<TextView>(R.id.title)
         val txtDesc = dialog?.findViewById<TextView>(R.id.txtDesc)
 
-        title!!.text = "Logout"
-        txtDesc?.text = "Are you sure to want logout from the app?"
+        title?.text = getString(R.string.logout)
+        txtDesc?.text = getString(R.string.logout_desc)
 
 
         yes?.setOnClickListener {
-
-            sharedPreference.saveData("user_id","")
-            sharedPreference.saveData("mobile","")
-            sharedPreference.saveData("token","")
-            startActivity(Intent(this@Profile,SplashActivity::class.java))
-            finishAffinity()
+            logout()
             dialog.dismiss()
         }
 
@@ -130,5 +127,48 @@ class Profile : AppCompatActivity() {
         }
 
         dialog?.show()
+    }
+
+    private fun logout() {
+        progressDisplay.show()
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseNormal> =
+            getData.logout(
+                "Bearer " + sharedPreference.getData("token")
+            )
+        call.enqueue(object : Callback<ResponseNormal?> {
+            override fun onResponse(
+                call: Call<ResponseNormal?>,
+                response: Response<ResponseNormal?>
+            ) {
+                if (response.body()?.status == true) {
+
+                    sharedPreference.saveData("user_id", "")
+                    sharedPreference.saveData("mobile", "")
+                    sharedPreference.saveData("token", "")
+                    startActivity(Intent(this@Profile, SplashActivity::class.java))
+                    finishAffinity()
+
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        response.body()?.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                }
+                progressDisplay.dismiss()
+            }
+
+            override fun onFailure(call: Call<ResponseNormal?>, t: Throwable) {
+                progressDisplay.dismiss()
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 }

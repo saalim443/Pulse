@@ -5,6 +5,8 @@ import codeflies.com.pulse.Models.Candidates.ResponseCandidate
 import codeflies.com.pulse.Models.Holidays.ResponseHoliday
 import codeflies.com.pulse.Models.Leaves.ResponseLeaves
 import codeflies.com.pulse.Models.Login.ResponseLogin
+import codeflies.com.pulse.Models.ResponseNormal
+import codeflies.com.pulse.Models.ResponseNotification
 import codeflies.com.pulse.Models.UserData.ResponseProfile
 import retrofit2.Call
 import retrofit2.http.*
@@ -41,5 +43,19 @@ interface GetData {
         @Path("user_id") user_id: String?,
     ): Call<ResponseProfile>
 
+    @POST("api/logout")
+    fun logout(
+        @Header("Authorization") token: String?
+    ): Call<ResponseNormal>
 
+
+    @GET("api/notifications/list")
+    fun notification(
+        @Header("Authorization") token: String?,
+    ): Call<ResponseNotification>
+
+    @GET("api/notifications/read-all")
+    fun readNotification(
+        @Header("Authorization") token: String?,
+    ): Call<ResponseNormal>
 }

@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
                 android:id="@+id/yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yeah! sure"
+                android:text="@string/yeah"
                 android:textColor="@color/green"
                 android:layout_marginTop="20dp"
                 android:textStyle="bold"
@@ -68,7 +68,7 @@
                 android:id="@+id/no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Not Now"
+                android:text="@string/not_now"
                 android:textColor="@color/red"
                 android:layout_marginTop="10dp"
                 android:textStyle="bold"
