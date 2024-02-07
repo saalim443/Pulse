@@ -1,17 +1,20 @@
 package com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import codeflies.com.pulse.Helpers.FunctionClass
+import codeflies.com.pulse.Intro.IntroScreenActivity
 import codeflies.com.pulse.Models.Candidates.CandidatesItem
 import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.CandidateItemListBinding
 import codeflies.com.pulse.databinding.LeaveItemListBinding
+import codeflies.com.pulse.leaveDetaill.CandidateDetailActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,6 +38,13 @@ class CandidateAdapter(
         holder.binding.date.text = FunctionClass.changeDate(list?.get(position)?.createdAt)
 
 
+        holder.itemView.setOnClickListener{
+            CandidateDetailActivity.candidate=list!!.get(position)
+            context.startActivity(Intent(
+                context,
+                CandidateDetailActivity::class.java
+            ))
+        }
 
         if(list?.get(position)?.status=="in_progress"){
             holder.binding.status.setTextColor(context.getColor(R.color.orange))

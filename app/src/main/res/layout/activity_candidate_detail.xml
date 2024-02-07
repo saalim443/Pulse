@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".leaveDetaill.CandidateDetailActivity">
+
+    <LinearLayout
+        android:id="@+id/lnrone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <com.skydoves.elasticviews.ElasticImageView
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/pulse_color"
+            android:padding="10dp"
+            android:src="@drawable/back_image_tint"
+            app:imageView_duration="200"
+            app:imageView_scale="0.93" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:text="Candidate Profile"
+            android:textColor="@color/pulse_color"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/tvapproval"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:fontFamily="@font/ubuntu_medium"
+          android:text="pending"
+          android:textStyle="bold"
+          android:textAllCaps="true"
+          android:textColor="@color/red"
+          android:layout_marginRight="10dp"
+          />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lnrone"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto"
+            android:text="Saalim"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/ubuntu"
+            android:gravity="center"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/baseline_email"
+            android:text="Saalimmalik.official@gmail.com"
+            android:textColor="@color/green"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEmail">
+
+            <TextView
+                android:id="@+id/tvPhoneOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/baseline_call"
+                android:drawablePadding="3dp"
+                android:text="+91 9717726272"
+                android:fontFamily="@font/ubuntu"
+                android:textColor="@color/green"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPhoneTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/baseline_call"
+                android:drawablePadding="3dp"
+                android:text="+91 9999999999"
+                android:fontFamily="@font/ubuntu"
+                android:textColor="@color/green"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:textStyle="bold" />
+
+
+
+        </LinearLayout>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/person" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvCuurentCompanyadd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlone"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/ubuntu"
+        android:layout_marginTop="5dp"
+        android:text="Sr Android Developer at Codeflies Pvt Ltd , Noida Sector 63 \nFeb 2023 - Jan 2023" />
+
+    <LinearLayout
+        android:id="@+id/lnrTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCuurentCompanyadd"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/tvExpre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/ubuntu"
+            android:drawableLeft="@drawable/baseline_year"
+            android:drawablePadding="3dp"
+            android:text="2y 6m"
+            android:textColor="@color/green"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCurrentPakage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/baseline_pakage"
+            android:drawablePadding="3dp"
+            android:text="12 lacs"
+            android:textColor="@color/green"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/baseline_location"
+            android:drawablePadding="3dp"
+            android:text="Bangalore"
+            android:textColor="@color/green"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/lnrTwo"
+        android:text="About"
+        android:fontFamily="@font/ubuntu"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvRemark"
+        android:layout_below="@+id/about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:fontFamily="@font/ubuntu"
+        android:textColor="@color/black"
+        android:justificationMode="inter_word"
+        android:layout_marginTop="5dp"
+        android:text="Knave of Hearts, he stole those tarts, And took them quite away!' 'Consider your verdict,' he said to herself, 'whenever I eat one of its mouth, and. Knave of Hearts, he stole those tarts, And took them quite away!' 'Consider your verdict,' he said to herself, 'whenever I eat one of its mouth, and."
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        android:layout_marginBottom="25dp"
+        android:gravity="center|left"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntu"
+            android:text="created : 2024-02-06T09:39:27.000000Z"
+            android:textColor="@color/black" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            >
+            <com.skydoves.elasticviews.ElasticFloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/download_icon"
+                app:fabutton_duration="200"
+                app:fabutton_scale="0.93"
+                app:backgroundTint="@color/pulse_color"
+                app:tint="@color/white"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>
