@@ -1,6 +1,8 @@
 package codeflies.com.pulse.Home.Fragments.Leaves
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,12 +35,18 @@ class Home : Fragment() {
 
 
         getLeaves()
+
+        binding!!.addLeave.setOnClickListener {
+            val intent = Intent(requireActivity(),NewLeaveActivity::class.java)
+            startActivity(intent)
+        }
         return binding!!.root
     }
 
 
     private fun getLeaves() {
         progressDisplay.show()
+        Log.e("token","Bearer "+sharedPreference.getData("token"))
         val getData: GetData =
             RetrofitClient.getRetrofit().create(GetData::class.java)
         val call: Call<ResponseLeaves> =

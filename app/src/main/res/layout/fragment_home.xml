@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".Home.Fragments.Leaves.Home">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/leaves"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/leaves"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <com.skydoves.elasticviews.ElasticFloatingActionButton
+            android:id="@+id/addLeave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            app:fabSize="mini"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/baseline_add_24"
+            app:backgroundTint="@color/pulse_color"
+            app:cornerRadius="1000dp"
+            app:fabutton_duration="200"
+            app:fabutton_scale="0.93"
+            app:tint="@color/white" />
+
+
+    </FrameLayout>
+
 </LinearLayout>
