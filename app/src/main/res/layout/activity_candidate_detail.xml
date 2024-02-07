@@ -21,33 +21,28 @@
             android:background="@drawable/circle"
             android:backgroundTint="@color/pulse_color"
             android:padding="10dp"
+            android:onClick="gotoBack"
             android:src="@drawable/back_image_tint"
             app:imageView_duration="200"
             app:imageView_scale="0.93" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="15dp"
-            android:fontFamily="@font/ubuntu_medium"
-            android:text="Candidate Profile"
-            android:textColor="@color/pulse_color"
-            android:textSize="18dp"
-            android:textStyle="bold" />
 
-      <TextView
-          android:id="@+id/tvapproval"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:fontFamily="@font/ubuntu_medium"
-          android:text="pending"
-          android:textStyle="bold"
-          android:textAllCaps="true"
-          android:textColor="@color/red"
-          android:layout_marginRight="10dp"
-          />
+
+        <TextView
+            android:id="@+id/tvapproval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntu_medium"
+            android:text="pending"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:textAllCaps="true"
+            android:textColor="@color/red"
+            android:layout_marginRight="15dp"
+            />
 
     </LinearLayout>
+
+
 
     <RelativeLayout
         android:id="@+id/rlone"
@@ -57,6 +52,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginBottom="5dp">
 
         <TextView
@@ -64,12 +60,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto"
             android:text="Saalim"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <TextView
@@ -78,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
+
             android:layout_marginTop="10dp"
             android:fontFamily="@font/ubuntu"
             android:gravity="center"
@@ -86,7 +81,7 @@
             android:drawableLeft="@drawable/baseline_email"
             android:text="Saalimmalik.official@gmail.com"
             android:textColor="@color/green"
-            android:textSize="14dp"
+            android:textSize="12dp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -99,14 +94,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
+
                 android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/baseline_call"
                 android:drawablePadding="3dp"
                 android:text="+91 9717726272"
                 android:fontFamily="@font/ubuntu"
                 android:textColor="@color/green"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:gravity="center"
                 android:textStyle="bold" />
 
@@ -122,7 +117,7 @@
                 android:text="+91 9999999999"
                 android:fontFamily="@font/ubuntu"
                 android:textColor="@color/green"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:gravity="center"
                 android:textStyle="bold" />
 
@@ -135,6 +130,7 @@
             android:id="@+id/profile_image"
             android:layout_width="96dp"
             android:layout_height="96dp"
+            android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/person" />
 
@@ -146,32 +142,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlone"
-        android:layout_marginLeft="10dp"
         android:textColor="@color/black"
         android:fontFamily="@font/ubuntu"
         android:layout_marginTop="5dp"
+        android:textSize="12dp"
+        android:layout_marginLeft="10dp"
         android:text="Sr Android Developer at Codeflies Pvt Ltd , Noida Sector 63 \nFeb 2023 - Jan 2023" />
-
     <LinearLayout
         android:id="@+id/lnrTwo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCuurentCompanyadd"
         android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
         >
         <TextView
-            android:id="@+id/tvExpre"
+            android:id="@+id/tvExpirience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/ubuntu"
             android:drawableLeft="@drawable/baseline_year"
             android:drawablePadding="3dp"
             android:text="2y 6m"
             android:textColor="@color/green"
-            android:textSize="14dp"
+            android:textSize="12dp"
             android:gravity="center"
             android:textStyle="bold" />
 
@@ -186,7 +182,7 @@
             android:drawablePadding="3dp"
             android:text="12 lacs"
             android:textColor="@color/green"
-            android:textSize="14dp"
+            android:textSize="12dp"
             android:gravity="center"
             android:textStyle="bold" />
 
@@ -199,9 +195,9 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/baseline_location"
             android:drawablePadding="3dp"
-            android:text="Bangalore"
+            android:text="Noida"
             android:textColor="@color/green"
-            android:textSize="14dp"
+            android:textSize="12dp"
             android:gravity="center"
             android:textStyle="bold" />
     </LinearLayout>
@@ -212,10 +208,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/lnrTwo"
         android:text="About"
+        android:layout_marginLeft="10dp"
         android:fontFamily="@font/ubuntu"
         android:textColor="@color/black"
         android:textSize="16dp"
@@ -225,9 +221,10 @@
         android:layout_below="@+id/about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="12dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:fontFamily="@font/ubuntu"
         android:textColor="@color/black"
         android:justificationMode="inter_word"
         android:layout_marginTop="5dp"
@@ -240,23 +237,45 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-
+        android:layout_marginRight="15dp"
         android:layout_marginBottom="25dp"
         android:gravity="center|left"
         >
-        <TextView
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu"
-            android:text="created : 2024-02-06T09:39:27.000000Z"
-            android:textColor="@color/black" />
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center|left"
+            >
+            <TextView
+                android:id="@+id/tvDateCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:textSize="13dp"
+                android:text="created : 2024-02-06T09:39:27.000000Z"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/tvRecuriter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:text="By Anjali Shakhya"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="@color/pulse_color" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
+            android:background="@color/white"
             >
             <com.skydoves.elasticviews.ElasticFloatingActionButton
+                android:id="@+id/btnDownloadResume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/download_icon"
@@ -264,6 +283,7 @@
                 app:fabutton_scale="0.93"
                 app:backgroundTint="@color/pulse_color"
                 app:tint="@color/white"
+                android:layout_margin="10dp"
                 />
         </LinearLayout>
 

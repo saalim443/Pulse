@@ -59,6 +59,7 @@ public class SharedPreference
         prefsEditor.commit();
     }
 
+
     public int getInt(String key)
     {
         if (sharedPreferences!= null)
