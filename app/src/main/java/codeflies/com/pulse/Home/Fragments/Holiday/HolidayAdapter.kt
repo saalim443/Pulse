@@ -32,10 +32,16 @@ class HolidayAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.title.text = list?.get(position)?.title
-        holder.binding.dates.text =
-            FunctionClass.changeDate(list?.get(position)?.startAt) + " - " + FunctionClass.changeDate(
-                list?.get(position)?.endAt
-            )
+        if(list?.get(position)?.durationDays!! >1){
+            holder.binding.dates.text =
+                FunctionClass.changeDate(list?.get(position)?.startAt) + " - " + FunctionClass.changeDate(
+                    list?.get(position)?.endAt
+                )
+        }else{
+            holder.binding.dates.text =
+                FunctionClass.changeDate(list?.get(position)?.startAt)
+        }
+
         holder.binding.duration.text = list?.get(position)?.durationDays.toString() + " Days"
         holder.binding.type.text = list?.get(position)?.dayType
 

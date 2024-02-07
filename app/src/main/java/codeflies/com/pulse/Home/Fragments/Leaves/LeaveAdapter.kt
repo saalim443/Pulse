@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
+import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.LeaveItemListBinding
@@ -22,8 +23,10 @@ class LeaveAdapter(
     RecyclerView.Adapter<LeaveAdapter.MyViewHolder>() {
 
 
+        lateinit var sharedPreference: SharedPreference
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = LeaveItemListBinding.inflate(LayoutInflater.from(context), parent, false)
+        sharedPreference= SharedPreference(context)
         return MyViewHolder(binding)
     }
 
@@ -51,6 +54,13 @@ class LeaveAdapter(
             holder.binding.status.setTextColor(context.getColor(R.color.orange))
             holder.binding.status.text ="Pending"
             holder.binding.approveBy.visibility=View.GONE
+        }
+
+
+        if(sharedPreference.getData("role")=="employee"){
+            holder.binding.userImage.visibility=View.GONE
+        }else{
+            holder.binding.userImage.visibility=View.VISIBLE
         }
 
     }

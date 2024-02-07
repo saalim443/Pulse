@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
@@ -51,6 +52,19 @@ class Profile : AppCompatActivity() {
             exitApp()
         }
 
+        if(sharedPreference.getData("role")=="employee"){
+            binding.lyReporting.visibility= View.VISIBLE
+        }else{
+            binding.lyReporting.visibility= View.GONE
+        }
+
+        if(sharedPreference.getData("role")=="admin"){
+            binding.lySalary.visibility= View.GONE
+            binding.vSalary.visibility= View.GONE
+        }else{
+            binding.lySalary.visibility= View.VISIBLE
+            binding.vSalary.visibility= View.VISIBLE
+        }
         profile()
     }
 

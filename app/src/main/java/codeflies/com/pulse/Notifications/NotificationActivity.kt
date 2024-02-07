@@ -2,6 +2,7 @@ package codeflies.com.pulse.Notifications
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import codeflies.com.pulse.Helpers.ProgressDisplay
@@ -54,7 +55,16 @@ class NotificationActivity : AppCompatActivity() {
                     binding.notifications.layoutManager = LinearLayoutManager(this@NotificationActivity)
                     binding.notifications.setHasFixedSize(true)
                     binding.notifications.adapter = NotificationAdapter(response.body()!!.notifications, this@NotificationActivity)
+                    if(response.body()?.notifications?.size==0) {
+                        binding.noData.visibility= View.VISIBLE
+                        binding.notifications.visibility= View.GONE
+                    }else{
+                        binding.noData.visibility= View.GONE
+                        binding.notifications.visibility= View.VISIBLE
+                    }
                 } else {
+                    binding.noData.visibility= View.VISIBLE
+                    binding.notifications.visibility= View.GONE
                     Toast.makeText(
                         applicationContext,
                         response.body()?.message ,
@@ -69,6 +79,8 @@ class NotificationActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseNotification?>, t: Throwable) {
                 progressDisplay.dismiss()
+                binding.noData.visibility= View.VISIBLE
+                binding.notifications.visibility= View.GONE
                 Toast.makeText(
                     applicationContext,
                     "Something went wrong !",
