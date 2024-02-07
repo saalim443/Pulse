@@ -29,7 +29,10 @@ data class User(
 	val id: Int? = null,
 
 	@field:SerializedName("email")
-	val email: String? = null
+	val email: String? = null,
+
+	@field:SerializedName("profile_img")
+	val profile_img: String? = null
 )
 
 data class LeavesItem(

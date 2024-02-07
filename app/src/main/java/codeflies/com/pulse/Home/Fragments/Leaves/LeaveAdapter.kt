@@ -36,7 +36,7 @@ class LeaveAdapter(
         holder.binding.applyDate.text = FunctionClass.changeDate(list?.get(position)?.createdAt)
         holder.binding.leaveType.text ="For "+list?.get(position)?.leaveDays+" days | Full Days"
 
-//        Glide.with(context).load(Constants.IMG_URL+list?.get(position)?.employee?.user.pro).placeholder(R.drawable.person).into(binding.image)
+        Glide.with(context).load(Constants.IMG_URL+list?.get(position)?.employee?.user?.profile_img).placeholder(R.drawable.person).into(holder.binding.userImage)
 
 
         if(list?.get(position)?.status=="approved"){
