@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
@@ -35,6 +36,7 @@ class LeaveAdapter(
         holder.binding.applyDate.text = FunctionClass.changeDate(list?.get(position)?.createdAt)
         holder.binding.leaveType.text ="For "+list?.get(position)?.leaveDays+" days | Full Days"
 
+//        Glide.with(context).load(Constants.IMG_URL+list?.get(position)?.employee?.user.pro).placeholder(R.drawable.person).into(binding.image)
 
 
         if(list?.get(position)?.status=="approved"){

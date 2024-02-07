@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
@@ -75,7 +76,7 @@ class Profile : AppCompatActivity() {
 //                    binding.dob.text= response.body()!!.user?.name
                     binding.job.text = response.body()!!.user?.roles?.get(0)?.name
 
-                    Glide.with(applicationContext).load(response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.image)
+                    Glide.with(applicationContext).load(Constants.IMG_URL+response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.image)
 
                 } else {
                     Toast.makeText(
