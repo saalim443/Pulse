@@ -227,19 +227,12 @@
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
-            <TextView
-                android:id="@+id/notifyTo"
+            <Spinner
+                android:id="@+id/notifyToSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg"
-                android:fontFamily="@font/ubuntu_medium"
-                android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray_dark"
-                android:textSize="15dp" />
+                android:background="@drawable/edit_bg" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -258,6 +251,8 @@
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
                 android:inputType="textMultiLine"
+                android:gravity="start"
+                android:padding="10dp"
                 android:justificationMode="inter_word"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
@@ -309,7 +304,7 @@
             </LinearLayout>
 
             <com.skydoves.elasticviews.ElasticButton
-                android:id="@+id/login"
+                android:id="@+id/submitLeave"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@drawable/rect_bg_small"

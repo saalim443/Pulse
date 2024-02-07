@@ -30,14 +30,14 @@ class Home : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        sharedPreference= SharedPreference(activity)
-        progressDisplay= ProgressDisplay(activity)
+        sharedPreference = SharedPreference(activity)
+        progressDisplay = ProgressDisplay(activity)
 
 
         getLeaves()
 
         binding!!.addLeave.setOnClickListener {
-            val intent = Intent(requireActivity(),NewLeaveActivity::class.java)
+            val intent = Intent(requireActivity(), NewLeaveActivity::class.java)
             startActivity(intent)
         }
         return binding!!.root
@@ -46,22 +46,25 @@ class Home : Fragment() {
 
     private fun getLeaves() {
         progressDisplay.show()
-        Log.e("token","Bearer "+sharedPreference.getData("token"))
+        Log.e("token", "Bearer " + sharedPreference.getData("token"))
         val getData: GetData =
             RetrofitClient.getRetrofit().create(GetData::class.java)
         val call: Call<ResponseLeaves> =
-            getData.leaves("Bearer "+sharedPreference.getData("token"))
+            getData.leaves("Bearer " + sharedPreference.getData("token"))
         call.enqueue(object : Callback<ResponseLeaves?> {
-            override fun onResponse(call: Call<ResponseLeaves?>, response: Response<ResponseLeaves?>) {
-                if (response.body()?.status==true) {
+            override fun onResponse(
+                call: Call<ResponseLeaves?>,
+                response: Response<ResponseLeaves?>
+            ) {
+                if (response.body()?.status == true) {
 
-                    binding?.leaves?.layoutManager =LinearLayoutManager(activity)
+                    binding?.leaves?.layoutManager = LinearLayoutManager(activity)
                     binding?.leaves?.setHasFixedSize(true)
-                    binding?.leaves?.adapter=LeaveAdapter(activity!!, response.body()?.leaves)
+                    binding?.leaves?.adapter = LeaveAdapter(activity!!, response.body()?.leaves)
                 } else {
                     Toast.makeText(
                         activity,
-                        response.body()?.message ,
+                        response.body()?.message,
                         Toast.LENGTH_SHORT
                     ).show()
                     // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
@@ -79,5 +82,10 @@ class Home : Fragment() {
                 ).show()
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLeaves()
     }
 }

@@ -5,20 +5,38 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.DocumentsContract
+import android.provider.OpenableColumns
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.documentfile.provider.DocumentFile
 import codeflies.com.pulse.Helpers.ProgressDisplay
+import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
+import codeflies.com.pulse.Helpers.SnackBarUtils
+import codeflies.com.pulse.Helpers.getRealPathFromUri
+import codeflies.com.pulse.Models.Leaves.NotifyTo
+import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.R
-import codeflies.com.pulse.databinding.ActivityMainBinding
 import codeflies.com.pulse.databinding.ActivityNewLeaveBinding
+import com.example.ehcf_doctor.Retrofit.GetData
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -33,7 +51,8 @@ class NewLeaveActivity : AppCompatActivity() {
     private val REQUEST_CODE_PERMISSION = 123
     val REQUEST_CODE = 200
     private var imageUriList = mutableListOf<Uri>()
-
+    private var emailStringList  = mutableListOf<String>()
+    private var selectedItemValue = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +63,10 @@ class NewLeaveActivity : AppCompatActivity() {
         sharedPreference = SharedPreference(this)
         progressDisplay = ProgressDisplay(this)
 
+
+        binding.back.setOnClickListener {
+            finish()
+        }
 
         ArrayAdapter.createFromResource(
             this,
@@ -66,12 +89,14 @@ class NewLeaveActivity : AppCompatActivity() {
                 // Get the selected item position
                 val selectedItemPosition = parent.getItemAtPosition(position)
                 // Get the selected item value from the adapter using the position
-                val selectedItemValue = parent.getItemAtPosition(position).toString()
+                selectedItemValue = parent.getItemAtPosition(position).toString()
                 // Show a toast message with the selected item position
 
                 if (selectedItemValue.equals("First Half Leave")) {
                     binding.fromTime.visibility = View.VISIBLE
                     binding.toTime.visibility = View.VISIBLE
+                    binding.LeaveFrom.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
+                    binding.LeaveTo.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
                     binding.fromTime.text = "09:30"
                     binding.toTime.text = "02:10"
                     binding.LeaveDay.text = "0.5"
@@ -79,6 +104,8 @@ class NewLeaveActivity : AppCompatActivity() {
                 } else if (selectedItemValue.equals("Second Half Leave")) {
                     binding.fromTime.visibility = View.VISIBLE
                     binding.toTime.visibility = View.VISIBLE
+                    binding.LeaveFrom.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
+                    binding.LeaveTo.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
                     binding.fromTime.text = "02:10"
                     binding.toTime.text = "06:30"
                     binding.LeaveDay.text = "0.5"
@@ -119,6 +146,176 @@ class NewLeaveActivity : AppCompatActivity() {
             dateValue = 2
             showDatePicker()
         }
+
+        getNotifyTo()
+        binding.submitLeave.setOnClickListener {
+            if(validation()){
+                uploadLeave()
+            }
+        }
+    }
+
+
+    private fun uploadLeave() {
+        progressDisplay.show()
+        val token = sharedPreference.getData("token").toString()
+
+        // Create a RequestBody for form_step and id
+        val formStepRequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "3")
+        val title = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.leaveTitle.text.toString())
+
+        // Create a RequestBody for leave_type based on selectedItemValue
+        val leaveType: RequestBody = when (selectedItemValue) {
+            "First Half Leave" -> RequestBody.create("text/plain".toMediaTypeOrNull(), "first_half")
+            "Second Half Leave" -> RequestBody.create("text/plain".toMediaTypeOrNull(), "second_half")
+            "Full Day Leave" -> RequestBody.create("text/plain".toMediaTypeOrNull(), "full_days")
+            else -> RequestBody.create("text/plain".toMediaTypeOrNull(), "") // Handle default case
+        }
+
+        val leaveFromDate = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.LeaveFrom.text.toString())
+        val leaveToDate = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.LeaveTo.text.toString())
+        val leaveDays = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.LeaveDay.text.toString())
+        val content = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.WriteYourContent.text.toString())
+
+        // Create a list of MultipartBody.Part for images
+        val imageParts = mutableListOf<MultipartBody.Part>()
+        for (uri in imageUriList) {
+            val fileName = getFileNameFromUriWithoutPath(uri)
+            val file = File(getRealPathFromUri(this@NewLeaveActivity, uri))
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val imagePart = MultipartBody.Part.createFormData("attachments[]", fileName ?: "", requestFile)
+            imageParts.add(imagePart)
+        }
+
+        // Create a list of RequestBody for email addresses
+        val emailParts = mutableListOf<RequestBody>()
+        emailStringList.forEach { emailString ->
+            val emailPart = RequestBody.create("text/plain".toMediaTypeOrNull(), emailString)
+            emailParts.add(emailPart)
+        }
+
+        // Make the API call
+        val getData: GetData = RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseNormal> = getData.uploadLeave(
+            "Bearer $token",
+            title,
+            leaveType,
+            leaveFromDate,
+            leaveToDate,
+            leaveDays,
+            content,
+            imageParts,
+            emailParts
+        )
+
+        call.enqueue(object : Callback<ResponseNormal> {
+            override fun onResponse(call: Call<ResponseNormal>, response: Response<ResponseNormal>) {
+                progressDisplay.dismiss()
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse?.status == true) {
+                        finish()
+                    } else {
+                        SnackBarUtils.showTopSnackbar(
+                            this@NewLeaveActivity,
+                            apiResponse?.message ?: "",
+                            Color.RED
+                        )
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.string()
+                    val gson = Gson()
+                    try {
+                        val errorJson = gson.fromJson(errorResponse, JsonObject::class.java)
+                        val errorMessage = errorJson.get("message").asString
+                        SnackBarUtils.showTopSnackbar(
+                            this@NewLeaveActivity,
+                            errorMessage,
+                            Color.RED
+                        )
+                    } catch (e: Exception) {
+                        SnackBarUtils.showTopSnackbar(
+                            this@NewLeaveActivity,
+                            e.message ?: "",
+                            Color.RED
+                        )
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseNormal>, t: Throwable) {
+                progressDisplay.dismiss()
+                SnackBarUtils.showTopSnackbar(this@NewLeaveActivity, t.message ?: "", Color.RED)
+            }
+        })
+    }
+
+
+
+    private fun validation(): Boolean {
+        if (binding.leaveTitle.text.length==0){
+            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Fill Title!",R.color.red)
+            binding.leaveTitle.requestFocus()
+            return false
+        }else if (selectedItemValue.equals("--Select--")){
+            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Select Leave Type!",R.color.red)
+            return false
+        }else if(binding.LeaveFrom.text.length==0){
+            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Select From Date!",R.color.red)
+            return false
+        }else if (binding.LeaveTo.text.length==0){
+            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Select To Date!",R.color.red)
+            return false
+        }else if (binding.WriteYourContent.text.length==0){
+            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Write Your Content!",R.color.red)
+            binding.WriteYourContent.requestFocus()
+            return false
+        }
+
+        return true
+    }
+
+    private fun getNotifyTo() {
+            progressDisplay.show()
+            Log.e("token","Bearer "+sharedPreference.getData("token"))
+            val getData: GetData =
+                RetrofitClient.getRetrofit().create(GetData::class.java)
+            val call: Call<NotifyTo> =
+                getData.notify_to("Bearer "+sharedPreference.getData("token"))
+            call.enqueue(object : Callback<NotifyTo?> {
+                override fun onResponse(call: Call<NotifyTo?>, response: Response<NotifyTo?>) {
+                    if (response.body()?.status==true) {
+                        val notifyToList: List<String>? = response.body()?.users?.mapNotNull { it?.email }
+
+                        if (!notifyToList.isNullOrEmpty()) {
+                            // Assuming you have a spinner named 'notifyToSpinner' in your layout XML
+                            val adapter = ArrayAdapter<String>(this@NewLeaveActivity, android.R.layout.simple_spinner_item, notifyToList)
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            binding.notifyToSpinner.adapter = adapter
+                        }
+
+                        } else {
+                        Toast.makeText(
+                            this@NewLeaveActivity,
+                            response.body()?.message ,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+
+                    progressDisplay.dismiss()
+                }
+
+                override fun onFailure(call: Call<NotifyTo?>, t: Throwable) {
+                    progressDisplay.dismiss()
+                    Toast.makeText(
+                        this@NewLeaveActivity,
+                        "Something went wrong !",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+
     }
 
     override fun onRequestPermissionsResult(
@@ -150,10 +347,21 @@ class NewLeaveActivity : AppCompatActivity() {
                 // Use the formatted date as needed
 
                 if (dateValue == 1) {
-                    binding.LeaveFrom.setText(formattedDate)
+                   if (!selectedItemValue.equals("Full Day Leave")){
+                       binding.LeaveFrom.setText(formattedDate)
+                       binding.LeaveTo.setText(formattedDate)
+                   }else{
+                       binding.LeaveFrom.setText(formattedDate)
+                       differentDay()
+                   }
                 } else if (dateValue == 2) {
-                    binding.LeaveTo.setText(formattedDate)
-                    differentDay()
+                   if (!selectedItemValue.equals("Full Day Leave")){
+                       binding.LeaveFrom.setText(formattedDate)
+                       binding.LeaveTo.setText(formattedDate)
+                   }else{
+                       binding.LeaveTo.setText(formattedDate)
+                       differentDay()
+                   }
 
                 }
 
@@ -165,6 +373,34 @@ class NewLeaveActivity : AppCompatActivity() {
         //  datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
 
         datePickerDialog.show()
+    }
+
+    private fun getFileNameFromUriWithoutPath(uri: Uri): String? {
+        val fullFileName = getFileNameFromUri(uri)
+        // Use substringAfterLast to get the file name without the path
+        return fullFileName?.substringAfterLast('/')
+    }
+
+    private fun getFileNameFromUri(uri: Uri): String? {
+        var fileName: String? = null
+
+        if (DocumentsContract.isDocumentUri(this@NewLeaveActivity, uri)) {
+            // Handle document URI
+            val document = DocumentFile.fromSingleUri(this@NewLeaveActivity, uri)
+            fileName = document?.name
+        } else {
+            // Handle other URI types
+            val cursor = this@NewLeaveActivity.contentResolver.query(uri, null, null, null, null)
+
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    val displayName = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    fileName = it.getString(displayName)
+                }
+            }
+        }
+
+        return fileName
     }
 
     private fun differentDay() {
