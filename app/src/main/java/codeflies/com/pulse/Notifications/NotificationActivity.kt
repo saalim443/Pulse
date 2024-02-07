@@ -52,7 +52,7 @@ class NotificationActivity : AppCompatActivity() {
 
 
                     binding.notifications.layoutManager = LinearLayoutManager(this@NotificationActivity)
-                    binding?.notifications?.setHasFixedSize(true)
+                    binding.notifications.setHasFixedSize(true)
                     binding.notifications.adapter = NotificationAdapter(response.body()!!.notifications, this@NotificationActivity)
                 } else {
                     Toast.makeText(

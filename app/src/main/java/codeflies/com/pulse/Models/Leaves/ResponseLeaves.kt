@@ -53,7 +53,7 @@ data class LeavesItem(
 	val content: String? = null,
 
 	@field:SerializedName("leave_days")
-	val leaveDays: Int? = null,
+	val leaveDays: Double? = null,
 
 	@field:SerializedName("approved_by")
 	val approvedBy: Any? = null,

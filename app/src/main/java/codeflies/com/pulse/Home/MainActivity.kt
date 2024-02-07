@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Home.Fragments.Attendence
@@ -21,11 +22,13 @@ import codeflies.com.pulse.Home.Fragments.Candidates.Candidates
 import codeflies.com.pulse.Home.Fragments.Holiday.Holidays
 import codeflies.com.pulse.Home.Fragments.Leaves.Home
 import codeflies.com.pulse.Models.ResponseNotification
+import codeflies.com.pulse.Models.UserData.ResponseProfile
 import codeflies.com.pulse.Notifications.Adapters.NotificationAdapter
 import codeflies.com.pulse.Notifications.NotificationActivity
 import codeflies.com.pulse.Profiles.Profile
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityMainBinding
+import com.bumptech.glide.Glide
 import com.example.ehcf_doctor.Retrofit.GetData
 import retrofit2.Call
 import retrofit2.Callback
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, NotificationActivity::class.java))
         }
 
+        profile()
 
         notification()
 
@@ -272,4 +276,44 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         notification()
     }
+
+
+    private fun profile() {
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseProfile> =
+            getData.profile(
+                "Bearer " + sharedPreference.getData("token")
+            )
+        call.enqueue(object : Callback<ResponseProfile?> {
+            override fun onResponse(
+                call: Call<ResponseProfile?>,
+                response: Response<ResponseProfile?>
+            ) {
+                if (response.body()?.status == true) {
+
+                    Glide.with(applicationContext).load(Constants.IMG_URL+response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.profile)
+
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        response.body()?.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                }
+
+            }
+
+            override fun onFailure(call: Call<ResponseProfile?>, t: Throwable) {
+
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
 }

@@ -26,6 +26,12 @@ class NotificationAdapter(private val dataList: List<NotificationsItem>?, var ct
         holder.binding.title.text= Html.fromHtml(dataList?.get(position)?.data?.title, Html.FROM_HTML_MODE_LEGACY)
         holder.binding.desc.text= Html.fromHtml(dataList?.get(position)?.data?.text, Html.FROM_HTML_MODE_LEGACY)
         holder.binding.date.text= FunctionClass.changeDate(dataList?.get(position)?.createdAt)
+
+        if(dataList?.get(position)?.readAt==null){
+            holder.binding.readStatus.visibility=View.VISIBLE
+        }else{
+            holder.binding.readStatus.visibility=View.GONE
+        }
     }
 
     override fun getItemCount(): Int {

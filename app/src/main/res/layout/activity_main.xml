@@ -15,7 +15,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp">
-        <com.skydoves.elasticviews.ElasticImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile"
             android:layout_width="35dp"
             android:layout_height="35dp"
