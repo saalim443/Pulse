@@ -6,12 +6,16 @@ import android.os.Handler
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import codeflies.com.pulse.Helpers.SharedPreference
+import codeflies.com.pulse.Home.MainActivity
 import codeflies.com.pulse.databinding.ActivitySplashBinding
 
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
+    lateinit var sharedPreference: SharedPreference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +24,22 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPreference=SharedPreference(this)
+
 
         Handler().postDelayed({
-            startActivity(Intent(
-                this@SplashActivity,
-                IntroScreenActivity::class.java
-            ))
+            if(sharedPreference.getData("token")!=null&&sharedPreference.getData("token")!=""){
+                startActivity(Intent(
+                    this@SplashActivity,
+                    MainActivity::class.java
+                ))
+            }else{
+                startActivity(Intent(
+                    this@SplashActivity,
+                    IntroScreenActivity::class.java
+                ))
+            }
+
             finish()
         }, 3000)
     }

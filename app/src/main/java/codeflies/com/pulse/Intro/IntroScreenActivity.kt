@@ -3,13 +3,11 @@ package codeflies.com.pulse.Intro
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import codeflies.com.pulse.Intro.adapters.OnboardingAdapter
 import codeflies.com.pulse.Intro.model.OnboardingDataModel
 import codeflies.com.pulse.Login.LoginPage
-import codeflies.com.pulse.MainActivity
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityIntroScreenBinding
 

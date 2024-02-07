@@ -1,18 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Home.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <com.skydoves.elasticviews.ElasticImageView
+            android:id="@+id/profile"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/person" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:text="Leaves"
+            android:textColor="@color/pulse_color"
+            android:textSize="22dp"
+            android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/notification"
+            android:layout_width="30dp"
+            android:layout_height="30dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/notification"
+                app:tint="@color/black" />
+
+            <TextView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/red"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="8dp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/rect_bg_mediun"
+        android:backgroundTint="@color/pulse_color"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.skydoves.elasticviews.ElasticLayout
+            android:id="@+id/lyHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:layout_duration="200"
+            app:layout_scale="0.93">
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp">
+
+                <View
+                    android:id="@+id/vHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/ivHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="9dp"
+                    android:src="@drawable/leave"
+                    app:tint="@color/pulse_color" />
+
+            </RelativeLayout>
+
+        </com.skydoves.elasticviews.ElasticLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.skydoves.elasticviews.ElasticLayout
+            android:id="@+id/lyFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_duration="200"
+            app:layout_scale="0.93">
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp">
+
+                <View
+                    android:id="@+id/vFav"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/white"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/ivFav"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="9dp"
+                    android:src="@drawable/candidate"
+                    app:tint="@color/white" />
+
+            </RelativeLayout>
+
+        </com.skydoves.elasticviews.ElasticLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.skydoves.elasticviews.ElasticLayout
+            android:id="@+id/lyCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_duration="200"
+            app:layout_scale="0.93">
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp">
+
+                <View
+                    android:id="@+id/vCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/white"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/ivCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="9dp"
+                    android:src="@drawable/holiday"
+                    app:tint="@color/white" />
+
+            </RelativeLayout>
+
+        </com.skydoves.elasticviews.ElasticLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.skydoves.elasticviews.ElasticLayout
+            android:id="@+id/lyMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            app:layout_duration="200"
+            app:layout_scale="0.93">
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp">
+
+                <View
+                    android:id="@+id/vMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/white"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/ivMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="9dp"
+                    android:src="@drawable/attendence"
+                    app:tint="@color/white" />
+
+            </RelativeLayout>
+        </com.skydoves.elasticviews.ElasticLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
