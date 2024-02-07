@@ -37,10 +37,9 @@ interface GetData {
         @Header("Authorization") token: String?,
     ): Call<ResponseHoliday>
 
-    @GET("api/user/{user_id}")
+    @GET("api/user")
     fun profile(
-        @Header("Authorization") token: String?,
-        @Path("user_id") user_id: String?,
+        @Header("Authorization") token: String?
     ): Call<ResponseProfile>
 
     @POST("api/logout")

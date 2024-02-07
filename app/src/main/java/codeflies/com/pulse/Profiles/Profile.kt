@@ -59,8 +59,7 @@ class Profile : AppCompatActivity() {
             RetrofitClient.getRetrofit().create(GetData::class.java)
         val call: Call<ResponseProfile> =
             getData.profile(
-                "Bearer " + sharedPreference.getData("token"),
-                sharedPreference.getData("user_id")
+                "Bearer " + sharedPreference.getData("token")
             )
         call.enqueue(object : Callback<ResponseProfile?> {
             override fun onResponse(
