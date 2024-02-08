@@ -13,7 +13,7 @@ import codeflies.com.pulse.Home.Fragments.Leaves.LeaveDetailsActivity
 import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.LeaveItemListBinding
-import codeflies.com.pulse.leaveDetaill.CandidateDetailActivity
+
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
