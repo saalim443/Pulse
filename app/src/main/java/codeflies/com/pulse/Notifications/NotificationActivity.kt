@@ -29,12 +29,11 @@ class NotificationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        progressDisplay= ProgressDisplay(this@NotificationActivity);
-        sharedPreference= SharedPreference(this@NotificationActivity);
+        progressDisplay= ProgressDisplay(this@NotificationActivity)
+        sharedPreference= SharedPreference(this@NotificationActivity)
         binding.back.setOnClickListener {
             finish()
         }
-
 
 
         notification()
@@ -50,7 +49,6 @@ class NotificationActivity : AppCompatActivity() {
         call.enqueue(object : Callback<ResponseNotification?> {
             override fun onResponse(call: Call<ResponseNotification?>, response: Response<ResponseNotification?>) {
                 if (response.body()?.status==true) {
-
 
                     binding.notifications.layoutManager = LinearLayoutManager(this@NotificationActivity)
                     binding.notifications.setHasFixedSize(true)

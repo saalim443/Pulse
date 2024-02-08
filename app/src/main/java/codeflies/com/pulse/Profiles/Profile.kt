@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import codeflies.com.pulse.Helpers.Constants
+import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
@@ -20,9 +22,11 @@ import codeflies.com.pulse.Models.Login.ResponseLogin
 import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.Models.UserData.ResponseProfile
 import codeflies.com.pulse.R
+import codeflies.com.pulse.Settings.WebviewActivity
 import codeflies.com.pulse.databinding.ActivityLoginBinding
 import codeflies.com.pulse.databinding.ActivityProfileBinding
 import com.bumptech.glide.Glide
+import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.ManagersListAdapter
 import com.example.ehcf_doctor.Retrofit.GetData
 import retrofit2.Call
 import retrofit2.Callback
@@ -48,14 +52,23 @@ class Profile : AppCompatActivity() {
             finish()
         }
 
+        binding.help.setOnClickListener {
+            WebviewActivity.pageTitle="Leave Management"
+            startActivity(Intent(this@Profile,WebviewActivity::class.java))
+        }
+
         binding.logout.setOnClickListener {
             exitApp()
         }
 
         if(sharedPreference.getData("role")=="employee"){
             binding.lyReporting.visibility= View.VISIBLE
+            binding.lyDob.visibility= View.VISIBLE
+            binding.vDob.visibility= View.VISIBLE
         }else{
             binding.lyReporting.visibility= View.GONE
+            binding.lyDob.visibility= View.GONE
+            binding.vDob.visibility= View.GONE
         }
 
         if(sharedPreference.getData("role")=="admin"){
@@ -87,8 +100,18 @@ class Profile : AppCompatActivity() {
                     binding.name.text = response.body()!!.user?.name
                     binding.mobile.text = response.body()!!.user?.mobile
                     binding.email.text = response.body()!!.user?.email
-//                    binding.dob.text= response.body()!!.user?.name
                     binding.job.text = response.body()!!.user?.roles?.get(0)?.name
+                    if(sharedPreference.getData("role")!="admin") {
+                        binding.salary.text = response.body()!!.user?.currentSalary?.amount
+                    }
+                    if(sharedPreference.getData("role")=="employee"){
+                        binding.dob.text= FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth)
+                        binding.managerList.layoutManager=LinearLayoutManager(this@Profile,LinearLayoutManager.HORIZONTAL,false)
+                        binding.managerList.setHasFixedSize(true)
+                        binding.managerList.adapter=ManagersListAdapter(applicationContext,response!!.body()?.user?.employee?.managers)
+                    }else{
+                        binding.managerList.visibility=View.GONE
+                    }
 
                     Glide.with(applicationContext).load(Constants.IMG_URL+response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.image)
 

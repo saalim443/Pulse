@@ -43,7 +43,7 @@ class HolidayAdapter(
         }
 
         holder.binding.duration.text = list?.get(position)?.durationDays.toString() + " Days"
-        holder.binding.type.text = list?.get(position)?.dayType
+        holder.binding.type.text = list?.get(position)?.dayType?.capitalize()
 
 
     }
