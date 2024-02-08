@@ -3,22 +3,13 @@ package com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
-import codeflies.com.pulse.Intro.IntroScreenActivity
 import codeflies.com.pulse.Models.Candidates.CandidatesItem
-import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.CandidateItemListBinding
-import codeflies.com.pulse.databinding.LeaveItemListBinding
-import codeflies.com.pulse.leaveDetaill.CandidateDetailActivity
-import com.bumptech.glide.Glide
-import java.text.SimpleDateFormat
-import java.util.*
+import codeflies.com.pulse.Candidate.cadidatedetail.CandidateDetailActivity
 
 
 class CandidateAdapter(
@@ -38,9 +29,6 @@ class CandidateAdapter(
         holder.binding.mobile.text = list?.get(position)?.mobile
         holder.binding.email.text = list?.get(position)?.email
         holder.binding.date.text = FunctionClass.changeDate(list?.get(position)?.createdAt)
-
-
-        Glide.with(context).load(Constants.IMG_URL+list?.get(position)?.user?.profileImg).placeholder(R.drawable.person).into(holder.binding.userImage)
 
 
         holder.itemView.setOnClickListener{

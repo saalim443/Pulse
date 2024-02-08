@@ -1,4 +1,4 @@
-package codeflies.com.pulse.leaveDetaill
+package codeflies.com.pulse.Candidate.cadidatedetail
 
 import android.app.DownloadManager
 import android.content.Context
@@ -6,10 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Models.Candidates.CandidatesItem
@@ -34,15 +32,27 @@ class CandidateDetailActivity : AppCompatActivity() {
         bindind.tvRemark.text= candidate.remarks
         bindind.tvEmail.text= candidate.email
         bindind.tvPhoneOne.text= candidate.mobile
-        bindind.tvPhoneTwo.text= candidate.alternateMobile
+        bindind.tvDesignation.text= candidate.designation
+        bindind.tvPhoneTwo.text= ","+ candidate.alternateMobile
         bindind.tvapproval.text= candidate.status
-        bindind.tvRecuriter.text= "By: "+candidate.recruiter?.name
-        if (candidate.status == "in_progress") {
-            bindind.tvapproval.setTextColor(ContextCompat.getColor(context, R.color.green))
+        bindind.tvRecuriter.text= "By: "+ candidate.recruiter?.name
+
+        if(candidate.status=="in_progress"){
+            bindind.tvapproval.setTextColor(context.getColor(R.color.orange))
+            bindind.tvapproval.text ="In Progress"
+        }else if(candidate.status=="selected"){
+            bindind.tvapproval.setTextColor(context.getColor(R.color.pulse_color))
+            bindind.tvapproval.text ="Selected"
+        }else if(candidate.status=="rejected"){
+            bindind.tvapproval.setTextColor(context.getColor(R.color.red))
+            bindind.tvapproval.text ="Rejected"
+        }else{
+            bindind.tvapproval.setTextColor(context.getColor(R.color.orange))
+            bindind.tvapproval.text ="Not Interested"
         }
 
         bindind.tvCurrentPakage.text= candidate.currentSalary.toString()+" /"
-        bindind.tvExpirience.text= candidate.experienceYears.toString()+"y"+" "+candidate.experienceMonths.toString()+"m"
+        bindind.tvExpirience.text= candidate.experienceYears.toString()+"y"+" "+ candidate.experienceMonths.toString()+"m"
 
 
         bindind.tvDateCreated.text="Date: "+FunctionClass.changeDate(candidate.createdAt)
@@ -66,7 +76,7 @@ class CandidateDetailActivity : AppCompatActivity() {
 
         // Download resume when clicked
         bindind.btnDownloadResume.setOnClickListener {
-            downloadFile( Constants.IMG_URL+candidate.resume.toString()) // Change the URL to your actual download link
+            downloadFile( Constants.IMG_URL+ candidate.resume.toString()) // Change the URL to your actual download link
         }
 
     }

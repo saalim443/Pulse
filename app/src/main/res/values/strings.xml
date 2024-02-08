@@ -17,5 +17,67 @@
         <item>Full Day Leave</item>
     </string-array>
 
+    <string name="select_option_year">yyyy</string>
+    <string-array name="spinner_options_year">
+        <item>--Select--</item>
+        <item>1 </item>
+        <item>2 </item>
+        <item>3 </item>
+        <item>4 </item>
+        <item>5 </item>
+        <item>6 </item>
+        <item>7 </item>
+        <item>8 </item>
+        <item>9 </item>
+        <item>10 </item>
+        <item>11 </item>
+        <item>12 </item>
+        <item>13 </item>
+        <item>14 </item>
+        <item>15 </item>
+    </string-array>
 
+    <string name="select_option_month">Select an option</string>
+    <string-array name="spinner_options_month">
+        <item>--Select--</item>
+        <item>1 </item>
+        <item>2 </item>
+        <item>3 </item>
+        <item>4 </item>
+        <item>5 </item>
+        <item>6 </item>
+        <item>7 </item>
+        <item>8 </item>
+        <item>9 </item>
+        <item>10 </item>
+        <item>11 </item>
+        <item>12 </item>
+    </string-array>
+
+
+    <string name="select_option_designation">Select an option</string>
+    <string-array name="spinner_options_designation">
+        <item>--Select--</item>
+        <item></item>
+        <item>Native Application Developer</item>
+        <item>Hybrid Application Developer</item>
+        <item>Android Application Developer</item>
+        <item>IOS Application Developer</item>
+        <item>Php  Developer</item>
+        <item></item>
+    </string-array>
+    <string name="select_option_status">Select an option</string>
+    <string-array name="spinner_options_status">
+        <item>--Select--</item>
+        <item>Pipeline</item>
+        <item>Pending</item>
+        <item>Progress</item>
+        <item>On Hold</item>
+        <item>Rejected</item>
+        <item>Selected</item>
+        <item>Joined</item>
+        <item>Not Interested</item>
+        <item>Unresponsive</item>
+        <item></item>
+    </string-array>
 </resources>

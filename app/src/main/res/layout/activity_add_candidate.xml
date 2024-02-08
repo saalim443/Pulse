@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Candidate.AddCandidateActivity">
+
+    <com.skydoves.elasticviews.ElasticImageView
+        android:id="@+id/back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/pulse_color"
+        android:padding="10dp"
+        android:src="@drawable/back_image_tint"
+        app:imageView_duration="200"
+        app:imageView_scale="0.93" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="Add Candidate"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Name *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:fontFamily="@font/ubuntu_medium"
+                android:hint="Name"
+                android:inputType="textCapSentences"
+                android:lines="2"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_dark"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Email *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:fontFamily="@font/ubuntu_medium"
+                android:hint="Email"
+                android:inputType="textCapSentences"
+                android:lines="2"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_dark"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Mobile *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <EditText
+                android:id="@+id/edtMobile"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:fontFamily="@font/ubuntu_medium"
+                android:hint="Mobile"
+                android:inputType="textCapSentences"
+                android:lines="2"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_dark"
+                android:textSize="15dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Alternate Mobile *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <EditText
+                android:id="@+id/edtAlternateMobile"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:fontFamily="@font/ubuntu_medium"
+                android:hint="AlternateMobile"
+                android:inputType="textCapSentences"
+                android:lines="2"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_dark"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Designation *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <Spinner
+                android:id="@+id/edtDesignation"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:entries="@array/spinner_options_designation"
+                android:prompt="@string/select_option_designation" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Experience *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spnYear"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bg"
+                    android:entries="@array/spinner_options"
+                    android:prompt="@string/select_option" />
+
+                <Spinner
+                    android:id="@+id/spnMonth"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_bg"
+                    android:entries="@array/spinner_options"
+                    android:prompt="@string/select_option" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/chooseFiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edit_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/pulse_color"
+                    android:backgroundTint="@color/pulse_color"
+                    android:padding="10dp"
+                    android:text="Choose Files"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/filesCount"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:hint="No file chosen"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Current Salary *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/pulse_color"
+                    android:backgroundTint="@color/pulse_color"
+                    android:padding="10dp"
+                    android:text="Rs."
+                    android:textColor="@color/white"/>
+
+                <EditText
+                    android:id="@+id/edtExpectedSalary"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:hint=""
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="15dp" />
+
+            </LinearLayout>.
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Expected Salary *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/pulse_color"
+                    android:backgroundTint="@color/pulse_color"
+                    android:padding="10dp"
+                    android:text="Rs."
+                    android:textColor="@color/white"/>
+
+                <EditText
+                    android:id="@+id/edtCurrentSalary"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:hint=""
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="15dp" />
+
+
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Status *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <Spinner
+                android:id="@+id/edtStatus"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:entries="@array/spinner_options_status"
+                android:prompt="@string/select_option_status" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Recruiter *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <Spinner
+                android:id="@+id/edtRecruiter"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+           />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Remark *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <EditText
+                android:id="@+id/WriteYourContent"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_bg"
+                android:fontFamily="@font/ubuntu_medium"
+                android:inputType="textMultiLine"
+                android:justificationMode="inter_word"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_dark"
+                android:textSize="15dp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <com.skydoves.elasticviews.ElasticButton
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/rect_bg_small"
+                android:backgroundTint="@color/pulse_color"
+                android:padding="10dp"
+                android:layout_marginTop="30dp"
+                android:text="Submit"
+                android:textColor="@color/white"
+                app:button_duration="200"
+                app:button_scale="0.93" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>
