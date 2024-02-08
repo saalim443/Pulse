@@ -1,5 +1,6 @@
 package codeflies.com.pulse.Home.Fragments.Candidates
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,16 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import codeflies.com.pulse.Candidate.AddCandidate.AddCandidateActivity
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Models.Candidates.ResponseCandidate
-import codeflies.com.pulse.Models.Leaves.ResponseLeaves
-import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.FragmentCandidatesBinding
-import codeflies.com.pulse.databinding.FragmentHomeBinding
 import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.CandidateAdapter
-import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.LeaveAdapter
 import com.example.ehcf_doctor.Retrofit.GetData
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,7 +34,10 @@ class Candidates : Fragment() {
 
         sharedPreference= SharedPreference(activity)
         progressDisplay= ProgressDisplay(activity)
-
+        binding!!.addCandidate.setOnClickListener {
+            val intent = Intent(requireActivity(), AddCandidateActivity::class.java)
+            startActivity(intent)
+        }
 
         getCandidate()
         return binding!!.root

@@ -3,10 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/candidate"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/candidate"/>
+
+
+        <com.skydoves.elasticviews.ElasticFloatingActionButton
+            android:id="@+id/addCandidate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            app:fabSize="mini"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/baseline_add_24"
+            app:backgroundTint="@color/pulse_color"
+            app:cornerRadius="1000dp"
+            app:fabutton_duration="200"
+            app:fabutton_scale="0.93"
+            app:tint="@color/white" />
+
+
+    </FrameLayout>
+
+
+
+
 </LinearLayout>

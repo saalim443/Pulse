@@ -130,16 +130,41 @@ class NewLeaveActivity : AppCompatActivity() {
         }
 
 
+//        binding.chooseFiles.setOnClickListener {
+//            if (this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                // Permission already granted, proceed with accessing images
+//                openGalleryForImages()
+//            } else {
+//                // Request permission
+//                requestPermissions(
+//                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+//                    REQUEST_CODE_PERMISSION
+//                )
+//            }
+//        }
+
         binding.chooseFiles.setOnClickListener {
-            if (this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                // Permission already granted, proceed with accessing images
-                openGalleryForImages()
-            } else {
-                // Request permission
+            val permissionsToRequest = mutableListOf<String>()
+
+            // Check if permission to read media images is granted
+            if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(Manifest.permission.READ_MEDIA_IMAGES)
+            }
+
+            // Check if permission to read external storage is granted
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+
+            // Request permissions if any are missing
+            if (permissionsToRequest.isNotEmpty()) {
                 requestPermissions(
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    permissionsToRequest.toTypedArray(),
                     REQUEST_CODE_PERMISSION
                 )
+            } else {
+                // Both permissions are granted, proceed with accessing files
+                openGalleryForImages()
             }
         }
 
@@ -337,19 +362,7 @@ class NewLeaveActivity : AppCompatActivity() {
 
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSION && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // Permission granted, proceed with accessing images
-            openGalleryForImages()
-        } else {
-            // Permission denied, handle accordingly (e.g., show a message to the user)
-        }
-    }
+
 
 
     private fun showDatePicker() {
@@ -519,6 +532,20 @@ class NewLeaveActivity : AppCompatActivity() {
                 binding.filesCount.text = "1 File"
                 // iv_image.setImageURI(imageUri) Here you can assign the picked image uri to your imageview
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSION && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Permission granted, proceed with accessing images
+            openGalleryForImages()
+        } else {
+            // Permission denied, handle accordingly (e.g., show a message to the user)
         }
     }
 

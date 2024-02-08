@@ -17,6 +17,7 @@ import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.CandidateItemListBinding
 import codeflies.com.pulse.databinding.LeaveItemListBinding
 import codeflies.com.pulse.databinding.ManagerListItemBinding
+
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*

@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
+        android:maxSdkVersion="34" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,10 +20,10 @@
             android:name=".Settings.WebviewActivity"
             android:exported="false" />
         <activity
-            android:name=".Candidate.cadidatedetail.CandidateDetailActivity"
+            android:name=".Candidate.AddCandidate.AddCandidateActivity"
             android:exported="false" />
         <activity
-            android:name=".Candidate.AddCandidateActivity"
+            android:name=".Candidate.cadidatedetail.CandidateDetailActivity"
             android:exported="false" />
         <activity
             android:name=".Profiles.Profile"
@@ -35,9 +36,6 @@
             android:exported="true" />
         <activity
             android:name=".Home.Fragments.Leaves.NewLeaveActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Home.Fragments.Leaves.LeaveDetailsActivity"
             android:exported="true" />
         <activity
             android:name=".Notifications.NotificationActivity"

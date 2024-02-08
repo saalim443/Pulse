@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Candidate.AddCandidateActivity">
+    tools:context=".Candidate.AddCandidate.AddCandidateActivity">
 
     <com.skydoves.elasticviews.ElasticImageView
         android:id="@+id/back"
@@ -16,6 +16,7 @@
         android:background="@drawable/circle"
         android:backgroundTint="@color/pulse_color"
         android:padding="10dp"
+        android:onClick="gotoBack"
         android:src="@drawable/back_image_tint"
         app:imageView_duration="200"
         app:imageView_scale="0.93" />
@@ -105,8 +106,8 @@
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
                 android:hint="Mobile"
-                android:inputType="textCapSentences"
                 android:lines="2"
+                android:inputType="phone"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_dark"
@@ -127,10 +128,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
+
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
                 android:hint="AlternateMobile"
-                android:inputType="textCapSentences"
+                android:inputType="phone"
                 android:lines="2"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
@@ -147,7 +149,7 @@
                 android:textSize="15.5dp" />
 
             <Spinner
-                android:id="@+id/edtDesignation"
+                android:id="@+id/spnDesignation"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
@@ -175,8 +177,11 @@
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_bg"
-                    android:entries="@array/spinner_options"
-                    android:prompt="@string/select_option" />
+                    android:entries="@array/spinner_options_year"
+                    android:prompt="@string/select_option_year" />
+
+
+
 
                 <Spinner
                     android:id="@+id/spnMonth"
@@ -186,8 +191,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_bg"
-                    android:entries="@array/spinner_options"
-                    android:prompt="@string/select_option" />
+                    android:entries="@array/spinner_options_month"
+                    android:prompt="@string/select_option_month" />
 
             </LinearLayout>
 
@@ -255,6 +260,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
+                    android:inputType="number"
                     android:background="@color/transparent"
                     android:fontFamily="@font/ubuntu_medium"
                     android:hint=""
@@ -319,7 +325,7 @@
                 android:textSize="15.5dp" />
 
             <Spinner
-                android:id="@+id/edtStatus"
+                android:id="@+id/spnStatus"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
@@ -336,11 +342,13 @@
                 android:textSize="15.5dp" />
 
             <Spinner
-                android:id="@+id/edtRecruiter"
+                android:id="@+id/spnRecruiter"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_bg"
+                android:entries="@array/spinner_options_recruiter"
+                android:prompt="@string/select_option_recruiter"
            />
 
             <TextView
