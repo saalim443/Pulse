@@ -3,6 +3,7 @@ package com.example.ehcf_doctor.Retrofit
 
 import codeflies.com.pulse.Models.Candidates.ResponseCandidate
 import codeflies.com.pulse.Models.Holidays.ResponseHoliday
+import codeflies.com.pulse.Models.Leaves.LeavesDetails
 import codeflies.com.pulse.Models.Leaves.NotifyTo
 import codeflies.com.pulse.Models.Leaves.ResponseLeaves
 import codeflies.com.pulse.Models.Login.ResponseLogin
@@ -29,6 +30,15 @@ interface GetData {
     fun leaves(
         @Header("Authorization") token: String?,
     ): Call<ResponseLeaves>
+
+
+    @Headers("Accept: application/json")
+    @GET("api/leaves/leave-detail/{leave_id}")
+    fun getLeaveData(
+        @Header("Authorization") authorization: String,
+        @Path("leave_id") leave_id: String
+    ): Call<LeavesDetails>
+
 
     @GET("api/recruitment/candidates")
     fun candidates(

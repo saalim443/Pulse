@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="2.5dp"
+    app:cardElevation="8dp">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <TextView
+            android:id="@+id/emailAll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/ubuntu"
+            android:text="Title *"
+            android:layout_margin="1.5dp"
+            android:padding="2dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black_light"
+            android:textSize="15.5dp" />
+
+        <ImageView
+            android:id="@+id/CarImageDelete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="2.5dp"
+            android:layout_margin="1.5dp"
+            android:layout_gravity="end"
+            android:background="@drawable/rect_bg_small"
+            android:src="@android:drawable/ic_delete"
+            app:tint="@color/pulse_color" />
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

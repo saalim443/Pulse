@@ -7,9 +7,6 @@ data class NotifyTo(
 	@field:SerializedName("message")
 	val message: String? = null,
 
-	@field:SerializedName("selectedNotifiableUsers")
-	val selectedNotifiableUsers: List<Any?>? = null,
-
 	@field:SerializedName("users")
 	val users: List<UsersItem?>? = null,
 

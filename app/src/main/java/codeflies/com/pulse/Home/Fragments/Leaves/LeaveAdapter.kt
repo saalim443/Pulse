@@ -1,6 +1,7 @@
 package com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
-import codeflies.com.pulse.Helpers.SharedPreference
+import codeflies.com.pulse.Home.Fragments.Leaves.LeaveDetailsActivity
 import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.LeaveItemListBinding
+import codeflies.com.pulse.leaveDetaill.CandidateDetailActivity
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,10 +25,8 @@ class LeaveAdapter(
     RecyclerView.Adapter<LeaveAdapter.MyViewHolder>() {
 
 
-        lateinit var sharedPreference: SharedPreference
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = LeaveItemListBinding.inflate(LayoutInflater.from(context), parent, false)
-        sharedPreference= SharedPreference(context)
         return MyViewHolder(binding)
     }
 
@@ -56,13 +56,15 @@ class LeaveAdapter(
             holder.binding.approveBy.visibility=View.GONE
         }
 
-
-        if(sharedPreference.getData("role")=="employee"){
-            holder.binding.userImage.visibility=View.GONE
-        }else{
-            holder.binding.userImage.visibility=View.VISIBLE
+        holder.binding.leaveDetails.setOnClickListener {
+            LeaveDetailsActivity.leave=list!!.get(position)
+            context.startActivity(
+                Intent(
+                context,
+                LeaveDetailsActivity::class.java
+            )
+            )
         }
-
     }
 
 

@@ -18,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
+import androidx.recyclerview.widget.LinearLayoutManager
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
@@ -47,7 +48,9 @@ class NewLeaveActivity : AppCompatActivity() {
     lateinit var binding: ActivityNewLeaveBinding
     lateinit var sharedPreference: SharedPreference
     lateinit var progressDisplay: ProgressDisplay
+    private lateinit var adapter: SelectedEmailsAdapter
     private var dateValue: Int = 0
+    private lateinit var selectedEmails: MutableList<String>
     private val REQUEST_CODE_PERMISSION = 123
     val REQUEST_CODE = 200
     private var imageUriList = mutableListOf<Uri>()
@@ -62,6 +65,7 @@ class NewLeaveActivity : AppCompatActivity() {
 
         sharedPreference = SharedPreference(this)
         progressDisplay = ProgressDisplay(this)
+        selectedEmails = mutableListOf() // Initialize selectedEmails here
 
 
         binding.back.setOnClickListener {
@@ -113,6 +117,8 @@ class NewLeaveActivity : AppCompatActivity() {
                 } else if (selectedItemValue.equals("Full Day Leave")) {
                     binding.fromTime.visibility = View.GONE
                     binding.toTime.visibility = View.GONE
+                    binding.LeaveFrom.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
+                    binding.LeaveTo.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
                     binding.LeaveDay.text = "1"
                 }
                 //Toast.makeText(applicationContext, "Selected position: $selectedItemValue", Toast.LENGTH_SHORT).show()
@@ -292,6 +298,19 @@ class NewLeaveActivity : AppCompatActivity() {
                             val adapter = ArrayAdapter<String>(this@NewLeaveActivity, android.R.layout.simple_spinner_item, notifyToList)
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                             binding.notifyToSpinner.adapter = adapter
+
+                            binding.notifyToSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                    // Get selected email
+                                    val selectedEmail = parent?.getItemAtPosition(position).toString()
+                                    // Call function to fetch RecyclerView data based on selected email
+                                    fetchRecyclerViewData(selectedEmail)
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    // Do nothing
+                                }
+                            }
                         }
 
                         } else {
@@ -513,5 +532,22 @@ class NewLeaveActivity : AppCompatActivity() {
 
         // Format the selected date and return the formatted string
         return dateFormat.format(calendar.time)
+    }
+
+    // Define the function outside of fetchRecyclerViewData
+    private fun fetchRecyclerViewData(selectedEmail: String) {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.allEmails.layoutManager = layoutManager
+
+        // Add the selected email to the list
+        selectedEmails.add(selectedEmail)
+
+        // Initialize the adapter
+        adapter = SelectedEmailsAdapter(selectedEmails) { clickedPosition ->
+            // Handle the delete button click event (remove the image at the clicked position)
+            adapter.removeImage(clickedPosition)
+            adapter.notifyDataSetChanged()
+        }
+        binding.allEmails.adapter = adapter
     }
 }
