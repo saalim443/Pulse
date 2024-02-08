@@ -106,7 +106,9 @@
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
                 android:hint="Mobile"
-                android:lines="2"
+                android:lines="1"
+                android:maxLength="10"
+                android:minLines="1"
                 android:inputType="phone"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
@@ -128,12 +130,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-
+                android:lines="1"
+                android:maxLength="10"
+                android:minLines="1"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
                 android:hint="AlternateMobile"
                 android:inputType="phone"
-                android:lines="2"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_dark"
@@ -231,6 +234,31 @@
                     android:textSize="15dp" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Notice Period *"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+            <EditText
+                android:id="@+id/edtNoticePeriod"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+
+                android:background="@drawable/edit_bg"
+                android:fontFamily="@font/ubuntu_medium"
+                android:hint="Notice Period"
+                android:inputType="phone"
+                android:lines="2"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_dark"
+                android:textSize="15dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -256,7 +284,7 @@
                     android:textColor="@color/white"/>
 
                 <EditText
-                    android:id="@+id/edtExpectedSalary"
+                    android:id="@+id/edtCurrentSalary"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
@@ -271,7 +299,7 @@
                     android:textColorHint="@color/gray_dark"
                     android:textSize="15dp" />
 
-            </LinearLayout>.
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -298,7 +326,7 @@
                     android:textColor="@color/white"/>
 
                 <EditText
-                    android:id="@+id/edtCurrentSalary"
+                    android:id="@+id/edtExpectedSalary"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"

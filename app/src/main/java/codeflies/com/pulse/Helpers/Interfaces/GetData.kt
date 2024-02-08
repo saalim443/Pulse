@@ -102,4 +102,25 @@ interface GetData {
         @Part ("leave_notification_user_ids[]")email : MutableList<RequestBody>
     ): Call<ResponseNormal>
 
+
+    @Multipart
+    @Headers("Accept: application/json")
+    @POST("recruitment/candidates/add")
+    fun uploadCandidate(
+        @Header("Authorization") authorization: String,
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("mobile") mobile: RequestBody,
+        @Part("alternate_mobile") alternate_mobile: RequestBody,
+        @Part("designation") designation: RequestBody,
+        @Part("experience_years") experience_years: RequestBody,
+        @Part("experience_months") experience_months: RequestBody,
+        @Part("notice_period_left") notice_period_left: RequestBody,
+        @Part("expected_salary") expected_salary: RequestBody,
+        @Part("current_salary") current_salary: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("recruiter_id") recruiter_id: RequestBody,
+        @Part attachments: List<MultipartBody.Part>
+    ): Call<ResponseNormal>
+
 }

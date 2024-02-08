@@ -5,16 +5,34 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.DocumentsContract
+import android.provider.OpenableColumns
 import android.view.View
 import android.widget.AdapterView
+import androidx.documentfile.provider.DocumentFile
 import codeflies.com.pulse.Helpers.ProgressDisplay
+import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
+import codeflies.com.pulse.Helpers.SnackBarUtils
+import codeflies.com.pulse.Helpers.getRealPathFromUri
+import codeflies.com.pulse.Models.ResponseNormal
 
 import codeflies.com.pulse.databinding.ActivityAddCandidateBinding
+import com.example.ehcf_doctor.Retrofit.GetData
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 
 class AddCandidateActivity : AppCompatActivity() {
     var context : Context =this@AddCandidateActivity
@@ -36,6 +54,9 @@ class AddCandidateActivity : AppCompatActivity() {
         setContentView(binding.root)
         sharedPreference = SharedPreference(this)
         progressDisplay = ProgressDisplay(this)
+
+
+
 
         binding.spnDesignation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -130,6 +151,11 @@ class AddCandidateActivity : AppCompatActivity() {
             }
         }
 
+        binding.login.setOnClickListener {
+
+            uploadLeave()
+        }
+
     }
 
     private fun openGalleryForImages() {
@@ -209,5 +235,123 @@ class AddCandidateActivity : AppCompatActivity() {
     fun gotoBack(view: View) {
         onBackPressed()
 
+    }
+
+
+    private fun uploadLeave() {
+        progressDisplay.show()
+        val token = sharedPreference.getData("token").toString()
+        val name = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtName.text.toString())
+        val email = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtEmail.text.toString())
+        val mobile = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtMobile.text.toString())
+        val alternateMobile = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtAlternateMobile.text.toString())
+        val currentsalary = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtCurrentSalary.text.toString())
+        val expectedSalary = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtExpectedSalary.text.toString())
+        val noticePeriod = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtNoticePeriod.text.toString())
+        val year = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemyyyy)
+        val month = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemmm)
+        val status = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemstatus)
+        val designation = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemDesignation)
+        val recruiter = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemrecruiter)
+
+        // Create a list of MultipartBody.Part for images
+        val imageParts = mutableListOf<MultipartBody.Part>()
+        for (uri in imageUriList) {
+            val fileName = getFileNameFromUriWithoutPath(uri)
+            val file = File(getRealPathFromUri(this@AddCandidateActivity, uri))
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val imagePart = MultipartBody.Part.createFormData("attachments[]", fileName ?: "", requestFile)
+            imageParts.add(imagePart)
+        }
+
+
+
+        // Make the API call
+        val getData: GetData = RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseNormal> = getData.uploadCandidate(
+            "Bearer $token",
+            name,
+            email,
+            mobile,
+            alternateMobile,
+            designation,
+            year,
+            month,
+            noticePeriod,
+            expectedSalary,
+            currentsalary,
+            status,
+            recruiter,
+            imageParts,
+
+        )
+        call.enqueue(object : Callback<ResponseNormal> {
+            override fun onResponse(call: Call<ResponseNormal>, response: Response<ResponseNormal>) {
+                progressDisplay.dismiss()
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse?.status == true) {
+                        finish()
+                    } else {
+                        SnackBarUtils.showTopSnackbar(
+                            this@AddCandidateActivity,
+                            apiResponse?.message ?: "",
+                            Color.RED
+                        )
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.string()
+                    val gson = Gson()
+                    try {
+                        val errorJson = gson.fromJson(errorResponse, JsonObject::class.java)
+                        val errorMessage = errorJson.get("message").asString
+                        SnackBarUtils.showTopSnackbar(
+                            this@AddCandidateActivity,
+                            errorMessage,
+                            Color.RED
+                        )
+                    } catch (e: Exception) {
+                        SnackBarUtils.showTopSnackbar(
+                            this@AddCandidateActivity,
+                            e.message ?: "",
+                            Color.RED
+                        )
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseNormal>, t: Throwable) {
+                progressDisplay.dismiss()
+                SnackBarUtils.showTopSnackbar(this@AddCandidateActivity, t.message ?: "", Color.RED)
+            }
+        })
+    }
+
+    private fun getFileNameFromUriWithoutPath(uri: Uri): String? {
+        val fullFileName = getFileNameFromUri(uri)
+        // Use substringAfterLast to get the file name without the path
+        return fullFileName?.substringAfterLast('/')
+    }
+
+    private fun getFileNameFromUri(uri: Uri): String? {
+        var fileName: String? = null
+
+        if (DocumentsContract.isDocumentUri(this@AddCandidateActivity, uri)) {
+            // Handle document URI
+            val document = DocumentFile.fromSingleUri(this@AddCandidateActivity, uri)
+            fileName = document?.name
+        } else {
+            // Handle other URI types
+            val cursor = this@AddCandidateActivity.contentResolver.query(uri, null, null, null, null)
+
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    val displayName = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    fileName = it.getString(displayName)
+                }
+            }
+        }
+
+        return fileName
     }
 }
