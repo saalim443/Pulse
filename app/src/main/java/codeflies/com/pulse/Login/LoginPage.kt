@@ -72,7 +72,7 @@ class LoginPage : AppCompatActivity() {
                     sharedPreference.saveData("token", response.body()?.user?.token  )
                     sharedPreference.saveData("mobile", response.body()?.user?.mobile )
                     sharedPreference.saveData("user_id", response.body()?.user?.id.toString() )
-                    sharedPreference.saveData("role", response.body()?.user?.roles?.get(0)?.name )
+                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
                     startActivity(Intent(this@LoginPage, MainActivity::class.java))
                     finishAffinity()
                 } else {

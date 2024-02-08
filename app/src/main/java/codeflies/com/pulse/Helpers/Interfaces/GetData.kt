@@ -1,6 +1,7 @@
 package com.example.ehcf_doctor.Retrofit
 
 
+import codeflies.com.pulse.Models.CandidateDetails.ResponseDetails
 import codeflies.com.pulse.Models.Candidates.ResponseCandidate
 import codeflies.com.pulse.Models.Holidays.ResponseHoliday
 import codeflies.com.pulse.Models.Leaves.LeavesDetails
@@ -44,6 +45,13 @@ interface GetData {
     fun candidates(
         @Header("Authorization") token: String?,
     ): Call<ResponseCandidate>
+
+
+    @GET("api/recruitment/candidates/detail/{id}")
+    fun candidatesDetails(
+        @Header("Authorization") token: String?,
+        @Path("id") id: String?,
+    ): Call<ResponseDetails>
 
     @GET("api/holidays/list")
     fun holiday(

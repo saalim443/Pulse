@@ -100,7 +100,7 @@ class Profile : AppCompatActivity() {
                     binding.name.text = response.body()!!.user?.name
                     binding.mobile.text = response.body()!!.user?.mobile
                     binding.email.text = response.body()!!.user?.email
-                    binding.job.text = response.body()!!.user?.roles?.get(0)?.name
+                    binding.job.text = FunctionClass.getRole(response.body()!!.user?.primaryRole)
                     if(sharedPreference.getData("role")!="admin") {
                         binding.salary.text = response.body()!!.user?.currentSalary?.amount
                     }

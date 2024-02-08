@@ -1,5 +1,6 @@
 package codeflies.com.pulse.Models.Candidates
 
+import codeflies.com.pulse.Models.CandidateDetails.User
 import com.google.gson.annotations.SerializedName
 
 data class ResponseCandidate(
@@ -205,3 +206,5 @@ data class CommentsItem(
 	@field:SerializedName("id")
 	val id: Int? = null
 )
+
+

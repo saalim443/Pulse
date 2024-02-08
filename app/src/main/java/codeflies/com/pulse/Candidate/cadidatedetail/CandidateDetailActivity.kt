@@ -6,59 +6,74 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
+import codeflies.com.pulse.Helpers.RetrofitClient
+import codeflies.com.pulse.Helpers.SharedPreference
+import codeflies.com.pulse.Models.CandidateDetails.ResponseDetails
 import codeflies.com.pulse.Models.Candidates.CandidatesItem
+import codeflies.com.pulse.Models.Candidates.ResponseCandidate
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityCandidateDetailBinding
+import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.CandidateAdapter
+import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.CommentAdapter
+import com.example.ehcf_doctor.Retrofit.GetData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class CandidateDetailActivity : AppCompatActivity() {
-    lateinit var bindind :ActivityCandidateDetailBinding
+    lateinit var binding :ActivityCandidateDetailBinding
     var context : Context= this@CandidateDetailActivity
 
+    lateinit var sharedPreference: SharedPreference
 
     companion object{
         lateinit var candidate: CandidatesItem
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindind=ActivityCandidateDetailBinding.inflate(layoutInflater)
-        setContentView(bindind.root)
+        binding=ActivityCandidateDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        bindind.tvName.text= candidate.name
-        bindind.tvRemark.text= candidate.remarks
-        bindind.tvEmail.text= candidate.email
-        bindind.tvPhoneOne.text= candidate.mobile
-        bindind.tvDesignation.text= candidate.designation
-        bindind.tvPhoneTwo.text= ","+ candidate.alternateMobile
-        bindind.tvapproval.text= candidate.status
-        bindind.tvRecuriter.text= "By: "+ candidate.recruiter?.name
+        sharedPreference=SharedPreference(this@CandidateDetailActivity)
+
+        binding.tvName.text = FunctionClass.makeColoredText(candidate?.designation,
+            candidate?.name+" ("+ candidate?.designation+")",context.getColor(R.color.pulse_color))
+        binding.tvRemark.text= candidate.remarks
+        binding.tvEmail.text= candidate.email
+        binding.tvPhoneOne.text= candidate.mobile
+        binding.tvPhoneTwo.text= ", "+ candidate.alternateMobile
+        binding.tvapproval.text= candidate.status
+        binding.tvRecuriter.text= "By: "+ candidate.recruiter?.name
 
         if(candidate.status=="in_progress"){
-            bindind.tvapproval.setTextColor(context.getColor(R.color.orange))
-            bindind.tvapproval.text ="In Progress"
+            binding.tvapproval.setTextColor(context.getColor(R.color.orange))
+            binding.tvapproval.text ="In Progress"
         }else if(candidate.status=="selected"){
-            bindind.tvapproval.setTextColor(context.getColor(R.color.pulse_color))
-            bindind.tvapproval.text ="Selected"
+            binding.tvapproval.setTextColor(context.getColor(R.color.pulse_color))
+            binding.tvapproval.text ="Selected"
         }else if(candidate.status=="rejected"){
-            bindind.tvapproval.setTextColor(context.getColor(R.color.red))
-            bindind.tvapproval.text ="Rejected"
+            binding.tvapproval.setTextColor(context.getColor(R.color.red))
+            binding.tvapproval.text ="Rejected"
         }else{
-            bindind.tvapproval.setTextColor(context.getColor(R.color.orange))
-            bindind.tvapproval.text ="Not Interested"
+            binding.tvapproval.setTextColor(context.getColor(R.color.orange))
+            binding.tvapproval.text ="Not Interested"
         }
 
-        bindind.tvCurrentPakage.text= candidate.currentSalary.toString()+" /"
-        bindind.tvExpirience.text= candidate.experienceYears.toString()+"y"+" "+ candidate.experienceMonths.toString()+"m"
+        binding.tvCurrentPakage.text= "\u20b9"+candidate.currentSalary.toString()+"/-"
+        binding.tvExpirience.text= candidate.experienceYears.toString()+"y"+" "+ candidate.experienceMonths.toString()+"m"
 
 
-        bindind.tvDateCreated.text="Date: "+FunctionClass.changeDate(candidate.createdAt)
+        binding.tvDateCreated.text="Date: "+FunctionClass.changeDate(candidate.createdAt)
 
 
-        bindind.tvPhoneOne.setOnClickListener {
+        binding.tvPhoneOne.setOnClickListener {
             val phoneNumber =  candidate.mobile
             val intent = Intent(Intent.ACTION_DIAL).apply {
                 data = Uri.parse("tel:$phoneNumber")
@@ -66,7 +81,7 @@ class CandidateDetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        bindind.tvPhoneTwo.setOnClickListener {
+        binding.tvPhoneTwo.setOnClickListener {
             val phoneNumber =  candidate.alternateMobile
             val intent = Intent(Intent.ACTION_DIAL).apply {
                 data = Uri.parse("tel:$phoneNumber")
@@ -75,9 +90,12 @@ class CandidateDetailActivity : AppCompatActivity() {
         }
 
         // Download resume when clicked
-        bindind.btnDownloadResume.setOnClickListener {
+        binding.btnDownloadResume.setOnClickListener {
             downloadFile( Constants.IMG_URL+ candidate.resume.toString()) // Change the URL to your actual download link
         }
+
+
+        getCandidate()
 
     }
 
@@ -98,5 +116,40 @@ class CandidateDetailActivity : AppCompatActivity() {
     fun gotoBack(view: View) {
 
         onBackPressed()
+    }
+
+    private fun getCandidate() {
+
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseDetails> =
+            getData.candidatesDetails("Bearer "+sharedPreference.getData("token"), candidate.id.toString())
+        call.enqueue(object : Callback<ResponseDetails?> {
+            override fun onResponse(call: Call<ResponseDetails?>, response: Response<ResponseDetails?>) {
+                if (response.body()?.status==true) {
+
+                    binding?.comments?.layoutManager = LinearLayoutManager(applicationContext)
+                    binding?.comments?.setHasFixedSize(true)
+                    binding?.comments?.adapter= CommentAdapter(applicationContext!!, response.body()?.comments)
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        response.body()?.message ,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                }
+
+            }
+
+            override fun onFailure(call: Call<ResponseDetails?>, t: Throwable) {
+
+                Toast.makeText(
+                    applicationContext,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,6 +11,7 @@
 
 
     <LinearLayout
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -18,23 +19,20 @@
         android:padding="10dp">
         <com.skydoves.elasticviews.ElasticImageView
             android:id="@+id/back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/circle"
             android:backgroundTint="@color/pulse_color"
             android:padding="10dp"
-            android:onClick="gotoBack"
             android:src="@drawable/back_image_tint"
             app:imageView_duration="200"
             app:imageView_scale="0.93" />
         <TextView
-            android:id="@+id/tvDesignation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="15dp"
             android:fontFamily="@font/ubuntu_medium"
-            android:text="Android Developer"
             android:textColor="@color/pulse_color"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -43,288 +41,316 @@
             android:id="@+id/tvapproval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu_medium"
+            android:layout_marginRight="5dp"
             android:text="pending"
             android:textStyle="bold"
             android:gravity="right"
+            android:fontFamily="@font/roboto"
             android:textColor="@color/red"
-            android:layout_marginRight="15dp"
+            android:textSize="16dp"
             />
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        >
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="80dp"
-            android:layout_height="96dp"
-            android:layout_marginLeft="15dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/person" />
+       <androidx.core.widget.NestedScrollView
+           android:layout_below="@id/toolBar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:scrollbars="none">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:layout_marginTop="10dp"
+                   android:layout_marginLeft="15dp"
+                   android:layout_marginRight="15dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
+                   <TextView
+                       android:id="@+id/tvName"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentLeft="true"
+                       android:fontFamily="@font/roboto_black"
+                       android:text="Saalim"
+                       android:textColor="@color/black"
+                       android:textSize="20dp" />
 
-            >
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:gravity="center_vertical"
+                       android:layout_marginTop="5dp"
+                       android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_black"
-                android:text="Saalim"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                />
+                       <ImageView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:background="@drawable/circle"
+                           android:backgroundTint="@color/black"
+                           android:padding="4dp"
+                           android:src="@drawable/baseline_email_24"
+                           app:tint="@color/white" />
 
-            <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvName"
-                android:layout_alignParentLeft="true"
+                       <TextView
+                           android:id="@+id/tvEmail"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="5dp"
+                           android:layout_marginTop="0dp"
+                           android:fontFamily="@font/ubuntu"
+                           android:gravity="center"
+                           android:text="Saalimmalik.official@gmail.com"
+                           android:textColor="@color/black_light"
+                           android:textSize="14dp"
+                           android:textStyle="bold" />
+                   </LinearLayout>
 
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/ubuntu"
-                android:gravity="center"
-                android:drawablePadding="5dp"
-                android:drawableLeft="@drawable/baseline_email"
-                android:text="Saalimmalik.official@gmail.com"
-                android:textColor="@color/black_light"
-                android:textSize="14dp"
-                android:textStyle="bold" />
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="5dp"
+                       android:gravity="center_vertical"
+                       android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvEmail">
+                       <ImageView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:background="@drawable/circle"
+                           android:backgroundTint="@color/black"
+                           android:padding="4dp"
+                           android:src="@drawable/baseline_call"
+                           app:tint="@color/white" />
 
-                <TextView
-                    android:id="@+id/tvPhoneOne"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/baseline_call"
-                    android:drawablePadding="3dp"
-                    android:text="+91 9717726272"
-                    android:fontFamily="@font/ubuntu"
-                    android:textColor="@color/black_light"
-                    android:textSize="14dp"
-                    android:gravity="center"
-                    android:textStyle="bold" />
+                       <TextView
+                           android:id="@+id/tvPhoneOne"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="5dp"
+                           android:text="+91 9717726272"
+                           android:fontFamily="@font/ubuntu"
+                           android:textColor="@color/black_light"
+                           android:textSize="14dp"
+                           android:gravity="center"
+                           android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvPhoneTwo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="10dp"
-                    android:drawablePadding="3dp"
-                    android:text="+91 9999999999"
-                    android:fontFamily="@font/ubuntu"
-                    android:textColor="@color/black_light"
-                    android:textSize="14dp"
-                    android:gravity="center"
-                    android:textStyle="bold" />
-
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:weightSum="3">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-            <TextView
-                android:id="@+id/tvExpirience"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu"
-                android:drawableLeft="@drawable/baseline_year"
-                android:drawablePadding="3dp"
-                android:text="2y 6m"
-                android:textColor="@color/pulse_color"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-
-            <TextView
-                android:id="@+id/tvCurrentPakage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/baseline_pakage"
-                android:drawablePadding="3dp"
-                android:text="12 lacs"
-                android:textColor="@color/pulse_color"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/baseline_location"
-                android:drawablePadding="3dp"
-                android:text="Noida"
-                android:textColor="@color/pulse_color"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-
-    </LinearLayout>
+                       <TextView
+                           android:id="@+id/tvPhoneTwo"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentLeft="true"
+                           android:drawablePadding="3dp"
+                           android:text=" +91 9999999999"
+                           android:fontFamily="@font/ubuntu"
+                           android:textColor="@color/black_light"
+                           android:textSize="14dp"
+                           android:gravity="center"
+                           android:textStyle="bold" />
 
 
 
-    <TextView
-        android:id="@+id/about"
+                   </LinearLayout>
+
+
+               </LinearLayout>
+
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="15dp"
+                   android:layout_marginRight="15dp"
+                   android:layout_marginTop="10dp">
+                   <LinearLayout
+                       android:layout_weight="1"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:gravity="center_vertical">
+                       <ImageView
+                           android:layout_width="30dp"
+                           android:layout_height="30dp"
+                           android:src="@drawable/baseline_year"
+                           android:background="@drawable/circle"
+                           android:backgroundTint="@color/pulse_color"
+                           android:padding="6dp"
+                           app:tint="@color/white" />
+                       <TextView
+                           android:id="@+id/tvExpirience"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:fontFamily="@font/ubuntu"
+                           android:text="2y 6m"
+                           android:layout_marginLeft="10dp"
+                           android:textColor="@color/black"
+                           android:textSize="16dp"
+                           android:gravity="center"
+                           android:textStyle="bold" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_weight="1"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="30dp"
+                           android:layout_height="30dp"
+                           android:src="@drawable/baseline_pakage"
+                           android:background="@drawable/circle"
+                           android:backgroundTint="@color/pulse_color"
+                           android:padding="6dp"
+                           app:tint="@color/white" />
+
+                       <TextView
+                           android:id="@+id/tvCurrentPakage"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="10dp"
+                           android:fontFamily="@font/ubuntu"
+                           android:text="12 lacs"
+                           android:textColor="@color/black"
+                           android:textSize="16dp"
+                           android:gravity="center"
+                           android:textStyle="bold" />
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_weight="1"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="30dp"
+                           android:layout_height="30dp"
+                           android:src="@drawable/baseline_location"
+                           android:background="@drawable/circle"
+                           android:backgroundTint="@color/pulse_color"
+                           android:padding="6dp"
+                           app:tint="@color/white" />
+                       <TextView
+                           android:id="@+id/tvLocation"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Noida"
+                           android:layout_marginLeft="10dp"
+                           android:fontFamily="@font/ubuntu"
+                           android:textColor="@color/black"
+                           android:textSize="16dp"
+                           android:gravity="center"
+                           android:textStyle="bold" />
+                   </LinearLayout>
+
+
+               </LinearLayout>
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@color/white"
+                   android:orientation="vertical"
+                   android:layout_marginLeft="15dp"
+                   android:layout_marginRight="15dp"
+                   android:layout_marginTop="10dp"
+                   android:gravity="center|left"
+                   >
+                   <TextView
+                       android:id="@+id/tvDateCreated"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/ubuntu"
+                       android:textSize="14dp"
+                       android:text="created : 2024-02-06T09:39:27.000000Z"
+                       android:textColor="@color/black" />
+                   <TextView
+                       android:id="@+id/tvRecuriter"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/ubuntu"
+                       android:text="By Anjali Shakhya"
+                       android:textSize="16dp"
+                       android:textStyle="bold"
+                       android:textColor="@color/pulse_color" />
+               </LinearLayout>
+
+               <TextView
+                   android:id="@+id/about"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentLeft="true"
+                   android:layout_marginLeft="15dp"
+                   android:layout_below="@+id/lnrTwo"
+                   android:text="About"
+                   android:layout_marginTop="10dp"
+                   android:fontFamily="@font/ubuntu_medium"
+                   android:textColor="@color/black"
+                   android:textSize="20dp"
+                   android:textStyle="bold" />
+               <View
+                   android:layout_width="60dp"
+                   android:layout_height="2dp"
+                   android:layout_marginLeft="15dp"
+                   android:background="@drawable/rect_bg_large"
+                   android:backgroundTint="@color/pulse_color"/>
+               <TextView
+                   android:id="@+id/tvRemark"
+                   android:layout_below="@+id/about"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginRight="15dp"
+                   android:layout_marginLeft="15dp"
+                   android:fontFamily="@font/roboto"
+                   android:textSize="16dp"
+                   android:textColor="@color/black"
+                   android:justificationMode="inter_word"
+                   android:layout_marginTop="5dp"
+                   android:text="Knave of Hearts, he stole those tarts, And took them quite away!' 'Consider your verdict,' he said to herself, 'whenever I eat one of its mouth, and. Knave of Hearts, he stole those tarts, And took them quite away!' 'Consider your verdict,' he said to herself, 'whenever I eat one of its mouth, and." />
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentLeft="true"
+                   android:layout_marginLeft="15dp"
+                   android:layout_below="@+id/lnrTwo"
+                   android:text="Comments"
+                   android:layout_marginTop="10dp"
+                   android:fontFamily="@font/ubuntu_medium"
+                   android:textColor="@color/black"
+                   android:textSize="20dp"
+                   android:textStyle="bold" />
+               <View
+                   android:layout_width="100dp"
+                   android:layout_height="2dp"
+                   android:layout_marginLeft="15dp"
+                   android:background="@drawable/rect_bg_large"
+                   android:backgroundTint="@color/pulse_color"/>
+
+               <androidx.recyclerview.widget.RecyclerView
+                   android:layout_margin="5dp"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/comments"/>
+           </LinearLayout>
+       </androidx.core.widget.NestedScrollView>
+    <com.skydoves.elasticviews.ElasticFloatingActionButton
+        android:id="@+id/btnDownloadResume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
-        android:layout_below="@+id/lnrTwo"
-        android:text="About"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/ubuntu_medium"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-    <TextView
-        android:id="@+id/tvRemark"
-        android:layout_below="@+id/about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:fontFamily="@font/roboto"
-        android:textSize="16dp"
-        android:textColor="@color/black"
-        android:justificationMode="inter_word"
-        android:layout_marginTop="5dp"
-        android:text="Knave of Hearts, he stole those tarts, And took them quite away!' 'Consider your verdict,' he said to herself, 'whenever I eat one of its mouth, and. Knave of Hearts, he stole those tarts, And took them quite away!' 'Consider your verdict,' he said to herself, 'whenever I eat one of its mouth, and."
+        android:src="@drawable/download_icon"
+        app:fabutton_duration="200"
+        app:fabutton_scale="0.93"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:backgroundTint="@color/pulse_color"
+        app:tint="@color/white"
+        android:layout_margin="20dp"
         />
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="25dp"
-            android:gravity="center|left"
-            >
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:gravity="center|left"
-                >
-                <TextView
-                    android:id="@+id/tvDateCreated"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu"
-                    android:textSize="14dp"
-                    android:text="created : 2024-02-06T09:39:27.000000Z"
-                    android:textColor="@color/black" />
-                <TextView
-                    android:id="@+id/tvRecuriter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu"
-                    android:text="By Anjali Shakhya"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/pulse_color" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:background="@color/white"
-                >
-                <com.skydoves.elasticviews.ElasticFloatingActionButton
-                    android:id="@+id/btnDownloadResume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/download_icon"
-                    app:fabutton_duration="200"
-                    app:fabutton_scale="0.93"
-                    app:backgroundTint="@color/pulse_color"
-                    app:tint="@color/white"
-                    android:layout_margin="10dp"
-                    />
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-</LinearLayout>
+</RelativeLayout>

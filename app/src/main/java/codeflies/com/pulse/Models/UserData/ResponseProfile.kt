@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseProfile(
 
+	@field:SerializedName("permissions")
+	val permissions: List<String?>? = null,
+
 	@field:SerializedName("message")
 	val message: String? = null,
 
@@ -12,6 +15,42 @@ data class ResponseProfile(
 
 	@field:SerializedName("status")
 	val status: Boolean? = null
+)
+
+data class Pivot(
+
+	@field:SerializedName("user_id")
+	val userId: Int? = null,
+
+	@field:SerializedName("role_id")
+	val roleId: Int? = null,
+
+	@field:SerializedName("permission_id")
+	val permissionId: Int? = null,
+
+	@field:SerializedName("employee_id")
+	val employeeId: Int? = null
+)
+
+data class RolesItem(
+
+	@field:SerializedName("updated_at")
+	val updatedAt: String? = null,
+
+	@field:SerializedName("permissions")
+	val permissions: List<PermissionsItem?>? = null,
+
+	@field:SerializedName("name")
+	val name: String? = null,
+
+	@field:SerializedName("created_at")
+	val createdAt: String? = null,
+
+	@field:SerializedName("pivot")
+	val pivot: Pivot? = null,
+
+	@field:SerializedName("id")
+	val id: Int? = null
 )
 
 data class ManagersItem(
@@ -51,117 +90,6 @@ data class ManagersItem(
 
 	@field:SerializedName("token")
 	val token: Any? = null
-)
-
-data class User(
-
-	@field:SerializedName("documents")
-	val documents: List<DocumentsItem?>? = null,
-
-	@field:SerializedName("roles")
-	val roles: List<RolesItem?>? = null,
-
-	@field:SerializedName("mobile")
-	val mobile: String? = null,
-
-	@field:SerializedName("created_at")
-	val createdAt: String? = null,
-
-	@field:SerializedName("email_verified_at")
-	val emailVerifiedAt: String? = null,
-
-	@field:SerializedName("current_salary")
-	val currentSalary: CurrentSalary? = null,
-
-	@field:SerializedName("employee")
-	val employee: Employee? = null,
-
-	@field:SerializedName("token")
-	val token: String? = null,
-
-	@field:SerializedName("leave_records")
-	val leaveRecords: List<Any?>? = null,
-
-	@field:SerializedName("profile_img")
-	val profileImg: String? = null,
-
-	@field:SerializedName("assigned_leads")
-	val assignedLeads: List<Any?>? = null,
-
-	@field:SerializedName("salaries")
-	val salaries: List<SalariesItem?>? = null,
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-
-	@field:SerializedName("name")
-	val name: String? = null,
-
-	@field:SerializedName("fcm_token")
-	val fcmToken: String? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
-
-	@field:SerializedName("email")
-	val email: String? = null,
-
-	@field:SerializedName("status")
-	val status: Int? = null
-)
-
-data class Pivot(
-
-	@field:SerializedName("user_id")
-	val userId: Int? = null,
-
-	@field:SerializedName("role_id")
-	val roleId: Int? = null,
-
-	@field:SerializedName("employee_id")
-	val employeeId: Int? = null
-)
-
-data class DocumentsItem(
-
-	@field:SerializedName("file_path")
-	val filePath: String? = null,
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-
-	@field:SerializedName("user_id")
-	val userId: Int? = null,
-
-	@field:SerializedName("created_at")
-	val createdAt: String? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
-
-	@field:SerializedName("title")
-	val title: String? = null,
-
-	@field:SerializedName("remarks")
-	val remarks: String? = null
-)
-
-data class RolesItem(
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-
-	@field:SerializedName("name")
-	val name: String? = null,
-
-	@field:SerializedName("created_at")
-	val createdAt: String? = null,
-
-	@field:SerializedName("pivot")
-	val pivot: Pivot? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null
 )
 
 data class CurrentSalary(
@@ -270,4 +198,100 @@ data class SalariesItem(
 
 	@field:SerializedName("remarks")
 	val remarks: String? = null
+)
+
+data class User(
+
+	@field:SerializedName("documents")
+	val documents: List<DocumentsItem?>? = null,
+
+	@field:SerializedName("roles")
+	val roles: List<RolesItem?>? = null,
+
+	@field:SerializedName("mobile")
+	val mobile: String? = null,
+
+	@field:SerializedName("created_at")
+	val createdAt: String? = null,
+
+	@field:SerializedName("email_verified_at")
+	val emailVerifiedAt: String? = null,
+
+	@field:SerializedName("current_salary")
+	val currentSalary: CurrentSalary? = null,
+
+	@field:SerializedName("employee")
+	val employee: Employee? = null,
+
+	@field:SerializedName("token")
+	val token: String? = null,
+
+	@field:SerializedName("leave_records")
+	val leaveRecords: List<Any?>? = null,
+
+	@field:SerializedName("profile_img")
+	val profileImg: String? = null,
+
+	@field:SerializedName("primaryRole")
+	val primaryRole: String? = null,
+
+	@field:SerializedName("assigned_leads")
+	val assignedLeads: List<Any?>? = null,
+
+	@field:SerializedName("salaries")
+	val salaries: List<SalariesItem?>? = null,
+
+	@field:SerializedName("updated_at")
+	val updatedAt: String? = null,
+
+	@field:SerializedName("name")
+	val name: String? = null,
+
+	@field:SerializedName("fcm_token")
+	val fcmToken: String? = null,
+
+	@field:SerializedName("id")
+	val id: Int? = null,
+
+	@field:SerializedName("email")
+	val email: String? = null,
+
+	@field:SerializedName("status")
+	val status: Int? = null
+)
+
+data class DocumentsItem(
+
+	@field:SerializedName("file_path")
+	val filePath: String? = null,
+
+	@field:SerializedName("updated_at")
+	val updatedAt: String? = null,
+
+	@field:SerializedName("user_id")
+	val userId: Int? = null,
+
+	@field:SerializedName("created_at")
+	val createdAt: String? = null,
+
+	@field:SerializedName("id")
+	val id: Int? = null,
+
+	@field:SerializedName("title")
+	val title: String? = null,
+
+	@field:SerializedName("remarks")
+	val remarks: String? = null
+)
+
+data class PermissionsItem(
+
+	@field:SerializedName("name")
+	val name: String? = null,
+
+	@field:SerializedName("pivot")
+	val pivot: Pivot? = null,
+
+	@field:SerializedName("id")
+	val id: Int? = null
 )

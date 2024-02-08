@@ -2,6 +2,7 @@ package com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides
 
 import android.content.Context
 import android.content.Intent
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +26,7 @@ class CandidateAdapter(
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.eName.text = list?.get(position)?.name
+        holder.binding.eName.text = FunctionClass.makeColoredText(list?.get(position)?.designation,list?.get(position)?.name+" ("+ list?.get(position)?.designation+")",context.getColor(R.color.pulse_color))
         holder.binding.mobile.text = list?.get(position)?.mobile
         holder.binding.email.text = list?.get(position)?.email
         holder.binding.date.text = FunctionClass.changeDate(list?.get(position)?.createdAt)

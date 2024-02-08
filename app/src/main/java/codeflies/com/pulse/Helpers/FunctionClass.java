@@ -1,5 +1,9 @@
 package codeflies.com.pulse.Helpers;
 
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -35,5 +39,54 @@ public class FunctionClass {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getRole(String role){
+        String finalRole="";
+
+        if(role.equalsIgnoreCase("admin")){
+            finalRole="Admin";
+        }else if(role.equalsIgnoreCase("hr_manager")){
+            finalRole="HR Manager";
+        }else if(role.equalsIgnoreCase("eme")){
+            finalRole="Email Marketing Executive";
+        }else if(role.equalsIgnoreCase("bde")){
+            finalRole="Business Development Exicutive";
+        }else if(role.equalsIgnoreCase("employee")){
+            finalRole="Employee";
+        }else if(role.equalsIgnoreCase("executive")){
+            finalRole="Executive";
+        }else if(role.equalsIgnoreCase("publisher")){
+            finalRole="Publisher";
+        }else if(role.equalsIgnoreCase("contributor")){
+            finalRole="Contributor";
+        }else if(role.equalsIgnoreCase("viewer")){
+            finalRole="Viewer";
+        }else if(role.equalsIgnoreCase("accounts")){
+            finalRole="Accounts";
+        }else if(role.equalsIgnoreCase("recruiter")){
+            finalRole="Recruiter";
+        }
+
+        return finalRole;
+    }
+
+
+    public static SpannableStringBuilder makeColoredText(String coloredWord, String originalText,int color){
+        SpannableStringBuilder spannableBuilder = new SpannableStringBuilder(originalText);
+
+        int startIndex = originalText.indexOf(coloredWord);
+        int endIndex = startIndex + coloredWord.length();
+
+        if (startIndex != -1) {
+            spannableBuilder.setSpan(
+                    new ForegroundColorSpan(color),
+                    startIndex,
+                    endIndex,
+                    SpannableStringBuilder.SPAN_INCLUSIVE_INCLUSIVE
+            );
+        }
+
+        return spannableBuilder;
     }
 }
