@@ -95,6 +95,10 @@ class CandidateDetailActivity : AppCompatActivity() {
         }
 
 
+        binding.back.setOnClickListener {
+            finish()
+        }
+
         getCandidate()
 
     }

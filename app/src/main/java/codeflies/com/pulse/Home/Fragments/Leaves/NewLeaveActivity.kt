@@ -148,25 +148,26 @@ class NewLeaveActivity : AppCompatActivity() {
         binding.chooseFiles.setOnClickListener {
             val permissionsToRequest = mutableListOf<String>()
 
-            // Check if permission to read media images is granted
-            if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(Manifest.permission.READ_MEDIA_IMAGES)
-            }
-
-            // Check if permission to read external storage is granted
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                permissionsToRequest.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
-
-            // Request permissions if any are missing
-            if (permissionsToRequest.isNotEmpty()) {
-                requestPermissions(
-                    permissionsToRequest.toTypedArray(),
-                    REQUEST_CODE_PERMISSION
-                )
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    permissionsToRequest.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestPermissions(
+                        permissionsToRequest.toTypedArray(),
+                        REQUEST_CODE_PERMISSION
+                    )
+                }else{
+                    openGalleryForImages()
+                }
             } else {
-                // Both permissions are granted, proceed with accessing files
-                openGalleryForImages()
+                if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                    permissionsToRequest.add(Manifest.permission.READ_MEDIA_IMAGES)
+                    requestPermissions(
+                        permissionsToRequest.toTypedArray(),
+                        REQUEST_CODE_PERMISSION
+                    )
+                }else{
+                    openGalleryForImages()
+                }
             }
         }
 
