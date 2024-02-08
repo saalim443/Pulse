@@ -34,6 +34,8 @@ import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,7 +56,7 @@ class NewLeaveActivity : AppCompatActivity() {
     private val REQUEST_CODE_PERMISSION = 123
     val REQUEST_CODE = 200
     private var imageUriList = mutableListOf<Uri>()
-    private var emailStringList  = mutableListOf<String>()
+    private var emailStringList = mutableListOf<String>()
     private var selectedItemValue = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,8 +101,8 @@ class NewLeaveActivity : AppCompatActivity() {
                 if (selectedItemValue.equals("First Half Leave")) {
                     binding.fromTime.visibility = View.VISIBLE
                     binding.toTime.visibility = View.VISIBLE
-                    binding.LeaveFrom.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
-                    binding.LeaveTo.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
+                    binding.LeaveFrom.text = SimpleDateFormat("MM/dd/yyyy").format(Date())
+                    binding.LeaveTo.text = SimpleDateFormat("MM/dd/yyyy").format(Date())
                     binding.fromTime.text = "09:30"
                     binding.toTime.text = "02:10"
                     binding.LeaveDay.text = "0.5"
@@ -108,8 +110,8 @@ class NewLeaveActivity : AppCompatActivity() {
                 } else if (selectedItemValue.equals("Second Half Leave")) {
                     binding.fromTime.visibility = View.VISIBLE
                     binding.toTime.visibility = View.VISIBLE
-                    binding.LeaveFrom.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
-                    binding.LeaveTo.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
+                    binding.LeaveFrom.text = SimpleDateFormat("MM/dd/yyyy").format(Date())
+                    binding.LeaveTo.text = SimpleDateFormat("MM/dd/yyyy").format(Date())
                     binding.fromTime.text = "02:10"
                     binding.toTime.text = "06:30"
                     binding.LeaveDay.text = "0.5"
@@ -117,8 +119,8 @@ class NewLeaveActivity : AppCompatActivity() {
                 } else if (selectedItemValue.equals("Full Day Leave")) {
                     binding.fromTime.visibility = View.GONE
                     binding.toTime.visibility = View.GONE
-                    binding.LeaveFrom.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
-                    binding.LeaveTo.setText(SimpleDateFormat("MM/dd/yyyy").format(Date()))
+                    binding.LeaveFrom.text = SimpleDateFormat("MM/dd/yyyy").format(Date())
+                    binding.LeaveTo.text = SimpleDateFormat("MM/dd/yyyy").format(Date())
                     binding.LeaveDay.text = "1"
                 }
                 //Toast.makeText(applicationContext, "Selected position: $selectedItemValue", Toast.LENGTH_SHORT).show()
@@ -180,7 +182,7 @@ class NewLeaveActivity : AppCompatActivity() {
 
         getNotifyTo()
         binding.submitLeave.setOnClickListener {
-            if(validation()){
+            if (validation()) {
                 uploadLeave()
             }
         }
@@ -192,36 +194,44 @@ class NewLeaveActivity : AppCompatActivity() {
         val token = sharedPreference.getData("token").toString()
 
         // Create a RequestBody for form_step and id
-        val formStepRequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "3")
-        val title = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.leaveTitle.text.toString())
+        val formStepRequestBody = "3".toRequestBody("text/plain".toMediaTypeOrNull())
+        val title =
+            binding.leaveTitle.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
         // Create a RequestBody for leave_type based on selectedItemValue
         val leaveType: RequestBody = when (selectedItemValue) {
-            "First Half Leave" -> RequestBody.create("text/plain".toMediaTypeOrNull(), "first_half")
-            "Second Half Leave" -> RequestBody.create("text/plain".toMediaTypeOrNull(), "second_half")
-            "Full Day Leave" -> RequestBody.create("text/plain".toMediaTypeOrNull(), "full_days")
-            else -> RequestBody.create("text/plain".toMediaTypeOrNull(), "") // Handle default case
+            "First Half Leave" -> "first_half".toRequestBody("text/plain".toMediaTypeOrNull())
+            "Second Half Leave" -> "second_half"
+                .toRequestBody("text/plain".toMediaTypeOrNull())
+
+            "Full Day Leave" -> "full_days".toRequestBody("text/plain".toMediaTypeOrNull())
+            else -> "".toRequestBody("text/plain".toMediaTypeOrNull()) // Handle default case
         }
 
-        val leaveFromDate = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.LeaveFrom.text.toString())
-        val leaveToDate = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.LeaveTo.text.toString())
-        val leaveDays = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.LeaveDay.text.toString())
-        val content = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.WriteYourContent.text.toString())
+        val leaveFromDate =
+            binding.LeaveFrom.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val leaveToDate =
+            binding.LeaveTo.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val leaveDays =
+            binding.LeaveDay.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val content = binding.WriteYourContent.text.toString()
+            .toRequestBody("text/plain".toMediaTypeOrNull())
 
         // Create a list of MultipartBody.Part for images
         val imageParts = mutableListOf<MultipartBody.Part>()
         for (uri in imageUriList) {
             val fileName = getFileNameFromUriWithoutPath(uri)
             val file = File(getRealPathFromUri(this@NewLeaveActivity, uri))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val imagePart = MultipartBody.Part.createFormData("attachments[]", fileName ?: "", requestFile)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val imagePart =
+                MultipartBody.Part.createFormData("attachments[]", fileName ?: "", requestFile)
             imageParts.add(imagePart)
         }
 
         // Create a list of RequestBody for email addresses
         val emailParts = mutableListOf<RequestBody>()
         emailStringList.forEach { emailString ->
-            val emailPart = RequestBody.create("text/plain".toMediaTypeOrNull(), emailString)
+            val emailPart = emailString.toRequestBody("text/plain".toMediaTypeOrNull())
             emailParts.add(emailPart)
         }
 
@@ -240,7 +250,10 @@ class NewLeaveActivity : AppCompatActivity() {
         )
 
         call.enqueue(object : Callback<ResponseNormal> {
-            override fun onResponse(call: Call<ResponseNormal>, response: Response<ResponseNormal>) {
+            override fun onResponse(
+                call: Call<ResponseNormal>,
+                response: Response<ResponseNormal>
+            ) {
                 progressDisplay.dismiss()
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
@@ -282,23 +295,45 @@ class NewLeaveActivity : AppCompatActivity() {
     }
 
 
-
     private fun validation(): Boolean {
-        if (binding.leaveTitle.text.length==0){
-            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Fill Title!",R.color.red)
+        if (binding.leaveTitle.text.length == 0) {
+            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity, "Please Fill Title!", R.color.red)
             binding.leaveTitle.requestFocus()
             return false
-        }else if (selectedItemValue.equals("--Select--")){
-            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Select Leave Type!",R.color.red)
+        } else if (selectedItemValue.equals("--Select--")) {
+            SnackBarUtils.showTopSnackbar(
+                this@NewLeaveActivity,
+                "Please Select Leave Type!",
+                R.color.red
+            )
             return false
-        }else if(binding.LeaveFrom.text.length==0){
-            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Select From Date!",R.color.red)
+        } else if (binding.LeaveFrom.text.length == 0) {
+            SnackBarUtils.showTopSnackbar(
+                this@NewLeaveActivity,
+                "Please Select From Date!",
+                R.color.red
+            )
             return false
-        }else if (binding.LeaveTo.text.length==0){
-            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Select To Date!",R.color.red)
+        } else if (binding.LeaveTo.text.length == 0) {
+            SnackBarUtils.showTopSnackbar(
+                this@NewLeaveActivity,
+                "Please Select To Date!",
+                R.color.red
+            )
             return false
-        }else if (binding.WriteYourContent.text.length==0){
-            SnackBarUtils.showTopSnackbar(this@NewLeaveActivity,"Please Write Your Content!",R.color.red)
+        }else if (binding.LeaveDay.text.length == 0) {
+            SnackBarUtils.showTopSnackbar(
+                this@NewLeaveActivity,
+                "Please Select To Valid Date!",
+                R.color.red
+            )
+            return false
+        } else if (binding.WriteYourContent.text.length == 0) {
+            SnackBarUtils.showTopSnackbar(
+                this@NewLeaveActivity,
+                "Please Write Your Content!",
+                R.color.red
+            )
             binding.WriteYourContent.requestFocus()
             return false
         }
@@ -307,28 +342,42 @@ class NewLeaveActivity : AppCompatActivity() {
     }
 
     private fun getNotifyTo() {
-            progressDisplay.show()
-            Log.e("token","Bearer "+sharedPreference.getData("token"))
-            val getData: GetData =
-                RetrofitClient.getRetrofit().create(GetData::class.java)
-            val call: Call<NotifyTo> =
-                getData.notify_to("Bearer "+sharedPreference.getData("token"))
-            call.enqueue(object : Callback<NotifyTo?> {
-                override fun onResponse(call: Call<NotifyTo?>, response: Response<NotifyTo?>) {
-                    if (response.body()?.status==true) {
-                        val notifyToList: List<String>? = response.body()?.users?.mapNotNull { it?.email }
+        progressDisplay.show()
+        Log.e("token", "Bearer " + sharedPreference.getData("token"))
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<NotifyTo> =
+            getData.notify_to("Bearer " + sharedPreference.getData("token"))
+        call.enqueue(object : Callback<NotifyTo?> {
+            override fun onResponse(call: Call<NotifyTo?>, response: Response<NotifyTo?>) {
+                if (response.body()?.status == true) {
+                    val notifyToList: List<String>? =
+                        response.body()?.users?.mapNotNull { it?.email }
 
-                        if (!notifyToList.isNullOrEmpty()) {
-                            // Assuming you have a spinner named 'notifyToSpinner' in your layout XML
-                            val adapter = ArrayAdapter<String>(this@NewLeaveActivity, android.R.layout.simple_spinner_item, notifyToList)
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                            binding.notifyToSpinner.adapter = adapter
+                    if (!notifyToList.isNullOrEmpty()) {
+                        // Assuming you have a spinner named 'notifyToSpinner' in your layout XML
+                        val adapter = ArrayAdapter<String>(
+                            this@NewLeaveActivity,
+                            android.R.layout.simple_spinner_item,
+                            notifyToList
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.notifyToSpinner.adapter = adapter
 
-                            binding.notifyToSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        binding.notifyToSpinner.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
                                     // Get selected email
-                                    val selectedEmail = parent?.getItemAtPosition(position).toString()
+                                    val selectedEmail =
+                                        parent?.getItemAtPosition(position).toString()
                                     // Call function to fetch RecyclerView data based on selected email
+
+                                    emailStringList.add(response.body()?.users?.get(position)?.id.toString())
                                     fetchRecyclerViewData(selectedEmail)
                                 }
 
@@ -336,29 +385,29 @@ class NewLeaveActivity : AppCompatActivity() {
                                     // Do nothing
                                 }
                             }
-                        }
-
-                        } else {
-                        Toast.makeText(
-                            this@NewLeaveActivity,
-                            response.body()?.message ,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                     }
 
-                    progressDisplay.dismiss()
-                }
-
-                override fun onFailure(call: Call<NotifyTo?>, t: Throwable) {
-                    progressDisplay.dismiss()
+                } else {
                     Toast.makeText(
                         this@NewLeaveActivity,
-                        "Something went wrong !",
+                        response.body()?.message,
                         Toast.LENGTH_SHORT
                     ).show()
+                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
-            })
+
+                progressDisplay.dismiss()
+            }
+
+            override fun onFailure(call: Call<NotifyTo?>, t: Throwable) {
+                progressDisplay.dismiss()
+                Toast.makeText(
+                    this@NewLeaveActivity,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
 
     }
 
@@ -379,21 +428,21 @@ class NewLeaveActivity : AppCompatActivity() {
                 // Use the formatted date as needed
 
                 if (dateValue == 1) {
-                   if (!selectedItemValue.equals("Full Day Leave")){
-                       binding.LeaveFrom.setText(formattedDate)
-                       binding.LeaveTo.setText(formattedDate)
-                   }else{
-                       binding.LeaveFrom.setText(formattedDate)
-                       differentDay()
-                   }
+                    if (!selectedItemValue.equals("Full Day Leave")) {
+                        binding.LeaveFrom.text = formattedDate
+                        binding.LeaveTo.text = formattedDate
+                    } else {
+                        binding.LeaveFrom.text = formattedDate
+                        differentDay()
+                    }
                 } else if (dateValue == 2) {
-                   if (!selectedItemValue.equals("Full Day Leave")){
-                       binding.LeaveFrom.setText(formattedDate)
-                       binding.LeaveTo.setText(formattedDate)
-                   }else{
-                       binding.LeaveTo.setText(formattedDate)
-                       differentDay()
-                   }
+                    if (!selectedItemValue.equals("Full Day Leave")) {
+                        binding.LeaveFrom.text = formattedDate
+                        binding.LeaveTo.text = formattedDate
+                    } else {
+                        binding.LeaveTo.text = formattedDate
+                        differentDay()
+                    }
 
                 }
 
@@ -402,7 +451,7 @@ class NewLeaveActivity : AppCompatActivity() {
             month,
             day
         )
-        //  datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
 
         datePickerDialog.show()
     }
@@ -454,8 +503,19 @@ class NewLeaveActivity : AppCompatActivity() {
             // Convert milliseconds to days
             val differenceInDays: Long = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
 
-            // Output the difference in days
-            binding.LeaveDay.text = differenceInDays.toString()
+            if (differenceInDays < 0) {
+                // Handle the case where date2 is before date1
+                SnackBarUtils.showTopSnackbar(
+                    this@NewLeaveActivity,
+                    "Error: End date is before start date",
+                    R.color.red
+                )
+                binding.LeaveDay.text = ""
+
+            } else {
+                // Output the difference in days
+                binding.LeaveDay.text = differenceInDays.toString()
+            }
             println("Difference in days: $differenceInDays")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -467,7 +527,7 @@ class NewLeaveActivity : AppCompatActivity() {
         val formattedMonth = selectedMonth + 1
         val formattedDate = "$formattedMonth-$selectedDay-$selectedYear"
 
-    //else if (dateValue == 3) {
+        //else if (dateValue == 3) {
 //            binding.memberExpireTxt.setText(formattedDate)
 //        } else if (dateValue == 4) {
 //            binding.policyExpireTxt.setText(formattedDate)
@@ -568,6 +628,7 @@ class NewLeaveActivity : AppCompatActivity() {
 
         // Add the selected email to the list
         selectedEmails.add(selectedEmail)
+
 
         // Initialize the adapter
         adapter = SelectedEmailsAdapter(selectedEmails) { clickedPosition ->

@@ -4,23 +4,18 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
-import codeflies.com.pulse.Models.Candidates.CandidatesItem
 import codeflies.com.pulse.Models.Leaves.LeavesDetails
 import codeflies.com.pulse.Models.Leaves.LeavesItem
-import codeflies.com.pulse.Models.Leaves.ResponseLeaves
 import codeflies.com.pulse.Models.Leaves.attachmentsItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityLeaveDetailsBinding
-import codeflies.com.pulse.databinding.ActivityNewLeaveBinding
-import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.LeaveAdapter
 import com.example.ehcf_doctor.Retrofit.GetData
 import retrofit2.Call
 import retrofit2.Callback
@@ -97,9 +92,10 @@ class LeaveDetailsActivity : AppCompatActivity() {
                                 FunctionClass.changeDate(response.body()?.leave?.leaveEnd) + " | " + response.body()?.leave?.leaveDays + " days" +
                                 " | " + response.body()?.leave?.leaveTypes
 
+                    binding.recyclerView.layoutManager = GridLayoutManager(this@LeaveDetailsActivity, 2)
                     val attachmentsList: List<attachmentsItem> =
                         response.body()?.leave?.attachments!!
-                    val adapter = AttachmentsAdapter(attachmentsList)
+                    val adapter = AttachmentsAdapter(this@LeaveDetailsActivity,attachmentsList)
                     binding.recyclerView.adapter = adapter
                 } else {
                     Toast.makeText(

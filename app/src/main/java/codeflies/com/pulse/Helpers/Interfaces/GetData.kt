@@ -91,7 +91,7 @@ interface GetData {
         @Part("leave_days") leave_days: RequestBody,
         @Part("content") content: RequestBody,
         @Part attachments: List<MultipartBody.Part>,
-        @Part ("leave_notification_user_ids")email : MutableList<RequestBody>
+        @Part ("leave_notification_user_ids[]")email : MutableList<RequestBody>
     ): Call<ResponseNormal>
 
 }

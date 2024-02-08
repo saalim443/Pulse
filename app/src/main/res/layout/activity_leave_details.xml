@@ -40,10 +40,22 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/ShowTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:fontFamily="@font/ubuntu"
+                android:textStyle="bold"
+                android:textColor="@color/black_light"
+                android:textSize="15.5dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -67,15 +79,6 @@
 
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/ShowTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/ubuntu"
-                android:textColor="@color/black_light"
-                android:textSize="15.5dp" />
 
 
             <TextView
@@ -262,7 +265,6 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
