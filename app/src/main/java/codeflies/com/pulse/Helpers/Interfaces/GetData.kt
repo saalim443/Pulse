@@ -7,6 +7,7 @@ import codeflies.com.pulse.Models.Holidays.ResponseHoliday
 import codeflies.com.pulse.Models.Leaves.LeaveStatusDetails
 import codeflies.com.pulse.Models.Leaves.LeavesDetails
 import codeflies.com.pulse.Models.Leaves.NotifyTo
+import codeflies.com.pulse.Models.Leaves.PartialLeaveRequest
 import codeflies.com.pulse.Models.Leaves.ResponseLeaves
 import codeflies.com.pulse.Models.Login.ResponseLogin
 import codeflies.com.pulse.Models.ResponseNormal
@@ -14,6 +15,7 @@ import codeflies.com.pulse.Models.ResponseNotification
 import codeflies.com.pulse.Models.UserData.ResponseProfile
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -27,13 +29,11 @@ interface GetData {
         @Query("password") password: String?,
         @Query("fcm_token") fcm_token: String?,
          ): Call<ResponseLogin>
- @POST("api/leaves/status/update")
+    @POST("api/leaves/status/update")
     fun statusUpdate(
         @Header("Authorization") token: String?,
-        @Query("id") id: String?,
-        @Query("status") status: String?,
-        @Query("status_reason") status_reason: String?
-         ): Call<ResponseNormal>
+        @Body request: PartialLeaveRequest
+    ): Call<ResponseNormal>
 
     @GET("api/leaves/list")
     fun leaves(

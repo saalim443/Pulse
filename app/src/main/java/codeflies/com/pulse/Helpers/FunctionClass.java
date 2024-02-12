@@ -4,12 +4,22 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class FunctionClass {
@@ -89,4 +99,27 @@ public class FunctionClass {
 
         return spannableBuilder;
     }
+
+
+    public static List<String> getDatesBetween(String startDateString, String endDateString) {
+        List<String> datesList = new ArrayList<>();
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = dateFormat.parse(startDateString);
+            Date endDate = dateFormat.parse(endDateString);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+
+            while (calendar.getTime().before(endDate) || calendar.getTime().equals(endDate)) {
+                datesList.add(new SimpleDateFormat("EEE, dd-MMM-yy").format(calendar.getTime()));
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return datesList;
+    }
+
+
 }

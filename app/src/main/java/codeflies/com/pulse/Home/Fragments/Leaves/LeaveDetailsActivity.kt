@@ -1,7 +1,8 @@
 package codeflies.com.pulse.Home.Fragments.Leaves
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,9 +11,12 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
@@ -20,16 +24,20 @@ import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Models.Leaves.LeaveStatusDetails
 import codeflies.com.pulse.Models.Leaves.LeavesDetails
 import codeflies.com.pulse.Models.Leaves.LeavesItem
-import codeflies.com.pulse.Models.Leaves.NotifyTo
+import codeflies.com.pulse.Models.Leaves.PartialLeaveDate
+import codeflies.com.pulse.Models.Leaves.PartialLeaveRequest
 import codeflies.com.pulse.Models.Leaves.attachmentsItem
 import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityLeaveDetailsBinding
+import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.PartialDateAdapter
 import com.example.ehcf_doctor.Retrofit.GetData
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class LeaveDetailsActivity : AppCompatActivity() {
 
@@ -37,9 +45,19 @@ class LeaveDetailsActivity : AppCompatActivity() {
     var context: Context = this@LeaveDetailsActivity
     var selectedStatus = ""
 
+    var partialListDate: ArrayList<PartialLeaveDate> = ArrayList<PartialLeaveDate>()
+
 
     companion object {
         lateinit var leave: LeavesItem
+        var finalList: ArrayList<PartialLeaveDate> = ArrayList<PartialLeaveDate>()
+
+
+        fun saveValue(date: String,status: String, position: Int){
+            val startDate: Date =  SimpleDateFormat("EEE, dd-MMM-yy").parse(date)
+            var dates=SimpleDateFormat("yyyy-MM-dd").format(startDate)
+            finalList.set(position, PartialLeaveDate(dates,status,"1"))
+        }
     }
 
     lateinit var sharedPreference: SharedPreference
@@ -72,8 +90,16 @@ class LeaveDetailsActivity : AppCompatActivity() {
             showDialog()
         }
         getLeavesDetails()
+        getPartialDates()
     }
 
+
+    fun getPartialDates(){
+        var dates=FunctionClass.getDatesBetween(leave.leaveFrom, leave.leaveEnd)
+        for (date in dates) {
+            partialListDate.add(PartialLeaveDate(date, FunctionClass.changeDate(leave.createdAt)))
+        }
+    }
 
 
 
@@ -110,6 +136,10 @@ class LeaveDetailsActivity : AppCompatActivity() {
                         binding.statusLeave.setTextColor(context.getColor(R.color.red))
                         binding.statusLeave.text = "Rejected"
                         binding.statusChangeLeave.text = "Rejected"
+                    } else if (response.body()?.leave?.status == "partial") {
+                        binding.statusLeave.setTextColor(context.getColor(R.color.red))
+                        binding.statusLeave.text = "Partial"
+                        binding.statusChangeLeave.text = "Partial"
                     } else {
                         binding.statusLeave.setTextColor(context.getColor(R.color.orange))
                         binding.statusLeave.text = "Pending"
@@ -152,12 +182,20 @@ class LeaveDetailsActivity : AppCompatActivity() {
 
 
     fun changeLeavestatus( dialog: BottomSheetDialog, remark: String){
+
+
+        var partialLeaveRequest=PartialLeaveRequest()
+        partialLeaveRequest.id=leave.id.toString()
+        partialLeaveRequest.status=selectedStatus
+        partialLeaveRequest.remark=remark
+        partialLeaveRequest.partialData= finalList
+
         progressDisplay.show()
         Log.e("token", "Bearer " + sharedPreference.getData("token"))
         val updateStatus: GetData =
             RetrofitClient.getRetrofit().create(GetData::class.java)
         val callStatus: Call<ResponseNormal> =
-            updateStatus.statusUpdate("Bearer " + sharedPreference.getData("token"),leave.id.toString(),selectedStatus,remark)
+            updateStatus.statusUpdate("Bearer " + sharedPreference.getData("token"),partialLeaveRequest)
         callStatus.enqueue(object : Callback<ResponseNormal?> {
             override fun onResponse(call: Call<ResponseNormal?>, response: Response<ResponseNormal?>) {
                 if (response.body()?.status == true) {
@@ -186,7 +224,7 @@ class LeaveDetailsActivity : AppCompatActivity() {
 
     }
 
-    fun getStatus(view: View){
+    fun getStatus(view: View,txtRemark: TextView,remark: EditText, listPartial: RecyclerView){
         progressDisplay.show()
         Log.e("token", "Bearer " + sharedPreference.getData("token"))
         val getData: GetData =
@@ -218,17 +256,28 @@ class LeaveDetailsActivity : AppCompatActivity() {
                                     position: Int,
                                     id: Long
                                 ) {
-                                    // Get selected email
-//                                        selectedStatus =
-//                                            parent?.getItemAtPosition(position).toString()
-                                    // Call function to fetch RecyclerView data based on selected email
-
-
                                     selectedStatus = response.body()?.leaveStatus?.get(position)?.slug.toString()
-
-
-//                                        emailStringList.add(response.body()?.users?.get(position)?.id.toString())
-//                                        fetchRecyclerViewData(selectedEmail)
+                                   if(selectedStatus=="pending"){
+                                       txtRemark.visibility=View.INVISIBLE
+                                       remark.visibility=View.INVISIBLE
+                                       listPartial.visibility=View.GONE
+                                   }else if(selectedStatus=="approved"){
+                                       txtRemark.visibility=View.VISIBLE
+                                       remark.visibility=View.VISIBLE
+                                       listPartial.visibility=View.GONE
+                                   }else if(selectedStatus=="rejected"){
+                                       txtRemark.visibility=View.VISIBLE
+                                       remark.visibility=View.VISIBLE
+                                       listPartial.visibility=View.GONE
+                                   }else if(selectedStatus=="partial"){
+                                       txtRemark.visibility=View.GONE
+                                       remark.visibility=View.GONE
+                                       listPartial.visibility=View.VISIBLE
+                                   }else{
+                                       txtRemark.visibility=View.VISIBLE
+                                       remark.visibility=View.VISIBLE
+                                       listPartial.visibility=View.GONE
+                                   }
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -267,10 +316,16 @@ class LeaveDetailsActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.bottomsheet_deatils, null)
         val  submit = view.findViewById<Button>(R.id.submit)
         val  remark = view.findViewById<EditText>(R.id.remarkStatus)
+        val  txtRemark = view.findViewById<TextView>(R.id.txtRemark)
+        val  partialDates = view.findViewById<RecyclerView>(R.id.partialDates)
 
 
+        partialDates.layoutManager=LinearLayoutManager(context)
+        partialDates.setHasFixedSize(true)
+        partialDates.adapter=PartialDateAdapter(context,partialListDate)
 
-        getStatus(view)
+
+        getStatus(view,txtRemark,remark,partialDates)
 
 
         submit.setOnClickListener {
@@ -279,9 +334,11 @@ class LeaveDetailsActivity : AppCompatActivity() {
         }
 
         dialog.setCancelable(true)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
 
         dialog.setContentView(view)
 
         dialog.show()
     }
+
 }

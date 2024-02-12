@@ -59,6 +59,10 @@ class LeaveAdapter(
             holder.binding.status.setTextColor(context.getColor(R.color.red))
             holder.binding.status.text ="Rejected"
             holder.binding.approveBy.visibility=View.VISIBLE
+        }else if(list?.get(position)?.status=="partial"){
+            holder.binding.status.setTextColor(context.getColor(R.color.red))
+            holder.binding.status.text ="Partial"
+            holder.binding.approveBy.visibility=View.VISIBLE
         }else{
             holder.binding.status.setTextColor(context.getColor(R.color.orange))
             holder.binding.status.text ="Pending"
