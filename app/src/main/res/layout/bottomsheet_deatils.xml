@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+
+        <Spinner
+            android:id="@+id/statusToSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_bg" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/ubuntu"
+            android:text="Remark :"
+            android:textColor="@color/black_light"
+            android:textSize="15.5dp" />
+
+        <EditText
+            android:id="@+id/remarkStatus"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_bg"
+            android:fontFamily="@font/ubuntu_medium"
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            android:justificationMode="inter_word"
+            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray_dark"
+            android:textSize="15dp" />
+
+
+
+        <com.skydoves.elasticviews.ElasticButton
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rect_bg_small"
+            android:backgroundTint="@color/pulse_color"
+            android:padding="10dp"
+            android:text="Submit"
+            android:textColor="@color/white"
+            app:button_duration="200"
+            app:button_scale="0.93" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

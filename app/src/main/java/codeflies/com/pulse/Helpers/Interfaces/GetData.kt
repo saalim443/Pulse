@@ -4,6 +4,7 @@ package com.example.ehcf_doctor.Retrofit
 import codeflies.com.pulse.Models.CandidateDetails.ResponseDetails
 import codeflies.com.pulse.Models.Candidates.ResponseCandidate
 import codeflies.com.pulse.Models.Holidays.ResponseHoliday
+import codeflies.com.pulse.Models.Leaves.LeaveStatusDetails
 import codeflies.com.pulse.Models.Leaves.LeavesDetails
 import codeflies.com.pulse.Models.Leaves.NotifyTo
 import codeflies.com.pulse.Models.Leaves.ResponseLeaves
@@ -26,6 +27,13 @@ interface GetData {
         @Query("password") password: String?,
         @Query("fcm_token") fcm_token: String?,
          ): Call<ResponseLogin>
+ @POST("api/leaves/status/update")
+    fun statusUpdate(
+        @Query("id") id: String?,
+        @Query("status") status: String?,
+        @Query("status_reason") status_reason: String?,
+        @Query("fcm_token") fcm_token: String?,
+         ): Call<ResponseNormal>
 
     @GET("api/leaves/list")
     fun leaves(
@@ -85,6 +93,11 @@ interface GetData {
     fun notify_to(
         @Header("Authorization") token: String?,
     ): Call<NotifyTo>
+ @Headers("Accept: application/json")
+    @GET("api/leaves/status")
+    fun getStatus(
+        @Header("Authorization") token: String?,
+    ): Call<LeaveStatusDetails>
 
 
     @Multipart
