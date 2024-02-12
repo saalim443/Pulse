@@ -30,6 +30,7 @@ import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityMainBinding
 import com.bumptech.glide.Glide
 import com.example.ehcf_doctor.Retrofit.GetData
+import com.google.firebase.FirebaseApp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootLayout)
-
+        FirebaseApp.initializeApp(this);
         sharedPreference= SharedPreference(this);
         changeMenu(1)
 

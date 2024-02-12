@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662690852130",
+    "project_id": "pulse-71bba",
+    "storage_bucket": "pulse-71bba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662690852130:android:fe08dc92a563b1f4c6897b",
+        "android_client_info": {
+          "package_name": "codeflies.com.pulse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtyGUM32MNI6WNVPmbmRx0chouMe2qWrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

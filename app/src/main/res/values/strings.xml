@@ -81,6 +81,7 @@
     </string-array>
 
     <string name="select_option_recruiter">Select an option</string>
+    <string name="default_notification_channel_id" />
     <string-array name="spinner_options_recruiter">
         <item>--Select--</item>
         <item>Anjali Shakhya</item>
