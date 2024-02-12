@@ -5,13 +5,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.documentfile.provider.DocumentFile
@@ -20,22 +23,23 @@ import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Helpers.SnackBarUtils
 import codeflies.com.pulse.Helpers.getRealPathFromUri
+
 import codeflies.com.pulse.Models.ResponseNormal
+import codeflies.com.pulse.R
 
 import codeflies.com.pulse.databinding.ActivityAddCandidateBinding
 import com.example.ehcf_doctor.Retrofit.GetData
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
 class AddCandidateActivity : AppCompatActivity() {
-    var context : Context =this@AddCandidateActivity
+    var context: Context = this@AddCandidateActivity
     lateinit var binding: ActivityAddCandidateBinding
     lateinit var sharedPreference: SharedPreference
     lateinit var progressDisplay: ProgressDisplay
@@ -44,33 +48,43 @@ class AddCandidateActivity : AppCompatActivity() {
     lateinit var selectedItemmm: String
     lateinit var selectedItemrecruiter: String
     lateinit var selectedItemstatus: String
+
     private val REQUEST_CODE_PERMISSION = 123
     val REQUEST_CODE = 200
     private var imageUriList = mutableListOf<Uri>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityAddCandidateBinding.inflate(layoutInflater)
+        binding = ActivityAddCandidateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedPreference = SharedPreference(this)
         progressDisplay = ProgressDisplay(this)
 
+        binding.spnDesignation.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedItemDesignation = parent?.getItemAtPosition(position).toString()
+                    // Do something with the selected item
+                }
 
-
-
-        binding.spnDesignation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedItemDesignation = parent?.getItemAtPosition(position).toString()
-                // Do something with the selected item
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Handle case when nothing is selected
+                }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle case when nothing is selected
-            }
-        }
 
         binding.spnYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 selectedItemyyyy = parent?.getItemAtPosition(position).toString()
                 // Do something with the selected item
             }
@@ -81,8 +95,13 @@ class AddCandidateActivity : AppCompatActivity() {
         }
 
         binding.spnMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedItemmm  = parent?.getItemAtPosition(position).toString()
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedItemmm = parent?.getItemAtPosition(position).toString()
                 // Do something with the selected item
             }
 
@@ -92,7 +111,12 @@ class AddCandidateActivity : AppCompatActivity() {
         }
 
         binding.spnStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 selectedItemstatus = parent?.getItemAtPosition(position).toString()
                 // Do something with the selected item
             }
@@ -103,7 +127,12 @@ class AddCandidateActivity : AppCompatActivity() {
         }
 
         binding.spnRecruiter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 selectedItemrecruiter = parent?.getItemAtPosition(position).toString()
                 // Do something with the selected item
             }
@@ -112,19 +141,7 @@ class AddCandidateActivity : AppCompatActivity() {
                 // Handle case when nothing is selected
             }
         }
-//
-//        binding.chooseFiles.setOnClickListener {
-//            if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
-//                // Permission already granted, proceed with accessing images
-//                openGalleryForImages()
-//            } else {
-//                // Request permission
-//                requestPermissions(
-//                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
-//                    REQUEST_CODE_PERMISSION
-//                )
-//            }
-//        }
+
 
         binding.chooseFiles.setOnClickListener {
             val permissionsToRequest = mutableListOf<String>()
@@ -150,17 +167,55 @@ class AddCandidateActivity : AppCompatActivity() {
                     openGalleryForImages()
                 }
             }
+
+
         }
 
         binding.login.setOnClickListener {
 
-            uploadLeave()
+
+
+
+            if (isValid()) {
+                uploadLeave()
+            }
+
+
         }
 
     }
 
+    private fun getFileNameFromUriWithoutPath(uri: Uri): String? {
+        val fullFileName = getFileNameFromUri(uri)
+        // Use substringAfterLast to get the file name without the path
+        return fullFileName?.substringAfterLast('/')
+    }
+
+    private fun getFileNameFromUri(uri: Uri): String? {
+        var fileName: String? = null
+
+        if (DocumentsContract.isDocumentUri(this@AddCandidateActivity, uri)) {
+            // Handle document URI
+            val document = DocumentFile.fromSingleUri(this@AddCandidateActivity, uri)
+            fileName = document?.name
+        } else {
+            // Handle other URI types
+            val cursor = this@AddCandidateActivity.contentResolver.query(uri, null, null, null, null)
+
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    val displayName = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    fileName = it.getString(displayName)
+                }
+            }
+        }
+
+        return fileName
+    }
+
     private fun openGalleryForImages() {
         val validImageTypes = arrayOf("image/jpeg", "image/jpg", "image/png")
+
 
         if (Build.VERSION.SDK_INT < 19) {
             // For earlier versions
@@ -233,6 +288,154 @@ class AddCandidateActivity : AppCompatActivity() {
         }
     }
 
+
+
+    private fun isValid(): Boolean {
+
+
+
+        if (binding.edtName.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Name is required!",
+                R.color.red
+            )
+            binding.edtName.requestFocus()
+            return false
+        }
+
+       else if (binding.edtEmail.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Email is required!",
+                R.color.red
+            )
+            binding.edtEmail.requestFocus()
+            return false
+        }
+
+        else if (binding.edtMobile.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Mobile number is required!",
+                R.color.red
+            )
+            binding.edtMobile.requestFocus()
+            return false
+        }
+
+        else if (binding.edtAlternateMobile.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Alternate mobile number is required!",
+                R.color.red
+            )
+            binding.edtAlternateMobile.requestFocus()
+            return false
+        }
+
+        else if (binding.edtNoticePeriod.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Notice period is required!",
+                R.color.red
+            )
+            binding.edtNoticePeriod.requestFocus()
+            return false
+        }
+
+        else if (binding.edtCurrentSalary.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Current salary is required!",
+                R.color.red
+            )
+            binding.edtCurrentSalary.requestFocus()
+            return false
+        }
+
+        else if (binding.edtExpectedSalary.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Expected salary is required!",
+                R.color.red
+            )
+            binding.edtExpectedSalary.requestFocus()
+            return false
+        }
+
+        else if (selectedItemDesignation == null) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Please select a designation!",
+                R.color.red
+            )
+            return false
+        }
+
+        else if (selectedItemyyyy == null) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Please select a year!",
+                R.color.red
+            )
+            return false
+        }
+
+        else if (selectedItemmm == null) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Please select a month!",
+                R.color.red
+            )
+            return false
+        }
+
+        else if (selectedItemrecruiter == null) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Please select a recruiter!",
+                R.color.red
+            )
+            return false
+        }
+
+        else if (selectedItemstatus == null) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Please select a status!",
+                R.color.red
+            )
+            return false
+        }
+
+        else if ("selectedFileUri" == null) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Please choose Attachedment !",
+                R.color.red
+            )
+            return false
+        }
+
+        else if (binding.remarkWriteYourContent.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Content is required!",
+                R.color.red
+            )
+            return false
+        }
+
+        return true
+    }
+
+
+
+
+
+
+
     fun gotoBack(view: View) {
         onBackPressed()
 
@@ -248,20 +451,21 @@ class AddCandidateActivity : AppCompatActivity() {
         val alternateMobile = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtAlternateMobile.text.toString())
         val currentsalary = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtCurrentSalary.text.toString())
         val expectedSalary = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtExpectedSalary.text.toString())
+        val remarks = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.remarkWriteYourContent.text.toString())
         val noticePeriod = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtNoticePeriod.text.toString())
         val year = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemyyyy)
         val month = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemmm)
         val status = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemstatus)
         val designation = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemDesignation)
-        val recruiter = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemrecruiter)
+        val recruiter = RequestBody.create("text/plain".toMediaTypeOrNull(), "13")
 
-        // Create a list of MultipartBody.Part for images
         val imageParts = mutableListOf<MultipartBody.Part>()
         for (uri in imageUriList) {
             val fileName = getFileNameFromUriWithoutPath(uri)
             val file = File(getRealPathFromUri(this@AddCandidateActivity, uri))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val imagePart = MultipartBody.Part.createFormData("attachments[]", fileName ?: "", requestFile)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val imagePart =
+                MultipartBody.Part.createFormData("resume", fileName ?: "", requestFile)
             imageParts.add(imagePart)
         }
 
@@ -282,77 +486,49 @@ class AddCandidateActivity : AppCompatActivity() {
             expectedSalary,
             currentsalary,
             status,
+            remarks,
             recruiter,
-            imageParts,
+            imageParts.last()
+
 
         )
         call.enqueue(object : Callback<ResponseNormal> {
             override fun onResponse(call: Call<ResponseNormal>, response: Response<ResponseNormal>) {
                 progressDisplay.dismiss()
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse?.status == true) {
-                        finish()
-                    } else {
-                        SnackBarUtils.showTopSnackbar(
-                            this@AddCandidateActivity,
-                            apiResponse?.message ?: "",
-                            Color.RED
-                        )
+                try {
+                    if(response.body()!!.status==null)
+                    {
+
+                        Log.i("errorImageResumeOnfailiour",response.body()!!.message.toString())
+                        SnackBarUtils.showTopSnackbar(this@AddCandidateActivity, response.body()!!.message ?: "", Color.RED)
                     }
-                } else {
-                    val errorResponse = response.errorBody()?.string()
-                    val gson = Gson()
-                    try {
-                        val errorJson = gson.fromJson(errorResponse, JsonObject::class.java)
-                        val errorMessage = errorJson.get("message").asString
-                        SnackBarUtils.showTopSnackbar(
-                            this@AddCandidateActivity,
-                            errorMessage,
-                            Color.RED
-                        )
-                    } catch (e: Exception) {
-                        SnackBarUtils.showTopSnackbar(
-                            this@AddCandidateActivity,
-                            e.message ?: "",
-                            Color.RED
-                        )
+                    else
+                    {
+                        SnackBarUtils.showTopSnackbar(this@AddCandidateActivity, response.body()!!.message ?: "", Color.RED)
+
                     }
+                }catch (e:Exception)
+                {
+
                 }
+
+
+
+
+
             }
 
             override fun onFailure(call: Call<ResponseNormal>, t: Throwable) {
                 progressDisplay.dismiss()
                 SnackBarUtils.showTopSnackbar(this@AddCandidateActivity, t.message ?: "", Color.RED)
+                Log.i("errorImageResumeOnfailiour",t.message.toString())
+
             }
         })
     }
 
-    private fun getFileNameFromUriWithoutPath(uri: Uri): String? {
-        val fullFileName = getFileNameFromUri(uri)
-        // Use substringAfterLast to get the file name without the path
-        return fullFileName?.substringAfterLast('/')
-    }
 
-    private fun getFileNameFromUri(uri: Uri): String? {
-        var fileName: String? = null
 
-        if (DocumentsContract.isDocumentUri(this@AddCandidateActivity, uri)) {
-            // Handle document URI
-            val document = DocumentFile.fromSingleUri(this@AddCandidateActivity, uri)
-            fileName = document?.name
-        } else {
-            // Handle other URI types
-            val cursor = this@AddCandidateActivity.contentResolver.query(uri, null, null, null, null)
 
-            cursor?.use {
-                if (it.moveToFirst()) {
-                    val displayName = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                    fileName = it.getString(displayName)
-                }
-            }
-        }
 
-        return fileName
-    }
 }

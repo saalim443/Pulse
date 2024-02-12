@@ -249,11 +249,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
                 android:hint="Notice Period"
-                android:inputType="phone"
+                android:inputType="number"
                 android:lines="2"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
@@ -389,14 +388,16 @@
                 android:textSize="15.5dp" />
 
             <EditText
-                android:id="@+id/WriteYourContent"
+                android:id="@+id/remarkWriteYourContent"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
+                android:gravity="start"
                 android:inputType="textMultiLine"
                 android:justificationMode="inter_word"
+                android:padding="10dp"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_dark"

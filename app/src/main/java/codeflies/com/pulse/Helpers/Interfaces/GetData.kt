@@ -118,7 +118,7 @@ interface GetData {
 
     @Multipart
     @Headers("Accept: application/json")
-    @POST("recruitment/candidates/add")
+    @POST("/api/recruitment/candidates/add")
     fun uploadCandidate(
         @Header("Authorization") authorization: String,
         @Part("name") name: RequestBody,
@@ -132,8 +132,9 @@ interface GetData {
         @Part("expected_salary") expected_salary: RequestBody,
         @Part("current_salary") current_salary: RequestBody,
         @Part("status") status: RequestBody,
-        @Part("recruiter_id") recruiter_id: RequestBody,
-        @Part attachments: List<MultipartBody.Part>
+        @Part("remarks") remarks: RequestBody,
+        @Part("recruiter_id") recruiter: RequestBody,
+        @Part resume: MultipartBody.Part
     ): Call<ResponseNormal>
 
 }
