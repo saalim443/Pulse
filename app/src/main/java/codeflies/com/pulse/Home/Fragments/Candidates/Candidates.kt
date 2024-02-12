@@ -39,6 +39,15 @@ class Candidates : Fragment() {
             startActivity(intent)
         }
 
+
+        if(sharedPreference.getData("role")=="admin"){
+            binding!!.addCandidate.visibility=View.VISIBLE
+        }else if(sharedPreference.getData("role")=="hr_manager"){
+            binding!!.addCandidate.visibility=View.VISIBLE
+        }else{
+            binding!!.addCandidate.visibility=View.GONE
+        }
+
         getCandidate()
         return binding!!.root
     }

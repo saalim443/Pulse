@@ -29,10 +29,10 @@ interface GetData {
          ): Call<ResponseLogin>
  @POST("api/leaves/status/update")
     fun statusUpdate(
+        @Header("Authorization") token: String?,
         @Query("id") id: String?,
         @Query("status") status: String?,
-        @Query("status_reason") status_reason: String?,
-        @Query("fcm_token") fcm_token: String?,
+        @Query("status_reason") status_reason: String?
          ): Call<ResponseNormal>
 
     @GET("api/leaves/list")

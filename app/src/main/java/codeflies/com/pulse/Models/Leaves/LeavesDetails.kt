@@ -56,7 +56,7 @@ data class Leave(
     val employeeCode: String? = null,
 
     @field:SerializedName("leave_days")
-    val leaveDays: Int? = null,
+    val leaveDays: Double? = null,
 
     @field:SerializedName("approved_by")
     val approvedBy: Any? = null,

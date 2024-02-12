@@ -37,9 +37,18 @@ class LeaveAdapter(
         holder.binding.reasons.text = list?.get(position)?.title
         holder.binding.dates.text = FunctionClass.changeDate(list?.get(position)?.leaveFrom)+" - "+FunctionClass.changeDate(list?.get(position)?.leaveEnd)
         holder.binding.applyDate.text = FunctionClass.changeDate(list?.get(position)?.createdAt)
-        holder.binding.leaveType.text ="For "+list?.get(position)?.leaveDays+" days | Full Days"
 
-        Glide.with(context).load(Constants.IMG_URL+list?.get(position)?.employee?.user?.profile_img).placeholder(R.drawable.person).into(holder.binding.userImage)
+        if(list?.get(position)?.leaveType=="first_half"){
+            holder.binding.leaveType.text ="For "+list?.get(position)?.leaveDays+" days | First Half"
+        }else if(list?.get(position)?.leaveType=="second_half"){
+            holder.binding.leaveType.text ="For "+list?.get(position)?.leaveDays+" days | Second Half"
+        }else if(list?.get(position)?.leaveType=="full_days"){
+            holder.binding.leaveType.text ="For "+list?.get(position)?.leaveDays+" days | Full Days"
+        }
+
+        holder.binding.approveBy.text ="by "+list?.get(position)?.approvedBy?.name
+
+        Glide.with(context).load(Constants.IMG_URL+list?.get(position)?.employee?.user?.profileImg).placeholder(R.drawable.person).into(holder.binding.userImage)
 
 
         if(list?.get(position)?.status=="approved"){
@@ -49,7 +58,7 @@ class LeaveAdapter(
         }else if(list?.get(position)?.status=="rejected"){
             holder.binding.status.setTextColor(context.getColor(R.color.red))
             holder.binding.status.text ="Rejected"
-            holder.binding.approveBy.visibility=View.GONE
+            holder.binding.approveBy.visibility=View.VISIBLE
         }else{
             holder.binding.status.setTextColor(context.getColor(R.color.orange))
             holder.binding.status.text ="Pending"

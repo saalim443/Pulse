@@ -57,133 +57,24 @@ class LeaveDetailsActivity : AppCompatActivity() {
             finish()
         }
 
+
+
+        if(sharedPreference.getData("role")=="admin"){
+            binding.statusChange.visibility=View.VISIBLE
+        }else if(sharedPreference.getData("role")=="hr_manager"){
+            binding.statusChange.visibility=View.VISIBLE
+        }else{
+            binding.statusChange.visibility=View.GONE
+        }
+
         binding.statusChange.setOnClickListener {
-            val dialog = BottomSheetDialog(this)
 
-            // on below line we are inflating a layout file which we have created.
-            val view = layoutInflater.inflate(R.layout.bottomsheet_deatils, null)
-            val  submit = view.findViewById<Button>(R.id.submit)
-            val  remark = view.findViewById<EditText>(R.id.remarkStatus)
-
-
-            progressDisplay.show()
-            Log.e("token", "Bearer " + sharedPreference.getData("token"))
-            val getData: GetData =
-                RetrofitClient.getRetrofit().create(GetData::class.java)
-            val call: Call<LeaveStatusDetails> =
-                getData.getStatus("Bearer " + sharedPreference.getData("token"))
-            call.enqueue(object : Callback<LeaveStatusDetails?> {
-                override fun onResponse(call: Call<LeaveStatusDetails?>, response: Response<LeaveStatusDetails?>) {
-                    if (response.body()?.status == true) {
-                        val notifyToList: List<String>? =
-                            response.body()?.leaveStatus?.mapNotNull { it?.name }
-
-                        if (!notifyToList.isNullOrEmpty()) {
-                            // Assuming you have a spinner named 'notifyToSpinner' in your layout XML
-                            val adapter = ArrayAdapter<String>(
-                                this@LeaveDetailsActivity,
-                                android.R.layout.simple_spinner_item,
-                                notifyToList
-                            )
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                            val spinner =  view.findViewById<Spinner>(R.id.statusToSpinner)
-                            spinner.adapter = adapter
-
-                            spinner.onItemSelectedListener =
-                                object : AdapterView.OnItemSelectedListener {
-                                    override fun onItemSelected(
-                                        parent: AdapterView<*>?,
-                                        view: View?,
-                                        position: Int,
-                                        id: Long
-                                    ) {
-                                        // Get selected email
-//                                        selectedStatus =
-//                                            parent?.getItemAtPosition(position).toString()
-                                        // Call function to fetch RecyclerView data based on selected email
-
-
-                                        selectedStatus = response.body()?.leaveStatus?.get(position)?.slug.toString()
-
-
-//                                        emailStringList.add(response.body()?.users?.get(position)?.id.toString())
-//                                        fetchRecyclerViewData(selectedEmail)
-                                    }
-
-                                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                                        // Do nothing
-                                    }
-                                }
-                        }
-
-                    } else {
-                        Toast.makeText(
-                            this@LeaveDetailsActivity,
-                            response.body()?.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
-                    }
-
-                    progressDisplay.dismiss()
-                }
-
-                override fun onFailure(call: Call<LeaveStatusDetails?>, t: Throwable) {
-                    progressDisplay.dismiss()
-                    Toast.makeText(
-                        this@LeaveDetailsActivity,
-                        "Something went wrong !",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            })
-
-
-
-            submit.setOnClickListener {
-                progressDisplay.show()
-                Log.e("token", "Bearer " + sharedPreference.getData("token"))
-                val updateStatus: GetData =
-                    RetrofitClient.getRetrofit().create(GetData::class.java)
-                val callStatus: Call<ResponseNormal> =
-                    updateStatus.statusUpdate(leave.id.toString(),selectedStatus,remark.text.toString(),"Bearer " + sharedPreference.getData("token"))
-                callStatus.enqueue(object : Callback<ResponseNormal?> {
-                    override fun onResponse(call: Call<ResponseNormal?>, response: Response<ResponseNormal?>) {
-                        if (response.body()?.status == true) {
-                            dialog.dismiss()
-                            finish()
-                        } else {
-                            Toast.makeText(
-                                this@LeaveDetailsActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
-                        }
-
-                        progressDisplay.dismiss()
-                    }
-
-                    override fun onFailure(call: Call<ResponseNormal?>, t: Throwable) {
-                        progressDisplay.dismiss()
-                        Toast.makeText(
-                            this@LeaveDetailsActivity,
-                            "Something went wrong !",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
-
-            }
-
-            dialog.setCancelable(true)
-
-            dialog.setContentView(view)
-
-            dialog.show()
+            showDialog()
         }
         getLeavesDetails()
     }
+
+
 
 
     private fun getLeavesDetails() {
@@ -259,4 +150,138 @@ class LeaveDetailsActivity : AppCompatActivity() {
         })
     }
 
+
+    fun changeLeavestatus( dialog: BottomSheetDialog, remark: String){
+        progressDisplay.show()
+        Log.e("token", "Bearer " + sharedPreference.getData("token"))
+        val updateStatus: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val callStatus: Call<ResponseNormal> =
+            updateStatus.statusUpdate("Bearer " + sharedPreference.getData("token"),leave.id.toString(),selectedStatus,remark)
+        callStatus.enqueue(object : Callback<ResponseNormal?> {
+            override fun onResponse(call: Call<ResponseNormal?>, response: Response<ResponseNormal?>) {
+                if (response.body()?.status == true) {
+                    dialog.dismiss()
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this@LeaveDetailsActivity,
+                        response.body()?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                progressDisplay.dismiss()
+            }
+
+            override fun onFailure(call: Call<ResponseNormal?>, t: Throwable) {
+                progressDisplay.dismiss()
+                Toast.makeText(
+                    this@LeaveDetailsActivity,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+    }
+
+    fun getStatus(view: View){
+        progressDisplay.show()
+        Log.e("token", "Bearer " + sharedPreference.getData("token"))
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<LeaveStatusDetails> =
+            getData.getStatus("Bearer " + sharedPreference.getData("token"))
+        call.enqueue(object : Callback<LeaveStatusDetails?> {
+            override fun onResponse(call: Call<LeaveStatusDetails?>, response: Response<LeaveStatusDetails?>) {
+                if (response.body()?.status == true) {
+                    val notifyToList: List<String>? =
+                        response.body()?.leaveStatus?.mapNotNull { it?.name }
+
+                    if (!notifyToList.isNullOrEmpty()) {
+                        // Assuming you have a spinner named 'notifyToSpinner' in your layout XML
+                        val adapter = ArrayAdapter<String>(
+                            this@LeaveDetailsActivity,
+                            android.R.layout.simple_spinner_item,
+                            notifyToList
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        val spinner =  view.findViewById<Spinner>(R.id.statusToSpinner)
+                        spinner.adapter = adapter
+
+                        spinner.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    // Get selected email
+//                                        selectedStatus =
+//                                            parent?.getItemAtPosition(position).toString()
+                                    // Call function to fetch RecyclerView data based on selected email
+
+
+                                    selectedStatus = response.body()?.leaveStatus?.get(position)?.slug.toString()
+
+
+//                                        emailStringList.add(response.body()?.users?.get(position)?.id.toString())
+//                                        fetchRecyclerViewData(selectedEmail)
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    // Do nothing
+                                }
+                            }
+                    }
+
+                } else {
+                    Toast.makeText(
+                        this@LeaveDetailsActivity,
+                        response.body()?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                }
+
+                progressDisplay.dismiss()
+            }
+
+            override fun onFailure(call: Call<LeaveStatusDetails?>, t: Throwable) {
+                progressDisplay.dismiss()
+                Toast.makeText(
+                    this@LeaveDetailsActivity,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+    }
+
+
+    fun showDialog(){
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottomsheet_deatils, null)
+        val  submit = view.findViewById<Button>(R.id.submit)
+        val  remark = view.findViewById<EditText>(R.id.remarkStatus)
+
+
+
+        getStatus(view)
+
+
+        submit.setOnClickListener {
+
+            changeLeavestatus(dialog,remark.text.toString())
+        }
+
+        dialog.setCancelable(true)
+
+        dialog.setContentView(view)
+
+        dialog.show()
+    }
 }
