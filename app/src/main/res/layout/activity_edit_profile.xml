@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Profiles.EditProfile.EditProfile">
+
+    <include layout="@layout/layout_bg" />
+
+    <LinearLayout
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.skydoves.elasticviews.ElasticImageView
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/pulse_color"
+            android:padding="10dp"
+            android:src="@drawable/back_image_tint"
+            app:imageView_duration="200"
+            app:imageView_scale="0.93" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Edit Profile"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <com.skydoves.elasticviews.ElasticImageView
+            android:id="@+id/help"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/orange"
+            android:padding="10dp"
+            android:src="@drawable/help"
+            app:imageView_duration="200"
+            app:imageView_scale="0.93"
+            app:tint="@color/white" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.skydoves.elasticviews.ElasticButton
+            android:id="@+id/details"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rect_bg_mediun"
+            android:backgroundTint="@color/pulse_color"
+            android:fontFamily="@font/ubuntu_medium"
+            android:text="Details"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:button_duration="200"
+            app:button_scale="0.93" />
+
+        <com.skydoves.elasticviews.ElasticButton
+            android:id="@+id/document"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/rect_bg_mediun"
+            android:backgroundTint="@color/black"
+            android:fontFamily="@font/ubuntu_medium"
+            android:text="Document"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:button_duration="200"
+            app:button_scale="0.93" />
+
+        <com.skydoves.elasticviews.ElasticButton
+            android:id="@+id/password"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/rect_bg_mediun"
+            android:backgroundTint="@color/black"
+            android:fontFamily="@font/ubuntu_medium"
+            android:text="Password"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:button_duration="200"
+            app:button_scale="0.93" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lyButton"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/lyDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_gravity="center">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/person" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/camera"
+                        app:tint="@color/pulse_color" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Employee Code"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/edit_bg"
+                        android:backgroundTint="@color/pulse_color"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="center"
+                        android:text="CFT"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/eCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:backgroundTint="@color/transparent"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:gravity="center_vertical"
+                        android:inputType="textCapSentences"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray_dark"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Name"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Email"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Mobile"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Alternate Mobile"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/aMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Joining Date"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/jDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Date Of Birth"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/bDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Designation"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/designation"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Father's Name"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/fName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Father's Profession"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/fOcupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Mother's Name"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/mName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Mother's Profession"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/mOcupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Permanent Address"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/pAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Temporary Address"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/tAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <com.skydoves.elasticviews.ElasticButton
+                    android:id="@+id/detailSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/rect_bg_mediun"
+                    android:backgroundTint="@color/pulse_color"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="Submit"
+                    android:layout_margin="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    app:button_duration="200"
+                    app:button_scale="0.93" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyDocument"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Document Type"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <Spinner
+                    android:id="@+id/docType"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:entries="@array/spinner_options"
+                    android:prompt="@string/select_option" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Document Title"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/dTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="start"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Upload File"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <LinearLayout
+                    android:id="@+id/uploadFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/edit_bg"
+                        android:backgroundTint="@color/pulse_color"
+                        android:fontFamily="@font/roboto"
+                        android:gravity="center"
+                        android:text="Choose File"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtFileName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:backgroundTint="@color/transparent"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:gravity="center_vertical"
+                        android:inputType="textCapSentences"
+                        android:lines="1"
+                        android:ellipsize="end"
+                        android:hint="No File Chosen"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray_dark"
+                        android:textSize="16dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Remark"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="start"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <com.skydoves.elasticviews.ElasticButton
+                    android:id="@+id/documentSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/rect_bg_mediun"
+                    android:backgroundTint="@color/pulse_color"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="Submit"
+                    android:layout_margin="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    app:button_duration="200"
+                    app:button_scale="0.93" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/documents"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyPassword"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Old Password"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/oldPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="New Password"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/newPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Confirm Password"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/confirmPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+                <com.skydoves.elasticviews.ElasticButton
+                    android:id="@+id/passwordSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/rect_bg_mediun"
+                    android:backgroundTint="@color/pulse_color"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="Submit"
+                    android:layout_margin="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    app:button_duration="200"
+                    app:button_scale="0.93" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

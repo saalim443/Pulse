@@ -25,11 +25,12 @@ import codeflies.com.pulse.databinding.ActivityProfileBinding
 import com.bumptech.glide.Glide
 import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.ManagersListAdapter
 import codeflies.com.pulse.Helpers.Interfaces.GetData
+import codeflies.com.pulse.Profiles.EditProfile.EditProfile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Profile : AppCompatActivity() {
+class Profile : AppCompatActivity()   {
     private lateinit var binding: ActivityProfileBinding
     lateinit var sharedPreference: SharedPreference
     lateinit var progressDisplay: ProgressDisplay
@@ -50,30 +51,34 @@ class Profile : AppCompatActivity() {
         }
 
         binding.help.setOnClickListener {
-            WebviewActivity.pageTitle="Leave Management"
-            startActivity(Intent(this@Profile,WebviewActivity::class.java))
+            WebviewActivity.pageTitle = "Leave Management"
+            startActivity(Intent(this@Profile, WebviewActivity::class.java))
         }
 
         binding.logout.setOnClickListener {
             exitApp()
         }
 
-        if(sharedPreference.getData("role")=="employee"){
-            binding.lyReporting.visibility= View.VISIBLE
-            binding.lyDob.visibility= View.VISIBLE
-            binding.vDob.visibility= View.VISIBLE
-        }else{
-            binding.lyReporting.visibility= View.GONE
-            binding.lyDob.visibility= View.GONE
-            binding.vDob.visibility= View.GONE
+        binding.editProfile.setOnClickListener {
+            startActivity(Intent(applicationContext, EditProfile::class.java))
         }
 
-        if(sharedPreference.getData("role")=="admin"){
-            binding.lySalary.visibility= View.GONE
-            binding.vSalary.visibility= View.GONE
-        }else{
-            binding.lySalary.visibility= View.VISIBLE
-            binding.vSalary.visibility= View.VISIBLE
+        if (sharedPreference.getData("role") == "employee") {
+            binding.lyReporting.visibility = View.VISIBLE
+            binding.lyDob.visibility = View.VISIBLE
+            binding.vDob.visibility = View.VISIBLE
+        } else {
+            binding.lyReporting.visibility = View.GONE
+            binding.lyDob.visibility = View.GONE
+            binding.vDob.visibility = View.GONE
+        }
+
+        if (sharedPreference.getData("role") == "admin") {
+            binding.lySalary.visibility = View.GONE
+            binding.vSalary.visibility = View.GONE
+        } else {
+            binding.lySalary.visibility = View.VISIBLE
+            binding.vSalary.visibility = View.VISIBLE
         }
         profile()
     }
@@ -98,19 +103,26 @@ class Profile : AppCompatActivity() {
                     binding.mobile.text = response.body()!!.user?.mobile
                     binding.email.text = response.body()!!.user?.email
                     binding.job.text = FunctionClass.getRole(response.body()!!.user?.primaryRole)
-                    if(sharedPreference.getData("role")!="admin") {
+                    if (sharedPreference.getData("role") != "admin") {
                         binding.salary.text = response.body()!!.user?.currentSalary?.amount
                     }
-                    if(sharedPreference.getData("role")=="employee"){
-                        binding.dob.text= FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth)
-                        binding.managerList.layoutManager=LinearLayoutManager(this@Profile,LinearLayoutManager.HORIZONTAL,false)
+                    if (sharedPreference.getData("role") == "employee") {
+                        binding.dob.text =
+                            FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth)
+                        binding.managerList.layoutManager =
+                            LinearLayoutManager(this@Profile, LinearLayoutManager.HORIZONTAL, false)
                         binding.managerList.setHasFixedSize(true)
-                        binding.managerList.adapter=ManagersListAdapter(applicationContext,response!!.body()?.user?.employee?.managers)
-                    }else{
-                        binding.managerList.visibility=View.GONE
+                        binding.managerList.adapter = ManagersListAdapter(
+                            applicationContext,
+                            response!!.body()?.user?.employee?.managers
+                        )
+                    } else {
+                        binding.managerList.visibility = View.GONE
                     }
 
-                    Glide.with(applicationContext).load(Constants.IMG_URL+response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.image)
+                    Glide.with(applicationContext)
+                        .load(Constants.IMG_URL + response.body()?.user?.profileImg)
+                        .placeholder(R.drawable.person).into(binding.image)
 
                 } else {
                     Toast.makeText(
@@ -207,5 +219,10 @@ class Profile : AppCompatActivity() {
                 ).show()
             }
         })
+    }
+
+    override fun onResume() {
+        profile()
+        super.onResume()
     }
 }

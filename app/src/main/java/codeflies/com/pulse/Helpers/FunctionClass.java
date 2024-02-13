@@ -1,8 +1,14 @@
 package codeflies.com.pulse.Helpers;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -121,5 +127,20 @@ public class FunctionClass {
         return datesList;
     }
 
+
+    public static void downloadFile(Context context,String url) {
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+                .setTitle("Resume")
+                .setDescription("Downloading resume...")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "resume.pdf"); // Change the file name and extension as needed
+
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
+
+        Toast.makeText(context, "Downloading resume...", Toast.LENGTH_SHORT).show();
+
+    }
 
 }

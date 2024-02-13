@@ -10,6 +10,7 @@ import codeflies.com.pulse.Models.Leaves.NotifyTo
 import codeflies.com.pulse.Models.Leaves.PartialLeaveRequest
 import codeflies.com.pulse.Models.Leaves.ResponseLeaves
 import codeflies.com.pulse.Models.Login.ResponseLogin
+import codeflies.com.pulse.Models.Profile.ResponseDocuments
 import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.Models.ResponseNotification
 import codeflies.com.pulse.Models.UserData.ResponseProfile
@@ -139,4 +140,45 @@ interface GetData {
         @Part resume: MultipartBody.Part
     ): Call<ResponseNormal>
 
+
+    @Multipart
+    @Headers("Accept: application/json")
+    @POST("api/employee/update")
+    fun uploadDetails(
+        @Header("Authorization") authorization: String,
+        @Part("alternate_mobile") alternate_mobile: RequestBody,
+        @Part("father_profession") father_profession: RequestBody,
+        @Part("date_of_birth") date_of_birth: RequestBody,
+        @Part("mother_name") mother_name: RequestBody,
+        @Part("mother_profession") mother_profession: RequestBody,
+        @Part("temporary_addr") temporary_addr: RequestBody,
+        @Part attachments: MultipartBody.Part
+    ): Call<ResponseNormal>
+
+
+    @GET("api/employee/documents/list")
+    fun documents(
+        @Header("Authorization") token: String?
+    ): Call<ResponseDocuments>
+
+
+    @Multipart
+    @Headers("Accept: application/json")
+    @POST("api/employee/documents/store")
+    fun uploadDocuments(
+        @Header("Authorization") authorization: String,
+        @Part("doc_type") doc_type: RequestBody,
+        @Part("title") title: RequestBody,
+        @Part("remarks") remarks: RequestBody,
+        @Part attachments: MultipartBody.Part
+    ): Call<ResponseNormal>
+
+
+    @POST("api/user/reset/password")
+    fun resetPassword(
+        @Header("Authorization") authorization: String,
+        @Query("old_password") old_password: String?,
+        @Query("password") password: String?,
+        @Query("password_confirmation") password_confirmation: String?,
+    ): Call<ResponseNormal>
 }

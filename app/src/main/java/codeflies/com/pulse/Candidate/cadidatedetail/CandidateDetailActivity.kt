@@ -88,7 +88,7 @@ class CandidateDetailActivity : AppCompatActivity() {
 
         // Download resume when clicked
         binding.btnDownloadResume.setOnClickListener {
-            downloadFile( Constants.IMG_URL+ candidate.resume.toString()) // Change the URL to your actual download link
+            FunctionClass.downloadFile(applicationContext, Constants.IMG_URL+ candidate.resume.toString()) // Change the URL to your actual download link
         }
 
 
@@ -101,18 +101,7 @@ class CandidateDetailActivity : AppCompatActivity() {
     }
 
 
-    private fun downloadFile(url: String) {
-        val request = DownloadManager.Request(Uri.parse(url))
-            .setTitle("Resume")
-            .setDescription("Downloading resume...")
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            //.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "resume.pdf") // Change the file name and extension as needed
 
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        downloadManager.enqueue(request)
-
-        Toast.makeText(context, "Downloading resume...", Toast.LENGTH_SHORT).show()
-    }
 
     fun gotoBack(view: View) {
 
