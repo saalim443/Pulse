@@ -13,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
@@ -23,13 +22,12 @@ import codeflies.com.pulse.Home.Fragments.Holiday.Holidays
 import codeflies.com.pulse.Home.Fragments.Leaves.Home
 import codeflies.com.pulse.Models.ResponseNotification
 import codeflies.com.pulse.Models.UserData.ResponseProfile
-import codeflies.com.pulse.Notifications.Adapters.NotificationAdapter
 import codeflies.com.pulse.Notifications.NotificationActivity
 import codeflies.com.pulse.Profiles.Profile
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityMainBinding
 import com.bumptech.glide.Glide
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import com.google.firebase.FirebaseApp
 import retrofit2.Call
 import retrofit2.Callback

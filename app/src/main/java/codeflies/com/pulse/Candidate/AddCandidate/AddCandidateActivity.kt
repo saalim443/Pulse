@@ -5,14 +5,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.DocumentsContract
-import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
@@ -28,7 +26,7 @@ import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.R
 
 import codeflies.com.pulse.databinding.ActivityAddCandidateBinding
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

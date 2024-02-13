@@ -31,7 +31,7 @@ import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityLeaveDetailsBinding
 import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.PartialDateAdapter
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback

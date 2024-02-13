@@ -11,7 +11,7 @@ import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Home.MainActivity
 import codeflies.com.pulse.Models.Login.ResponseLogin
 import codeflies.com.pulse.databinding.ActivityLoginBinding
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging

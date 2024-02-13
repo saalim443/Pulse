@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,12 +15,10 @@ import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Models.CandidateDetails.ResponseDetails
 import codeflies.com.pulse.Models.Candidates.CandidatesItem
-import codeflies.com.pulse.Models.Candidates.ResponseCandidate
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityCandidateDetailBinding
-import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.CandidateAdapter
 import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.CommentAdapter
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

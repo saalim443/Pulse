@@ -28,7 +28,7 @@ import codeflies.com.pulse.Models.Leaves.NotifyTo
 import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityNewLeaveBinding
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

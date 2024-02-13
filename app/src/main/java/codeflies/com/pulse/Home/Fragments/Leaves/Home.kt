@@ -15,7 +15,7 @@ import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Models.Leaves.ResponseLeaves
 import codeflies.com.pulse.databinding.FragmentHomeBinding
 import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.LeaveAdapter
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

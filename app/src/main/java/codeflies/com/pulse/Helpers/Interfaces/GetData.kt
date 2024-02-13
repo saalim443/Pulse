@@ -1,4 +1,4 @@
-package com.example.ehcf_doctor.Retrofit
+package codeflies.com.pulse.Helpers.Interfaces
 
 
 import codeflies.com.pulse.Models.CandidateDetails.ResponseDetails
@@ -28,7 +28,8 @@ interface GetData {
         @Query("email") email: String?,
         @Query("password") password: String?,
         @Query("fcm_token") fcm_token: String?,
-         ): Call<ResponseLogin>
+    ): Call<ResponseLogin>
+
     @POST("api/leaves/status/update")
     fun statusUpdate(
         @Header("Authorization") token: String?,
@@ -93,7 +94,8 @@ interface GetData {
     fun notify_to(
         @Header("Authorization") token: String?,
     ): Call<NotifyTo>
- @Headers("Accept: application/json")
+
+    @Headers("Accept: application/json")
     @GET("api/leaves/status")
     fun getStatus(
         @Header("Authorization") token: String?,
@@ -112,7 +114,7 @@ interface GetData {
         @Part("leave_days") leave_days: RequestBody,
         @Part("content") content: RequestBody,
         @Part attachments: List<MultipartBody.Part>,
-        @Part ("leave_notification_user_ids[]")email : MutableList<RequestBody>
+        @Part("leave_notification_user_ids[]") email: MutableList<RequestBody>
     ): Call<ResponseNormal>
 
 

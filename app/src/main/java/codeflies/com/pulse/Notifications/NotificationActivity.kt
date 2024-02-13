@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
-import codeflies.com.pulse.Models.Holidays.ResponseHoliday
 import codeflies.com.pulse.Models.ResponseNormal
 import codeflies.com.pulse.Models.ResponseNotification
 import codeflies.com.pulse.databinding.ActivityNotificationBinding
 import codeflies.com.pulse.Notifications.Adapters.NotificationAdapter
-import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.HolidayAdapter
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

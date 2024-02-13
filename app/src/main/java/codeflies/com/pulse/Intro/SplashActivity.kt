@@ -7,16 +7,13 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
 import codeflies.com.pulse.Home.MainActivity
 import codeflies.com.pulse.Login.LoginPage
 import codeflies.com.pulse.Models.UserData.ResponseProfile
-import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivitySplashBinding
-import com.bumptech.glide.Glide
-import com.example.ehcf_doctor.Retrofit.GetData
+import codeflies.com.pulse.Helpers.Interfaces.GetData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
