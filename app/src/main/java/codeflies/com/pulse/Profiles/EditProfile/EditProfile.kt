@@ -626,7 +626,7 @@ class EditProfile : AppCompatActivity() {
         val remark =
             binding.remark.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val type =
-            doctype.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            doctype.toRequestBody("text/plain".toMediaTypeOrNull())
 
 
         val fileName = getFileNameFromUriWithoutPath(selectedImageUri!!)
