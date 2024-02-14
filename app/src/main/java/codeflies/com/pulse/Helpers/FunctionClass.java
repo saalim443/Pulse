@@ -4,11 +4,16 @@ import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.DocumentsContract;
+import android.provider.OpenableColumns;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.widget.Toast;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,19 +133,53 @@ public class FunctionClass {
     }
 
 
-    public static void downloadFile(Context context,String url) {
+    public static void downloadFile(Context context,String title,String url) {
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
-                .setTitle("Resume")
-                .setDescription("Downloading resume...")
+                .setTitle(title)
+                .setDescription("Downloading "+title+"...")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 //.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "resume.pdf"); // Change the file name and extension as needed
 
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);
 
-        Toast.makeText(context, "Downloading resume...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Downloading "+title+"...", Toast.LENGTH_SHORT).show();
 
+    }
+
+
+
+    public static String getFileNameFromUriWithoutPath(Context context,Uri uri) {
+        String fullFileName = getFileNameFromUri(uri, context);
+        // Use substringAfterLast to get the file name without the path
+        return fullFileName != null ? fullFileName.substring(fullFileName.lastIndexOf('/') + 1) : null;
+    }
+
+    public static String getFileNameFromUri(Uri uri, Context context) {
+        String fileName = null;
+
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            // Handle document URI
+            DocumentFile document = DocumentFile.fromSingleUri(context, uri);
+            fileName = document != null ? document.getName() : null;
+        } else {
+            // Handle other URI types
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+
+            if (cursor != null) {
+                try {
+                    if (cursor.moveToFirst()) {
+                        int displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                        fileName = cursor.getString(displayNameIndex);
+                    }
+                } finally {
+                    cursor.close();
+                }
+            }
+        }
+
+        return fileName;
     }
 
 }

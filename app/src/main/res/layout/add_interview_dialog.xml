@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@drawable/two_top_rounded"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+      <View
+          android:layout_width="100dp"
+          android:layout_height="3dp"
+          android:layout_marginTop="10dp"
+          android:background="@drawable/rect_bg_large"
+          android:backgroundTint="@color/gray"
+          android:layout_gravity="center"/>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="2dp"
+          android:orientation="vertical"
+          android:padding="15dp">
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:fontFamily="@font/roboto"
+              android:text="Schedule Interview"
+              android:gravity="center"
+              android:textColor="@color/black"
+              android:textStyle="bold"
+              android:textSize="20dp" />
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="15dp"
+              android:fontFamily="@font/ubuntu"
+              android:text="Interviewer"
+              android:textColor="@color/black_light"
+              android:textSize="16dp" />
+          <Spinner
+              android:id="@+id/interviewer"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:layout_marginTop="5dp"
+              android:background="@drawable/edit_bg" />
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="15dp"
+              android:fontFamily="@font/ubuntu"
+              android:text="Interview Date"
+              android:textColor="@color/black_light"
+              android:textSize="16dp" />
+
+          <TextView
+              android:id="@+id/date"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:layout_marginTop="5dp"
+              android:background="@drawable/edit_bg"
+              android:fontFamily="@font/ubuntu_medium"
+              android:gravity="start"
+              android:hint="Select Date..."
+              android:inputType="textMultiLine"
+              android:justificationMode="inter_word"
+              android:padding="10dp"
+              android:paddingStart="10dp"
+              android:textColor="@color/black"
+              android:textColorHint="@color/gray_dark"
+              android:textSize="15dp" />
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="15dp"
+              android:fontFamily="@font/ubuntu"
+              android:text="Round"
+              android:textColor="@color/black_light"
+              android:textSize="16dp" />
+          <Spinner
+              android:id="@+id/round"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:layout_marginTop="5dp"
+              android:background="@drawable/edit_bg" />
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="15dp"
+              android:fontFamily="@font/ubuntu"
+              android:text="Status"
+              android:textColor="@color/black_light"
+              android:textSize="16dp" />
+          <Spinner
+              android:id="@+id/status"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:layout_marginTop="5dp"
+              android:background="@drawable/edit_bg" />
+
+          <com.skydoves.elasticviews.ElasticButton
+              android:id="@+id/submit"
+              android:layout_width="match_parent"
+              android:layout_height="45dp"
+              android:layout_marginTop="30dp"
+              android:background="@drawable/rect_bg_small"
+              android:backgroundTint="@color/pulse_color"
+              android:padding="10dp"
+              android:text="Submit"
+              android:textColor="@color/white"
+              app:button_duration="200"
+              app:button_scale="0.93" />
+
+      </LinearLayout>
+  </LinearLayout>
+    <ProgressBar
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progressBar"/>
+</RelativeLayout>

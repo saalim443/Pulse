@@ -291,7 +291,7 @@ class MainActivity : AppCompatActivity() {
                 response: Response<ResponseProfile?>
             ) {
                 if (response.body()?.status == true) {
-
+                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
                     Glide.with(applicationContext).load(Constants.IMG_URL+response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.profile)
 
                 } else {

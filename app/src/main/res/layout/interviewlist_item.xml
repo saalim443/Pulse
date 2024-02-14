@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_margin="8dp"
+    android:background="@drawable/rect_bg_mediun"
+    android:backgroundTint="@color/gray_light"
+    android:orientation="horizontal">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,22 +15,30 @@
 
 
         <TextView
-            android:id="@+id/msg"
+            android:id="@+id/round"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="$10.00-Completed"
-            android:textColor="@color/black_light"
+            android:text="First round"
+            android:textColor="@color/pulse_color"
             android:fontFamily="@font/roboto"
-            android:textSize="14dp"/>
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/interviewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="First round"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto"
+            android:textSize="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
             android:gravity="center_vertical">
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pending"
@@ -41,30 +51,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pending"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp"
                 android:textColor="@color/black_light"
                 android:fontFamily="@font/roboto"
                 android:textSize="14dp"/>
-            <com.skydoves.elasticviews.ElasticImageView
-                android:id="@+id/download"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:padding="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/download"
-                android:backgroundTint="@color/pulse_color"
-                android:background="@drawable/circle"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                app:tint="@color/white"
-                app:imageView_duration="200"
-                app:imageView_scale="0.93"/>
         </LinearLayout>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/gray_dark"/>
 </LinearLayout>

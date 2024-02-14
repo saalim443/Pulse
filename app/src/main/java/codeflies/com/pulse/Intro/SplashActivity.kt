@@ -45,8 +45,6 @@ class SplashActivity : AppCompatActivity() {
                 ))
                 finish()
             }
-
-
         }, 2000)
     }
 
@@ -68,6 +66,7 @@ class SplashActivity : AppCompatActivity() {
                         this@SplashActivity,
                         MainActivity::class.java
                     ))
+                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
                     finish()
                 } else {
                     sharedPreference.saveData("token","")

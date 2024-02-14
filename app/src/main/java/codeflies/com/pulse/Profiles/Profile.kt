@@ -119,7 +119,7 @@ class Profile : AppCompatActivity()   {
                     } else {
                         binding.managerList.visibility = View.GONE
                     }
-
+                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
                     Glide.with(applicationContext)
                         .load(Constants.IMG_URL + response.body()?.user?.profileImg)
                         .placeholder(R.drawable.person).into(binding.image)

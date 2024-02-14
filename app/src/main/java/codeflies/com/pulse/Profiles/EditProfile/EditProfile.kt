@@ -282,7 +282,7 @@ class EditProfile : AppCompatActivity() {
             }
 
             if (imageSelection == 2) {
-                binding.txtFileName.text = getFileNameFromUri(selectedImageUri!!)
+                binding.txtFileName.text = FunctionClass.getFileNameFromUri(selectedImageUri!!,this@EditProfile)
             }
         }
     }
@@ -431,13 +431,15 @@ class EditProfile : AppCompatActivity() {
 
         val taddress = binding.tAddress.text.toString()
             .toRequestBody("text/plain".toMediaTypeOrNull())
-
-        val fileName = getFileNameFromUriWithoutPath(selectedImageUri!!)
-        val file = File(getRealPathFromUri(this@EditProfile, selectedImageUri!!))
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        val imagePart =
-            MultipartBody.Part.createFormData("profile_img", fileName ?: "", requestFile)
-
+        var  imagePart: MultipartBody.Part? =null
+        if(selectedImageUri!=null) {
+            val fileName =
+                FunctionClass.getFileNameFromUriWithoutPath(this@EditProfile, selectedImageUri!!)
+            val file = File(getRealPathFromUri(this@EditProfile, selectedImageUri!!))
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val imagePart =
+                MultipartBody.Part.createFormData("profile_img", fileName ?: "", requestFile)
+        }
 
         val getData: GetData = RetrofitClient.getRetrofit().create(GetData::class.java)
         val call: Call<ResponseNormal> = getData.uploadDetails(
@@ -502,33 +504,7 @@ class EditProfile : AppCompatActivity() {
         })
     }
 
-    private fun getFileNameFromUriWithoutPath(uri: Uri): String? {
-        val fullFileName = getFileNameFromUri(uri)
-        // Use substringAfterLast to get the file name without the path
-        return fullFileName?.substringAfterLast('/')
-    }
 
-    private fun getFileNameFromUri(uri: Uri): String? {
-        var fileName: String? = null
-
-        if (DocumentsContract.isDocumentUri(this@EditProfile, uri)) {
-            // Handle document URI
-            val document = DocumentFile.fromSingleUri(this@EditProfile, uri)
-            fileName = document?.name
-        } else {
-            // Handle other URI types
-            val cursor = this@EditProfile.contentResolver.query(uri, null, null, null, null)
-
-            cursor?.use {
-                if (it.moveToFirst()) {
-                    val displayName = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                    fileName = it.getString(displayName)
-                }
-            }
-        }
-
-        return fileName
-    }
 
     lateinit var doctype: String
     private fun getDocuments() {
@@ -629,7 +605,7 @@ class EditProfile : AppCompatActivity() {
             doctype.toRequestBody("text/plain".toMediaTypeOrNull())
 
 
-        val fileName = getFileNameFromUriWithoutPath(selectedImageUri!!)
+        val fileName = FunctionClass.getFileNameFromUriWithoutPath(this@EditProfile,selectedImageUri!!)
         val file = File(getRealPathFromUri(this@EditProfile, selectedImageUri!!))
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
         val imagePart =

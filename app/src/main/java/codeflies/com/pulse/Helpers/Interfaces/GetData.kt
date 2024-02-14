@@ -1,7 +1,9 @@
 package codeflies.com.pulse.Helpers.Interfaces
 
 
-import codeflies.com.pulse.Models.CandidateDetails.ResponseDetails
+import codeflies.com.pulse.Models.CandidateDetails.CandidateDetails
+import codeflies.com.pulse.Models.CandidateDetails.CandidateStatus
+import codeflies.com.pulse.Models.CandidateDetails.Interviewers
 import codeflies.com.pulse.Models.Candidates.ResponseCandidate
 import codeflies.com.pulse.Models.Holidays.ResponseHoliday
 import codeflies.com.pulse.Models.Leaves.LeaveStatusDetails
@@ -16,7 +18,6 @@ import codeflies.com.pulse.Models.ResponseNotification
 import codeflies.com.pulse.Models.UserData.ResponseProfile
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -61,7 +62,7 @@ interface GetData {
     fun candidatesDetails(
         @Header("Authorization") token: String?,
         @Path("id") id: String?,
-    ): Call<ResponseDetails>
+    ): Call<CandidateDetails>
 
     @GET("api/holidays/list")
     fun holiday(
@@ -152,7 +153,7 @@ interface GetData {
         @Part("mother_name") mother_name: RequestBody,
         @Part("mother_profession") mother_profession: RequestBody,
         @Part("temporary_addr") temporary_addr: RequestBody,
-        @Part attachments: MultipartBody.Part
+        @Part attachments: MultipartBody.Part?
     ): Call<ResponseNormal>
 
 
@@ -180,5 +181,40 @@ interface GetData {
         @Query("old_password") old_password: String?,
         @Query("password") password: String?,
         @Query("password_confirmation") password_confirmation: String?,
+    ): Call<ResponseNormal>
+
+
+    @Headers("Accept: application/json")
+    @GET("api/recruitment/candidates/status")
+    fun getCandidateStatus(
+        @Header("Authorization") token: String?,
+    ): Call<CandidateStatus>
+
+    @Headers("Accept: application/json")
+    @GET("api/recruitment/interviewers/list")
+    fun getInterviewers(
+        @Header("Authorization") token: String?,
+    ): Call<Interviewers>
+
+
+
+    @POST("api/recruitment/candidates/round/store")
+    fun addInterviewRound(
+        @Header("Authorization") authorization: String,
+        @Query("user_id") user_id: String?,
+        @Query("candidate_id") candidate_id: String?,
+        @Query("interview_at") interview_at: String?,
+        @Query("round") round: String?,
+        @Query("status") status: String?,
+    ): Call<ResponseNormal>
+
+    @Multipart
+    @Headers("Accept: application/json")
+    @POST("api/recruitment/candidates/comment/store")
+    fun addComment(
+        @Header("Authorization") authorization: String,
+        @Part("comment") comment: RequestBody,
+        @Part("candidate_id") candidate_id: RequestBody,
+        @Part attachments: MultipartBody.Part?
     ): Call<ResponseNormal>
 }

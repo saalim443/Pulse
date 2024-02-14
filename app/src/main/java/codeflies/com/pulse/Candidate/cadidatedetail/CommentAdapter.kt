@@ -2,8 +2,10 @@ package com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Models.CandidateDetails.CommentsItem
 import codeflies.com.pulse.databinding.CommentItemListBinding
@@ -26,6 +28,17 @@ class CommentAdapter(
         holder.binding.name.text = list?.get(position)?.user?.name+":"
         holder.binding.date.text = FunctionClass.changeDate(list?.get(position)?.createdAt)
 
+
+
+        if(list?.get(position)?.attachments?.size!! >0){
+            holder.binding.download.visibility=View.VISIBLE
+        }else{
+            holder.binding.download.visibility=View.GONE
+        }
+
+        holder.binding.download.setOnClickListener {
+            FunctionClass.downloadFile(context,"Document",Constants.IMG_URL+list?.get(position)?.attachments?.get(0)?.filePath)
+        }
 
     }
 

@@ -50,7 +50,7 @@ class DocumentListAdapter(
 
 
         holder.binding.download.setOnClickListener {
-            FunctionClass.downloadFile(context, Constants.IMG_URL+ list?.get(position)?.filePath) // Change the URL to your actual download link
+            FunctionClass.downloadFile(context, "Document",Constants.IMG_URL+ list?.get(position)?.filePath) // Change the URL to your actual download link
         }
     }
 
