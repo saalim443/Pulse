@@ -35,6 +35,12 @@ class Home : Fragment() {
 
 
         getLeaves()
+        if(sharedPreference.getData("role")=="admin") {
+            binding!!.addLeave.visibility=View.GONE
+        }else{
+            binding!!.addLeave.visibility=View.VISIBLE
+        }
+
 
         binding!!.addLeave.setOnClickListener {
             val intent = Intent(requireActivity(), NewLeaveActivity::class.java)

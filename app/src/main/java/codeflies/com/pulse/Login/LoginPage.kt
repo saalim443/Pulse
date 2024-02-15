@@ -25,7 +25,7 @@ class LoginPage : AppCompatActivity() {
     lateinit var sharedPreference: SharedPreference
     lateinit var progressDisplay: ProgressDisplay
 
-    lateinit var token: String
+    var token: String="1234567"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

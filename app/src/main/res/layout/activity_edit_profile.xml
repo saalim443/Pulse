@@ -117,7 +117,151 @@
             android:padding="10dp">
 
             <LinearLayout
+                android:id="@+id/lyAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_gravity="center">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imageAdmin"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/person" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/camera"
+                        app:tint="@color/pulse_color" />
+                </RelativeLayout>
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Name"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/aname"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Email"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/aemail"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Mobile"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/amobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Password"
+                    android:textColor="@color/black_light"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/apassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_bg"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_dark"
+                    android:textSize="16dp" />
+
+
+                <com.skydoves.elasticviews.ElasticButton
+                    android:id="@+id/adminSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/rect_bg_mediun"
+                    android:backgroundTint="@color/pulse_color"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="Submit"
+                    android:layout_margin="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    app:button_duration="200"
+                    app:button_scale="0.93" />
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/lyDetails"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

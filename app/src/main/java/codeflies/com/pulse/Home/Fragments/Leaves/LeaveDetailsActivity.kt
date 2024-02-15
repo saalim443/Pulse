@@ -77,9 +77,7 @@ class LeaveDetailsActivity : AppCompatActivity() {
 
 
 
-        if(sharedPreference.getData("role")=="admin"){
-            binding.statusChange.visibility=View.VISIBLE
-        }else if(sharedPreference.getData("role")=="hr_manager"){
+        if(sharedPreference.getData("role")=="admin" || sharedPreference.getData("role")=="hr_manager") {
             binding.statusChange.visibility=View.VISIBLE
         }else{
             binding.statusChange.visibility=View.GONE

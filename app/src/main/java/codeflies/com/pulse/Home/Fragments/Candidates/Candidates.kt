@@ -40,9 +40,7 @@ class Candidates : Fragment() {
         }
 
 
-        if(sharedPreference.getData("role")=="admin"){
-            binding!!.addCandidate.visibility=View.VISIBLE
-        }else if(sharedPreference.getData("role")=="hr_manager"){
+        if(sharedPreference.getData("role")=="admin" || sharedPreference.getData("role")=="hr_manager") {
             binding!!.addCandidate.visibility=View.VISIBLE
         }else{
             binding!!.addCandidate.visibility=View.GONE
@@ -86,5 +84,10 @@ class Candidates : Fragment() {
                 ).show()
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getCandidate()
     }
 }

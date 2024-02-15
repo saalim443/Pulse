@@ -29,6 +29,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Helpers.RetrofitClient
@@ -38,14 +39,18 @@ import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityCandidateDetailBinding
 import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.CommentAdapter
 import codeflies.com.pulse.Helpers.Interfaces.GetData
+import codeflies.com.pulse.Helpers.Interfaces.RefreshStatus
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.SnackBarUtils
 import codeflies.com.pulse.Helpers.getRealPathFromUri
 import codeflies.com.pulse.Models.CandidateDetails.CandidateDetails
 import codeflies.com.pulse.Models.CandidateDetails.CandidateStatus
+import codeflies.com.pulse.Models.CandidateDetails.CandidateStatusItem
 import codeflies.com.pulse.Models.CandidateDetails.Interviewers
+import codeflies.com.pulse.Models.Candidates.StatusList
 import codeflies.com.pulse.Models.ResponseNormal
 import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.InterviewAdapter
+import com.codeflies.supertravel.TabsLayou.TabLayoutFragment.UpComingRides.StatusListAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -58,11 +63,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.Arrays
 import java.util.Calendar
 import java.util.Locale
 
 
-class CandidateDetailActivity : AppCompatActivity() {
+class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
     lateinit var binding: ActivityCandidateDetailBinding
     var context: Context = this@CandidateDetailActivity
     val REQUEST_CODE = 200
@@ -70,6 +76,7 @@ class CandidateDetailActivity : AppCompatActivity() {
 
     lateinit var sharedPreference: SharedPreference
     lateinit var progressDisplay: ProgressDisplay
+    var statusList: List<codeflies.com.pulse.Models.Candidates.CandidateStatusItem>? = null
 
     companion object {
         lateinit var candidate: CandidatesItem
@@ -81,7 +88,20 @@ class CandidateDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreference = SharedPreference(this@CandidateDetailActivity)
-        progressDisplay= ProgressDisplay(this)
+        progressDisplay = ProgressDisplay(this)
+
+
+
+        if(sharedPreference.getData("role")=="admin" || sharedPreference.getData("role")=="hr_manager") {
+            binding!!.addInterview.visibility = View.VISIBLE
+            binding!!.statusChange.visibility = View.VISIBLE
+        }else{
+            binding!!.addInterview.visibility=View.GONE
+            binding!!.statusChange.visibility=View.GONE
+        }
+
+
+
 
         binding.tvName.text = FunctionClass.makeColoredText(
             candidate?.designation,
@@ -95,19 +115,9 @@ class CandidateDetailActivity : AppCompatActivity() {
         binding.tvapproval.text = candidate.status
         binding.tvRecuriter.text = "By: " + candidate.recruiter?.name
 
-        if (candidate.status == "in_progress") {
-            binding.tvapproval.setTextColor(context.getColor(R.color.orange))
-            binding.tvapproval.text = "In Progress"
-        } else if (candidate.status == "selected") {
-            binding.tvapproval.setTextColor(context.getColor(R.color.pulse_color))
-            binding.tvapproval.text = "Selected"
-        } else if (candidate.status == "rejected") {
-            binding.tvapproval.setTextColor(context.getColor(R.color.red))
-            binding.tvapproval.text = "Rejected"
-        } else {
-            binding.tvapproval.setTextColor(context.getColor(R.color.orange))
-            binding.tvapproval.text = "Not Interested"
-        }
+
+        binding.tvapproval.text = candidate.status?.capitalize()
+
 
         binding.tvCurrentPakage.text = "\u20b9" + candidate.currentSalary.toString() + "/-"
         binding.tvExpirience.text =
@@ -133,7 +143,7 @@ class CandidateDetailActivity : AppCompatActivity() {
 
         binding.btnDownloadResume.setOnClickListener {
             FunctionClass.downloadFile(
-                applicationContext,"Resume",
+                applicationContext, "Resume",
                 Constants.IMG_URL + candidate.resume.toString()
             ) // Change the URL to your actual download link
         }
@@ -156,6 +166,7 @@ class CandidateDetailActivity : AppCompatActivity() {
 
         getCandidate()
 
+        getCandidateStatusList()
     }
 
 
@@ -170,27 +181,20 @@ class CandidateDetailActivity : AppCompatActivity() {
             true
         )
 
-        // Set click listeners for menu items
-        val pending = customView.findViewById<TextView>(R.id.pending)
-        val approve = customView.findViewById<TextView>(R.id.approve)
-        val reject = customView.findViewById<TextView>(R.id.reject)
 
-        pending.setOnClickListener {
-            // Handle option 1 click
-            showToast("Option 1 Clicked")
-            popupWindow.dismiss()
-        }
+        val statusRy = customView.findViewById<RecyclerView>(R.id.statusList)
 
-        approve.setOnClickListener {
-            // Handle option 2 click
-            showToast("Option 2 Clicked")
-            popupWindow.dismiss()
-        }
-        reject.setOnClickListener {
-            // Handle option 2 click
-            showToast("Option 2 Clicked")
-            popupWindow.dismiss()
-        }
+        statusRy.layoutManager = LinearLayoutManager(applicationContext)
+        statusRy.setHasFixedSize(true)
+        statusRy.adapter = StatusListAdapter(
+            popupWindow,
+            this@CandidateDetailActivity,
+            applicationContext!!,
+            statusList
+        )
+
+
+
         popupWindow.showAsDropDown(view)
     }
 
@@ -269,14 +273,14 @@ class CandidateDetailActivity : AppCompatActivity() {
         date.setOnClickListener {
             openDatePickerDialog(date);
         }
-        getStatus(progressBar,statusSpinner, round, interviewer)
+        getStatus(progressBar, statusSpinner, round, interviewer)
         submit.setOnClickListener {
 
             if (interviewersTxt != "") {
                 if (date.text.toString() != "") {
                     if (roundsTxt != "") {
                         if (status != "") {
-                            addInterview(progressBar,dialog, date.text.toString())
+                            addInterview(progressBar, dialog, date.text.toString())
                         } else {
                             Toast.makeText(
                                 applicationContext,
@@ -313,8 +317,8 @@ class CandidateDetailActivity : AppCompatActivity() {
     lateinit var status: String
     lateinit var interviewersTxt: String
     lateinit var roundsTxt: String
-    fun getStatus(progressBar: ProgressBar,view: Spinner, rounds: Spinner, interviewers: Spinner) {
-        progressBar.visibility=View.VISIBLE
+    fun getStatus(progressBar: ProgressBar, view: Spinner, rounds: Spinner, interviewers: Spinner) {
+        progressBar.visibility = View.VISIBLE
         Log.e("token", "Bearer " + sharedPreference.getData("token"))
         val getData: GetData =
             RetrofitClient.getRetrofit().create(GetData::class.java)
@@ -457,10 +461,10 @@ class CandidateDetailActivity : AppCompatActivity() {
 
 
                     /*  Status  */
-                    progressBar.visibility=View.GONE
+                    progressBar.visibility = View.GONE
 
                 } else {
-                    progressBar.visibility=View.GONE
+                    progressBar.visibility = View.GONE
                     Toast.makeText(
                         this@CandidateDetailActivity,
                         response.body()?.message,
@@ -512,8 +516,8 @@ class CandidateDetailActivity : AppCompatActivity() {
     }
 
 
-    private fun addInterview(progressBar: ProgressBar,dialog: Dialog, date: String) {
-        progressBar.visibility=View.VISIBLE
+    private fun addInterview(progressBar: ProgressBar, dialog: Dialog, date: String) {
+        progressBar.visibility = View.VISIBLE
         val getData: GetData =
             RetrofitClient.getRetrofit().create(GetData::class.java)
         val call: Call<ResponseNormal> =
@@ -546,11 +550,11 @@ class CandidateDetailActivity : AppCompatActivity() {
                         getColor(R.color.red)
                     )
                 }
-                progressBar.visibility=View.GONE
+                progressBar.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<ResponseNormal?>, t: Throwable) {
-                progressBar.visibility=View.GONE
+                progressBar.visibility = View.GONE
                 Toast.makeText(
                     applicationContext,
                     "Something went wrong !",
@@ -579,10 +583,11 @@ class CandidateDetailActivity : AppCompatActivity() {
         submit.setOnClickListener {
 
             if (comment.text.toString() != "") {
-                addComment(progressBar,dialog, comment.text.toString())
+                addComment(progressBar, dialog, comment.text.toString())
 
             } else {
-                Toast.makeText(applicationContext, "Please write comment", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Please write comment", Toast.LENGTH_SHORT)
+                    .show()
             }
 
 
@@ -596,9 +601,9 @@ class CandidateDetailActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    lateinit var  fileName: TextView
-    private fun addComment(progressBar:ProgressBar,dialog:Dialog, comments: String) {
-        progressBar.visibility=View.VISIBLE
+    lateinit var fileName: TextView
+    private fun addComment(progressBar: ProgressBar, dialog: Dialog, comments: String) {
+        progressBar.visibility = View.VISIBLE
         val token = sharedPreference.getData("token").toString()
 
         val comment =
@@ -607,13 +612,16 @@ class CandidateDetailActivity : AppCompatActivity() {
 
         val candidate_id =
             candidate.id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        var  imagePart: MultipartBody.Part? =null
-        if(selectedImageUri!=null) {
+        var imagePart: MultipartBody.Part? = null
+        if (selectedImageUri != null) {
             val fileNam =
-                FunctionClass.getFileNameFromUriWithoutPath(this@CandidateDetailActivity, selectedImageUri!!)
+                FunctionClass.getFileNameFromUriWithoutPath(
+                    this@CandidateDetailActivity,
+                    selectedImageUri!!
+                )
             val file = File(getRealPathFromUri(this@CandidateDetailActivity, selectedImageUri!!))
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-             imagePart =
+            imagePart =
                 MultipartBody.Part.createFormData("attachments", fileNam ?: "", requestFile)
         }
         val getData: GetData = RetrofitClient.getRetrofit().create(GetData::class.java)
@@ -668,12 +676,16 @@ class CandidateDetailActivity : AppCompatActivity() {
                         )
                     }
                 }
-                progressBar.visibility=View.GONE
+                progressBar.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<ResponseNormal>, t: Throwable) {
-                progressBar.visibility=View.GONE
-                SnackBarUtils.showTopSnackbar(this@CandidateDetailActivity, t.message ?: "", Color.RED)
+                progressBar.visibility = View.GONE
+                SnackBarUtils.showTopSnackbar(
+                    this@CandidateDetailActivity,
+                    t.message ?: "",
+                    Color.RED
+                )
             }
         })
     }
@@ -738,7 +750,7 @@ class CandidateDetailActivity : AppCompatActivity() {
 
             selectedImageUri = data!!.data!!
 
-                fileName.text = FunctionClass.getFileNameFromUri(selectedImageUri!!,applicationContext)
+            fileName.text = FunctionClass.getFileNameFromUri(selectedImageUri!!, applicationContext)
         }
     }
 
@@ -757,4 +769,93 @@ class CandidateDetailActivity : AppCompatActivity() {
     }
 
 
+    fun getCandidateStatusList() {
+
+        Log.e("token", "Bearer " + sharedPreference.getData("token"))
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<StatusList> =
+            getData.getCandidateStatusList("Bearer " + sharedPreference.getData("token"))
+        call.enqueue(object : Callback<StatusList?> {
+            override fun onResponse(
+                call: Call<StatusList?>,
+                response: Response<StatusList?>
+            ) {
+                if (response.body()?.status == true) {
+
+
+                    statusList = response.body()!!.candidateStatus
+
+
+                } else {
+
+                    Toast.makeText(
+                        this@CandidateDetailActivity,
+                        response.body()?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                }
+
+            }
+
+            override fun onFailure(call: Call<StatusList?>, t: Throwable) {
+
+                Toast.makeText(
+                    this@CandidateDetailActivity,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+    }
+
+    override fun onRefresh(status: String, name: String) {
+        updateCandidateStatus(status, name)
+    }
+
+    fun updateCandidateStatus(status: String, name: String) {
+
+        Log.e("token", "Bearer " + sharedPreference.getData("token"))
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseNormal> =
+            getData.updateCondidateStatus(
+                "Bearer " + sharedPreference.getData("token"),
+                candidate.id.toString(),
+                status
+            )
+        call.enqueue(object : Callback<ResponseNormal?> {
+            override fun onResponse(
+                call: Call<ResponseNormal?>,
+                response: Response<ResponseNormal?>
+            ) {
+                if (response.body()?.status == true) {
+
+                    binding.tvapproval.text = name
+
+                } else {
+
+                    Toast.makeText(
+                        this@CandidateDetailActivity,
+                        response.body()?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                }
+
+            }
+
+            override fun onFailure(call: Call<ResponseNormal?>, t: Throwable) {
+
+                Toast.makeText(
+                    this@CandidateDetailActivity,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+    }
 }

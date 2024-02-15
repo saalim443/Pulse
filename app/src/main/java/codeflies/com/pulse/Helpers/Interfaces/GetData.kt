@@ -5,6 +5,7 @@ import codeflies.com.pulse.Models.CandidateDetails.CandidateDetails
 import codeflies.com.pulse.Models.CandidateDetails.CandidateStatus
 import codeflies.com.pulse.Models.CandidateDetails.Interviewers
 import codeflies.com.pulse.Models.Candidates.ResponseCandidate
+import codeflies.com.pulse.Models.Candidates.StatusList
 import codeflies.com.pulse.Models.Holidays.ResponseHoliday
 import codeflies.com.pulse.Models.Leaves.LeaveStatusDetails
 import codeflies.com.pulse.Models.Leaves.LeavesDetails
@@ -156,6 +157,18 @@ interface GetData {
         @Part attachments: MultipartBody.Part?
     ): Call<ResponseNormal>
 
+    @Multipart
+    @Headers("Accept: application/json")
+    @POST("api/user/profile")
+    fun uploadAdmin(
+        @Header("Authorization") authorization: String,
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("mobile") mobile: RequestBody,
+        @Part attachments: MultipartBody.Part?
+    ): Call<ResponseNormal>
+
 
     @GET("api/employee/documents/list")
     fun documents(
@@ -216,5 +229,23 @@ interface GetData {
         @Part("comment") comment: RequestBody,
         @Part("candidate_id") candidate_id: RequestBody,
         @Part attachments: MultipartBody.Part?
+    ): Call<ResponseNormal>
+
+
+
+    @Headers("Accept: application/json")
+    @GET("api/recruitment/candidates/status")
+    fun getCandidateStatusList(
+        @Header("Authorization") token: String?,
+    ): Call<StatusList>
+
+
+
+
+    @GET("api/recruitment/candidates/status/update/{id}")
+    fun updateCondidateStatus(
+        @Header("Authorization") authorization: String,
+        @Path("id") id: String?,
+        @Query("status") status: String?,
     ): Call<ResponseNormal>
 }

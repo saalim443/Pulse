@@ -75,6 +75,20 @@ class EditProfile : AppCompatActivity() {
         sharedPreference = SharedPreference(this)
 
 
+        if(sharedPreference.getData("role")=="admin") {
+            binding!!.lyButton.visibility=View.GONE
+            binding!!.lyAdmin.visibility=View.VISIBLE
+            binding!!.lyDetails.visibility=View.GONE
+        }else{
+            binding!!.lyButton.visibility=View.VISIBLE
+            binding!!.lyAdmin.visibility=View.GONE
+            binding!!.lyDetails.visibility=View.VISIBLE
+        }
+
+
+
+
+
         binding.details.setOnClickListener {
             changePage(1)
         }
@@ -100,6 +114,10 @@ class EditProfile : AppCompatActivity() {
             imageSelection = 1
             checkPermission()
         }
+        binding.imageAdmin.setOnClickListener {
+            imageSelection = 3
+            checkPermission()
+        }
 
         binding.uploadFile.setOnClickListener {
             imageSelection = 2
@@ -109,6 +127,10 @@ class EditProfile : AppCompatActivity() {
 
         binding.detailSubmit.setOnClickListener {
             uploadDetails()
+        }
+
+        binding.adminSubmit.setOnClickListener {
+            uploadAdmin()
         }
 
         binding.documentSubmit.setOnClickListener {
@@ -281,6 +303,10 @@ class EditProfile : AppCompatActivity() {
                 binding.image.setImageURI(selectedImageUri)
             }
 
+            if (imageSelection == 3) {
+                binding.imageAdmin.setImageURI(selectedImageUri)
+            }
+
             if (imageSelection == 2) {
                 binding.txtFileName.text = FunctionClass.getFileNameFromUri(selectedImageUri!!,this@EditProfile)
             }
@@ -316,78 +342,88 @@ class EditProfile : AppCompatActivity() {
             ) {
                 if (response.body()?.status == true) {
 
-                    binding.eCode.text = response.body()!!.user?.employee?.employeeCode
-                    binding.name.setText(response.body()!!.user?.name)
-                    if(response.body()!!.user?.name!="") {
-                        binding.name.isEnabled = false
-                    }
+                    if(sharedPreference.getData("role")=="admin") {
+                        binding.aname.setText(response.body()!!.user?.name)
+                        binding.aemail.setText(response.body()!!.user?.email)
+                        binding.amobile.setText(response.body()!!.user?.mobile)
+                        //binding.apassword.setText(response.body()!!.user?.name)
 
-                    binding.mobile.setText(response.body()!!.user?.mobile)
-                    if(response.body()!!.user?.mobile!="") {
-                        binding.mobile.isEnabled = false
-                    }
+                        Glide.with(applicationContext)
+                            .load(Constants.IMG_URL + response.body()?.user?.profileImg)
+                            .placeholder(R.drawable.person).into(binding.imageAdmin)
+                    }else {
+                        binding.eCode.text = response.body()!!.user?.employee?.employeeCode
+                        binding.name.setText(response.body()!!.user?.name)
+                        if (response.body()!!.user?.name != "") {
+                            binding.name.isEnabled = false
+                        }
 
-                    binding.aMobile.setText(response.body()!!.user?.employee?.alternateMobile)
-                    if(response.body()!!.user?.employee?.alternateMobile!="") {
-                        binding.aMobile.isEnabled = false
-                    }
+                        binding.mobile.setText(response.body()!!.user?.mobile)
+                        if (response.body()!!.user?.mobile != "") {
+                            binding.mobile.isEnabled = false
+                        }
 
-                    binding.email.setText( response.body()!!.user?.email)
-                    if(response.body()!!.user?.email!="") {
-                        binding.email.isEnabled = false
-                    }
+                        binding.aMobile.setText(response.body()!!.user?.employee?.alternateMobile)
+                        if (response.body()!!.user?.employee?.alternateMobile != "") {
+                            binding.aMobile.isEnabled = false
+                        }
 
-                    binding.jDate.setText(response.body()!!.user?.employee?.joiningDate)
-                    if(response.body()!!.user?.employee?.joiningDate!="") {
-                        binding.jDate.isEnabled = false
-                    }
+                        binding.email.setText(response.body()!!.user?.email)
+                        if (response.body()!!.user?.email != "") {
+                            binding.email.isEnabled = false
+                        }
 
-                    binding.pAddress.setText(response.body()!!.user?.employee?.permanentAddr)
-                    if(response.body()!!.user?.employee?.permanentAddr!="") {
-                        binding.pAddress.isEnabled = false
-                    }
+                        binding.jDate.setText(response.body()!!.user?.employee?.joiningDate)
+                        if (response.body()!!.user?.employee?.joiningDate != "") {
+                            binding.jDate.isEnabled = false
+                        }
 
-                    binding.tAddress.setText(response.body()!!.user?.employee?.temporaryAddr.toString())
-                    if(response.body()!!.user?.employee?.temporaryAddr!="") {
-                        binding.tAddress.isEnabled = false
-                    }
+                        binding.pAddress.setText(response.body()!!.user?.employee?.permanentAddr)
+                        if (response.body()!!.user?.employee?.permanentAddr != "") {
+                            binding.pAddress.isEnabled = false
+                        }
 
-                    binding.fName.setText(response.body()!!.user?.employee?.fatherName)
-                    if(response.body()!!.user?.employee?.fatherName!="") {
-                        binding.fName.isEnabled = false
-                    }
+                        binding.tAddress.setText(response.body()!!.user?.employee?.temporaryAddr.toString())
+                        if (response.body()!!.user?.employee?.temporaryAddr != "") {
+                            binding.tAddress.isEnabled = false
+                        }
 
-                    binding.fOcupation.setText(response.body()!!.user?.employee?.fatherProfession.toString())
-                    if(response.body()!!.user?.employee?.fatherProfession!="") {
-                        binding.fOcupation.isEnabled = false
-                    }
+                        binding.fName.setText(response.body()!!.user?.employee?.fatherName)
+                        if (response.body()!!.user?.employee?.fatherName != "") {
+                            binding.fName.isEnabled = false
+                        }
+
+                        binding.fOcupation.setText(response.body()!!.user?.employee?.fatherProfession.toString())
+                        if (response.body()!!.user?.employee?.fatherProfession != "") {
+                            binding.fOcupation.isEnabled = false
+                        }
 
 
-                    binding.mName.setText(response.body()!!.user?.employee?.motherName)
-                    if(response.body()!!.user?.employee?.motherName!="") {
-                        binding.mName.isEnabled = false
-                    }
+                        binding.mName.setText(response.body()!!.user?.employee?.motherName)
+                        if (response.body()!!.user?.employee?.motherName != "") {
+                            binding.mName.isEnabled = false
+                        }
 
 
-                    binding.mOcupation.setText(response.body()!!.user?.employee?.motherProfession.toString())
-                    if(response.body()!!.user?.employee?.motherProfession!="") {
-                        binding.mOcupation.isEnabled = false
-                    }
+                        binding.mOcupation.setText(response.body()!!.user?.employee?.motherProfession.toString())
+                        if (response.body()!!.user?.employee?.motherProfession != "") {
+                            binding.mOcupation.isEnabled = false
+                        }
 
-                    binding.designation.setText(FunctionClass.getRole(response.body()!!.user?.primaryRole))
-                    if(response.body()!!.user?.primaryRole!="") {
-                        binding.designation.isEnabled = false
-                    }
+                        binding.designation.setText(FunctionClass.getRole(response.body()!!.user?.primaryRole))
+                        if (response.body()!!.user?.primaryRole != "") {
+                            binding.designation.isEnabled = false
+                        }
 
-                    binding.bDate.setText(FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth))
-                    if(response.body()!!.user?.employee?.dateOfBirth!="") {
-                        binding.bDate.isEnabled = false
-                    }
+                        binding.bDate.setText(FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth))
+                        if (response.body()!!.user?.employee?.dateOfBirth != "") {
+                            binding.bDate.isEnabled = false
+                        }
 //
-                    Glide.with(applicationContext)
-                        .load(Constants.IMG_URL + response.body()?.user?.profileImg)
-                        .placeholder(R.drawable.person).into(binding.image)
-
+                        Glide.with(applicationContext)
+                            .load(Constants.IMG_URL + response.body()?.user?.profileImg)
+                            .placeholder(R.drawable.person).into(binding.image)
+                    }
                 } else {
                     Toast.makeText(
                         applicationContext,
@@ -410,6 +446,95 @@ class EditProfile : AppCompatActivity() {
         })
 
     }
+
+
+
+    private fun uploadAdmin() {
+        progressDisplay.show()
+        val token = sharedPreference.getData("token").toString()
+
+        val name =
+            binding.aname.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+
+
+        val mobile =
+            binding.amobile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val email =
+            binding.aemail.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val password =
+            binding.apassword.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+
+        var  imagePart: MultipartBody.Part? =null
+        if(selectedImageUri!=null) {
+            val fileName =
+                FunctionClass.getFileNameFromUriWithoutPath(this@EditProfile, selectedImageUri!!)
+            val file = File(getRealPathFromUri(this@EditProfile, selectedImageUri!!))
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            imagePart =
+                MultipartBody.Part.createFormData("profile_img", fileName ?: "", requestFile)
+        }
+
+        val getData: GetData = RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseNormal> = getData.uploadAdmin(
+            "Bearer $token",
+            name,
+            email,
+            password,
+            mobile,
+            imagePart
+        )
+
+        call.enqueue(object : Callback<ResponseNormal> {
+            override fun onResponse(
+                call: Call<ResponseNormal>,
+                response: Response<ResponseNormal>
+            ) {
+                progressDisplay.dismiss()
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse?.status == true) {
+                        SnackBarUtils.showTopSnackbar(
+                            this@EditProfile,
+                            apiResponse?.message ?: "",
+                            getColor(R.color.green)
+                        )
+
+                        selectedImageUri = null
+                    } else {
+                        SnackBarUtils.showTopSnackbar(
+                            this@EditProfile,
+                            apiResponse?.message ?: "",
+                            Color.RED
+                        )
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.string()
+                    val gson = Gson()
+                    try {
+                        val errorJson = gson.fromJson(errorResponse, JsonObject::class.java)
+                        val errorMessage = errorJson.get("message").asString
+                        SnackBarUtils.showTopSnackbar(
+                            this@EditProfile,
+                            errorMessage,
+                            Color.RED
+                        )
+                    } catch (e: Exception) {
+                        SnackBarUtils.showTopSnackbar(
+                            this@EditProfile,
+                            e.message ?: "",
+                            Color.RED
+                        )
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseNormal>, t: Throwable) {
+                progressDisplay.dismiss()
+                SnackBarUtils.showTopSnackbar(this@EditProfile, t.message ?: "", Color.RED)
+            }
+        })
+    }
+
 
 
     private fun uploadDetails() {
@@ -437,7 +562,7 @@ class EditProfile : AppCompatActivity() {
                 FunctionClass.getFileNameFromUriWithoutPath(this@EditProfile, selectedImageUri!!)
             val file = File(getRealPathFromUri(this@EditProfile, selectedImageUri!!))
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-            val imagePart =
+            imagePart =
                 MultipartBody.Part.createFormData("profile_img", fileName ?: "", requestFile)
         }
 

@@ -1,10 +1,14 @@
 package codeflies.com.pulse.Home
 
+import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -38,10 +42,16 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var sharedPreference: SharedPreference
 
+    companion object{
+        lateinit var activity: Activity
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootLayout)
+
+        activity=this
         FirebaseApp.initializeApp(this);
         sharedPreference= SharedPreference(this);
         changeMenu(1)
@@ -82,6 +92,7 @@ class MainActivity : AppCompatActivity() {
         profile()
 
         notification()
+        checkPermission()
 
     }
 
@@ -315,5 +326,15 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+    fun checkPermission() {
+        val permissionsToRequest = mutableListOf<String>()
 
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(Manifest.permission.POST_NOTIFICATIONS)
+                requestPermissions(
+                    permissionsToRequest.toTypedArray(),
+                    109
+                )
+            }
+    }
 }
