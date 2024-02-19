@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="15dp"
             android:fontFamily="@font/ubuntu_medium"
-            android:text="Leaves"
+            android:text="@string/leaves"
             android:textColor="@color/pulse_color"
             android:textSize="22dp"
             android:textStyle="bold" />

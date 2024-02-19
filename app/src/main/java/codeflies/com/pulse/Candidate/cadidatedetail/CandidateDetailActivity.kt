@@ -114,12 +114,28 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
         binding.tvEmail.text = candidate.email
         binding.tvPhoneOne.text = candidate.mobile
         binding.tvPhoneTwo.text = ", " + candidate.alternateMobile
-        binding.tvapproval.text = candidate.status
         binding.tvRecuriter.text = "By: " + candidate.recruiter?.name
 
 
-        binding.tvapproval.text = candidate.status?.capitalize()
-
+        if(candidate.status=="selected"){
+            binding.tvapproval.text ="Selected"
+        }else if(candidate.status=="rejected"){
+            binding.tvapproval.text ="Rejected"
+        }else if(candidate.status=="pipeline"){
+            binding.tvapproval.text ="Pipeline"
+        }else if(candidate.status=="in_progress"){
+            binding.tvapproval.text ="In Progress"
+        }else if(candidate.status=="on_hold"){
+            binding.tvapproval.text ="On Hold"
+        }else if(candidate.status=="joined"){
+            binding.tvapproval.text ="Joined"
+        }else if(candidate.status=="not-interested"){
+            binding.tvapproval.text ="Not Interested"
+        }else if(candidate.status=="unresponsive"){
+            binding.tvapproval.text ="Unresponsive"
+        }else{
+            binding.tvapproval.text ="Pending"
+        }
 
         binding.tvCurrentPakage.text = "\u20b9" + candidate.currentSalary.toString() + "/-"
         binding.tvExpirience.text =

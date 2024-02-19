@@ -62,7 +62,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Status"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="15.5dp" />
 
@@ -70,7 +70,8 @@
                     android:id="@+id/view"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/baseline_arrow_drop_down_24" />
+                    android:src="@drawable/baseline_arrow_drop_down_24"
+                    app:tint="@color/white" />
 
             </LinearLayout>
         </com.skydoves.elasticviews.ElasticLayout>
@@ -322,7 +323,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu_medium"
-                android:text="Remark"
+                android:text="@string/remark"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -367,7 +368,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ubuntu_medium"
-                        android:text="Candidate Rounds"
+                        android:text="@string/candidate_rounds"
                         android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -382,37 +383,39 @@
                 <com.skydoves.elasticviews.ElasticLayout
                     android:id="@+id/addInterview"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:background="@drawable/rect_bg_small"
-                    android:backgroundTint="@color/pulse_color"
-                    android:padding="10dp"
+                    android:layout_height="wrap_content"
                     app:layout_duration="200"
                     app:layout_scale="0.93">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
 
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/rect_bg_large"
+                            android:backgroundTint="@color/pulse_color"
+                            android:fontFamily="@font/ubuntu"
+                            android:text="@string/round"
+                            android:paddingRight="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:paddingLeft="30dp"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="13dp" />
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="6dp"
+                            android:background="@drawable/circle_border"
                             android:src="@drawable/baseline_add_24"
                             app:tint="@color/white" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ubuntu"
-                            android:text="New Round"
-                            android:textColor="@color/white"
-                            android:textSize="15.5dp" />
-
-                    </LinearLayout>
+                    </RelativeLayout>
                 </com.skydoves.elasticviews.ElasticLayout>
 
             </LinearLayout>
@@ -442,7 +445,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ubuntu_medium"
-                        android:text="Comments"
+                        android:text="@string/comments"
                         android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -454,41 +457,42 @@
                         android:backgroundTint="@color/pulse_color" />
 
                 </LinearLayout>
-
                 <com.skydoves.elasticviews.ElasticLayout
                     android:id="@+id/addComment"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:background="@drawable/rect_bg_small"
-                    android:backgroundTint="@color/pulse_color"
-                    android:padding="10dp"
+                    android:layout_height="wrap_content"
                     app:layout_duration="200"
                     app:layout_scale="0.93">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
 
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/rect_bg_large"
+                            android:backgroundTint="@color/pulse_color"
+                            android:fontFamily="@font/ubuntu"
+                            android:text="@string/comment"
+                            android:paddingRight="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:paddingLeft="30dp"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="13dp" />
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="6dp"
+                            android:background="@drawable/circle_border"
                             android:src="@drawable/baseline_add_24"
                             app:tint="@color/white" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/ubuntu"
-                            android:text="New Comment"
-                            android:textColor="@color/white"
-                            android:textSize="15.5dp" />
-
-                    </LinearLayout>
+                    </RelativeLayout>
                 </com.skydoves.elasticviews.ElasticLayout>
 
             </LinearLayout>

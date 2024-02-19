@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ubuntu_medium"
-                android:text="Leaves Create"
+                android:text="@string/apply_leave"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Title *"
+                android:text="@string/title"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -57,7 +57,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
-                android:hint="Title"
+                android:hint="@string/title"
                 android:inputType="textCapSentences"
                 android:lines="2"
                 android:paddingStart="10dp"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Leave Type *"
+                android:text="@string/leave_type"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -79,14 +79,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg" />
+                style="@style/SpinnerTheme"
+                android:spinnerMode="dropdown" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Leave From *"
+                android:text="@string/leave_from"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -142,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Leave To *"
+                android:text="@string/leave_to"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -198,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Leave days *"
+                android:text="@string/leave_days"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -222,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Notify to (other than admin, hr_manager)"
+                android:text="@string/notify_desc"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -231,7 +232,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg" />
+                style="@style/SpinnerTheme"
+                android:spinnerMode="dropdown" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allEmails"
@@ -244,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Write Your Content: *"
+                android:text="@string/write_content"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -269,7 +271,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Add Attachments"
+                android:text="@string/add_attachment"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -288,7 +290,7 @@
                     android:background="@drawable/edit_bg"
                     android:backgroundTint="@color/pulse_color"
                     android:padding="10dp"
-                    android:text="Choose Files"
+                    android:text="@string/choose_files"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -299,7 +301,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/ubuntu_medium"
                     android:gravity="center_vertical"
-                    android:hint="No file chosen"
+                    android:hint="@string/no_file_chosen"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:textColor="@color/black"
@@ -316,7 +318,7 @@
                 android:background="@drawable/rect_bg_small"
                 android:backgroundTint="@color/pulse_color"
                 android:padding="10dp"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textColor="@color/white"
                 app:button_duration="200"
                 app:button_scale="0.93" />

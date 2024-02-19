@@ -156,7 +156,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg"/>
+                style="@style/SpinnerTheme"
+                android:spinnerMode="dropdown"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,7 +178,8 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_bg" />
+                    style="@style/SpinnerTheme"
+                    android:spinnerMode="dropdown" />
 
 
 
@@ -189,7 +191,8 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_bg" />
+                    style="@style/SpinnerTheme"
+                    android:spinnerMode="dropdown" />
 
             </LinearLayout>
 
@@ -351,7 +354,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg" />
+                style="@style/SpinnerTheme"
+                android:spinnerMode="dropdown" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -366,7 +370,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg" />
+                style="@style/SpinnerTheme"
+                android:spinnerMode="dropdown" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -392,16 +397,6 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_dark"
                 android:textSize="15dp" />
-
-
-
-
-
-
-
-
-
-
 
 
 

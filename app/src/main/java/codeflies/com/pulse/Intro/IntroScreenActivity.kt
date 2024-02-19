@@ -44,9 +44,9 @@ class IntroScreenActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 if (position == 2) {
-                    binding.next.text = "Let's Go!"
+                    binding.next.text = getString(R.string.lets_go)
                 } else {
-                    binding.next.text = "Next"
+                    binding.next.text = getString(R.string.next)
                 }
                 currentPage = position
                 binding.textViewTitle.text = data.get(position).title

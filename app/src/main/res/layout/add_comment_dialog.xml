@@ -27,7 +27,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:fontFamily="@font/roboto"
-               android:text="Add Comment"
+               android:text="@string/add_comment"
                android:gravity="center"
                android:textColor="@color/black"
                android:textStyle="bold"
@@ -39,7 +39,7 @@
                android:layout_height="wrap_content"
                android:layout_marginTop="15dp"
                android:fontFamily="@font/ubuntu"
-               android:text="Comment"
+               android:text="@string/comment"
                android:textColor="@color/black_light"
                android:textSize="16dp" />
 
@@ -63,7 +63,7 @@
                android:layout_height="wrap_content"
                android:layout_marginTop="10dp"
                android:fontFamily="@font/ubuntu"
-               android:text="Add Attachments"
+               android:text="@string/add_attachment"
                android:textColor="@color/black_light"
                android:textSize="15.5dp" />
 
@@ -82,7 +82,7 @@
                    android:background="@drawable/edit_bg"
                    android:backgroundTint="@color/pulse_color"
                    android:padding="10dp"
-                   android:text="Choose Files"
+                   android:text="@string/choose_files"
                    android:textColor="@color/white" />
 
                <TextView
@@ -93,7 +93,7 @@
                    android:background="@color/transparent"
                    android:fontFamily="@font/ubuntu_medium"
                    android:gravity="center_vertical"
-                   android:hint="No file chosen"
+                   android:hint="@string/no_file_chosen"
                    android:paddingStart="10dp"
                    android:paddingEnd="10dp"
                    android:textColor="@color/black"
@@ -112,7 +112,7 @@
                android:background="@drawable/rect_bg_small"
                android:backgroundTint="@color/pulse_color"
                android:padding="10dp"
-               android:text="Submit"
+               android:text="@string/submit"
                android:textColor="@color/white"
                app:button_duration="200"
                app:button_scale="0.93" />

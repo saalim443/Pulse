@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Edit Profile"
+            android:text="@string/edit_password"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -69,7 +69,7 @@
             android:background="@drawable/rect_bg_mediun"
             android:backgroundTint="@color/pulse_color"
             android:fontFamily="@font/ubuntu_medium"
-            android:text="Details"
+            android:text="@string/details"
             android:textColor="@color/white"
             android:textSize="16dp"
             app:button_duration="200"
@@ -83,7 +83,7 @@
             android:background="@drawable/rect_bg_mediun"
             android:backgroundTint="@color/black"
             android:fontFamily="@font/ubuntu_medium"
-            android:text="Document"
+            android:text="@string/document"
             android:textColor="@color/white"
             android:textSize="16dp"
             app:button_duration="200"
@@ -97,7 +97,7 @@
             android:background="@drawable/rect_bg_mediun"
             android:backgroundTint="@color/black"
             android:fontFamily="@font/ubuntu_medium"
-            android:text="Password"
+            android:text="@string/password"
             android:textColor="@color/white"
             android:textSize="16dp"
             app:button_duration="200"
@@ -154,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -202,7 +202,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Mobile"
+                    android:text="@string/mobile"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -226,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Password"
+                    android:text="@string/password"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -252,7 +252,7 @@
                     android:background="@drawable/rect_bg_mediun"
                     android:backgroundTint="@color/pulse_color"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="Submit"
+                    android:text="@string/submit"
                     android:layout_margin="15dp"
                     android:textColor="@color/white"
                     android:textSize="16dp"
@@ -296,7 +296,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Employee Code"
+                    android:text="@string/employee_code"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -315,7 +315,7 @@
                         android:backgroundTint="@color/pulse_color"
                         android:fontFamily="@font/roboto"
                         android:gravity="center"
-                        android:text="CFT"
+                        android:text="@string/cft"
                         android:textColor="@color/white"
                         android:textSize="16dp"
                         android:textStyle="bold" />
@@ -341,7 +341,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -365,7 +365,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -389,7 +389,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Mobile"
+                    android:text="@string/mobile"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -413,7 +413,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Alternate Mobile"
+                    android:text="@string/alternate_mobile"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -436,7 +436,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Joining Date"
+                    android:text="@string/joining_date"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -460,7 +460,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Date Of Birth"
+                    android:text="@string/date_of_birth"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -484,7 +484,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Designation"
+                    android:text="@string/designation"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -509,7 +509,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Father's Name"
+                    android:text="@string/father_name"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -535,7 +535,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Father's Profession"
+                    android:text="@string/father_occupation"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -557,7 +557,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Mother's Name"
+                    android:text="@string/mother_name"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -583,7 +583,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Mother's Profession"
+                    android:text="@string/mother_occupation"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -606,7 +606,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Permanent Address"
+                    android:text="@string/permanent_address"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -631,7 +631,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Temporary Address"
+                    android:text="@string/temporary_address"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -657,7 +657,7 @@
                     android:background="@drawable/rect_bg_mediun"
                     android:backgroundTint="@color/pulse_color"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="Submit"
+                    android:text="@string/submit"
                     android:layout_margin="15dp"
                     android:textColor="@color/white"
                     android:textSize="16dp"
@@ -676,7 +676,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Document Type"
+                    android:text="@string/document_type"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -685,14 +685,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/edit_bg" />
+                    style="@style/SpinnerTheme"
+                    android:spinnerMode="dropdown" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Document Title"
+                    android:text="@string/document_title"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -717,7 +718,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Upload File"
+                    android:text="@string/upload_file"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -737,7 +738,7 @@
                         android:backgroundTint="@color/pulse_color"
                         android:fontFamily="@font/roboto"
                         android:gravity="center"
-                        android:text="Choose File"
+                        android:text="@string/choose_files"
                         android:textColor="@color/white"
                         android:textSize="16dp"
                         android:textStyle="bold" />
@@ -752,7 +753,7 @@
                         android:inputType="textCapSentences"
                         android:lines="1"
                         android:ellipsize="end"
-                        android:hint="No File Chosen"
+                        android:hint="@string/no_file_chosen"
                         android:maxLines="1"
                         android:paddingStart="10dp"
                         android:textColor="@color/black"
@@ -765,7 +766,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Remark"
+                    android:text="@string/remark"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -777,8 +778,7 @@
                     android:background="@drawable/edit_bg"
                     android:fontFamily="@font/ubuntu_medium"
                     android:gravity="start"
-                    android:inputType="textCapSentences"
-                    android:lines="1"
+                    android:inputType="textMultiLine"
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_dark"
@@ -791,7 +791,7 @@
                     android:background="@drawable/rect_bg_mediun"
                     android:backgroundTint="@color/pulse_color"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="Submit"
+                    android:text="@string/submit"
                     android:layout_margin="15dp"
                     android:textColor="@color/white"
                     android:textSize="16dp"
@@ -815,7 +815,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Old Password"
+                    android:text="@string/old_password"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -837,7 +837,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="New Password"
+                    android:text="@string/new_password"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -859,7 +859,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Confirm Password"
+                    android:text="@string/confirm_password"
                     android:textColor="@color/black_light"
                     android:textSize="16dp" />
 
@@ -883,7 +883,7 @@
                     android:background="@drawable/rect_bg_mediun"
                     android:backgroundTint="@color/pulse_color"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="Submit"
+                    android:text="@string/submit"
                     android:layout_margin="15dp"
                     android:textColor="@color/white"
                     android:textSize="16dp"

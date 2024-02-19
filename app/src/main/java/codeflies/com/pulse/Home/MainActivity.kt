@@ -61,25 +61,25 @@ class MainActivity : AppCompatActivity(), RefreshStatus {
 
         binding.lyHome.setOnClickListener(
             View.OnClickListener {
-                binding.title.text="Leaves"
+                binding.title.text=getString(R.string.leaves)
                 changeMenu(1)
             }
         )
         binding.lyFav.setOnClickListener(
             View.OnClickListener {
-                binding.title.text="Candidates"
+                binding.title.text=getString(R.string.candidates)
                 changeMenu(2)
             }
         )
         binding.lyCart.setOnClickListener(
             View.OnClickListener {
-                binding.title.text="Holidays"
+                binding.title.text=getString(R.string.holidays)
                 changeMenu(3)
             }
         )
         binding.lyMenu.setOnClickListener(
             View.OnClickListener {
-                binding.title.text="Attendance"
+                binding.title.text=getString(R.string.attendance)
                 changeMenu(4)
             }
         )

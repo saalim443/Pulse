@@ -278,7 +278,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reporting To:"
+                    android:text="@string/reporting_to"
                     android:fontFamily="@font/ubuntu_medium"
                     android:textStyle="bold"
                     android:layout_marginLeft="15dp"
@@ -306,24 +306,11 @@
                     android:background="@drawable/rect_bg_mediun"
                     android:backgroundTint="@color/black"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="Logout"
+                    android:text="@string/logout"
                     android:textColor="@color/white"
                     app:button_duration="200"
                     app:button_scale="0.93" />
-                <com.skydoves.elasticviews.ElasticButton
-                    android:id="@+id/changePass"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:background="@drawable/rect_bg_mediun"
-                    android:backgroundTint="@color/pulse_color"
-                    android:fontFamily="@font/ubuntu_medium"
-                    android:text="Chnage Password"
-                    android:textColor="@color/white"
-                    app:button_duration="200"
-                    app:button_scale="0.93" />
+
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

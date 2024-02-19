@@ -178,7 +178,7 @@ class AddCandidateActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-
+            selectedImageUri = data!!.data!!
             binding.filesCount.text =
                 FunctionClass.getFileNameFromUri(selectedImageUri!!, this@AddCandidateActivity)
 

@@ -60,7 +60,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:src="@drawable/baseline_arrow_drop_down_24"
-                    android:layout_height="30dp"/>
+                    android:layout_height="30dp"
+                    app:tint="@color/white" />
 
             </LinearLayout>
         </com.skydoves.elasticviews.ElasticLayout>
@@ -82,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ubuntu_medium"
-                android:text="Leaves Show"
+                android:text="@string/leave_details"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -110,9 +111,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textStyle="bold"
                     android:fontFamily="@font/ubuntu"
                     android:textColor="@color/black_light"
-                    android:textSize="15.5dp" />
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/dayCreate"
@@ -153,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu"
                     android:padding="2.5dp"
-                    android:text="Employee:"
+                    android:text="@string/employee"
                     android:textColor="@color/black_light"
                     android:textSize="14dp"
                     android:textStyle="bold" />
@@ -188,7 +190,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/gray_light" />
 
 
@@ -202,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Leave Date:"
+                    android:text="@string/leave_date"
                     android:textColor="@color/black_light"
                     android:textSize="14dp"
                     android:textStyle="bold" />
@@ -223,7 +225,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/gray_light" />
 
             <LinearLayout
@@ -236,7 +238,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Status:"
+                    android:text="@string/status_column"
                     android:textColor="@color/black_light"
                     android:textSize="14dp"
                     android:textStyle="bold" />
@@ -257,7 +259,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/gray_light" />
 
             <LinearLayout
@@ -270,7 +272,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu"
-                    android:text="Notified To:"
+                    android:text="@string/notify_to"
                     android:textColor="@color/black_light"
                     android:textSize="14dp"
                     android:textStyle="bold" />
@@ -283,14 +285,14 @@
                     android:fontFamily="@font/ubuntu"
                     android:text=""
                     android:textColor="@color/black_light"
-                    android:textSize="15.5dp" />
+                    android:textSize="14dp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/gray_light" />
 
             <TextView
@@ -298,20 +300,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/ubuntu"
+                android:fontFamily="@font/roboto"
                 android:gravity="start"
                 android:text="Notified To:"
                 android:textColor="@color/black_light"
-                android:textSize="14.5dp" />
+                android:textSize="15dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/gray_light" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

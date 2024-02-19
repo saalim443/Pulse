@@ -42,18 +42,33 @@ class CandidateAdapter(
             ))
         }
 
-        if(list?.get(position)?.status=="in_progress"){
-            holder.binding.status.setTextColor(context.getColor(R.color.orange))
-            holder.binding.status.text ="In Progress"
-        }else if(list?.get(position)?.status=="selected"){
-            holder.binding.status.setTextColor(context.getColor(R.color.pulse_color))
+      if(list?.get(position)?.status=="selected"){
+            holder.binding.status.setTextColor(context.getColor(R.color.green))
             holder.binding.status.text ="Selected"
         }else if(list?.get(position)?.status=="rejected"){
             holder.binding.status.setTextColor(context.getColor(R.color.red))
             holder.binding.status.text ="Rejected"
+        }else if(list?.get(position)?.status=="pipeline"){
+            holder.binding.status.setTextColor(context.getColor(R.color.orange))
+            holder.binding.status.text ="Pipeline"
+        }else if(list?.get(position)?.status=="in_progress"){
+            holder.binding.status.setTextColor(context.getColor(R.color.pulse_color))
+            holder.binding.status.text ="In Progress"
+        }else if(list?.get(position)?.status=="on_hold"){
+            holder.binding.status.setTextColor(context.getColor(R.color.orange))
+            holder.binding.status.text ="On Hold"
+        }else if(list?.get(position)?.status=="joined"){
+            holder.binding.status.setTextColor(context.getColor(R.color.green))
+            holder.binding.status.text ="Joined"
+        }else if(list?.get(position)?.status=="not-interested"){
+            holder.binding.status.setTextColor(context.getColor(R.color.red))
+            holder.binding.status.text ="Not Interested"
+        }else if(list?.get(position)?.status=="unresponsive"){
+            holder.binding.status.setTextColor(context.getColor(R.color.red))
+            holder.binding.status.text ="Unresponsive"
         }else{
             holder.binding.status.setTextColor(context.getColor(R.color.orange))
-            holder.binding.status.text ="Not Interested"
+            holder.binding.status.text ="Pending"
         }
 
     }

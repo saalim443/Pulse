@@ -152,7 +152,7 @@ class LeaveDetailsActivity : AppCompatActivity() {
                                     " | " + response.body()?.leave?.leaveTypes
 
                         binding.recyclerView.layoutManager =
-                            GridLayoutManager(this@LeaveDetailsActivity, 2)
+                            LinearLayoutManager(this@LeaveDetailsActivity, LinearLayoutManager.HORIZONTAL,false)
                         val attachmentsList: List<attachmentsItem> =
                             response.body()?.leave?.attachments!!
                         val adapter = AttachmentsAdapter(this@LeaveDetailsActivity, attachmentsList)
