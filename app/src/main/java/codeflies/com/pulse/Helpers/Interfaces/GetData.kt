@@ -42,6 +42,8 @@ interface GetData {
     @GET("api/leaves/list")
     fun leaves(
         @Header("Authorization") token: String?,
+        @Query("page") page: String?,
+        @Query("limit") limit: String?,
     ): Call<ResponseLeaves>
 
 
@@ -56,6 +58,8 @@ interface GetData {
     @GET("api/recruitment/candidates")
     fun candidates(
         @Header("Authorization") token: String?,
+        @Query("page") page: String?,
+        @Query("limit") limit: String?,
     ): Call<ResponseCandidate>
 
 

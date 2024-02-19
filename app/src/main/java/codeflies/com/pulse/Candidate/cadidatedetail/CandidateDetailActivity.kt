@@ -43,6 +43,8 @@ import codeflies.com.pulse.Helpers.Interfaces.RefreshStatus
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.SnackBarUtils
 import codeflies.com.pulse.Helpers.getRealPathFromUri
+import codeflies.com.pulse.Home.Fragments.Candidates.Candidates
+import codeflies.com.pulse.Models.CandidateDetails.Candidate
 import codeflies.com.pulse.Models.CandidateDetails.CandidateDetails
 import codeflies.com.pulse.Models.CandidateDetails.CandidateStatus
 import codeflies.com.pulse.Models.CandidateDetails.CandidateStatusItem
@@ -92,12 +94,12 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
 
 
 
-        if(sharedPreference.getData("role")=="admin" || sharedPreference.getData("role")=="hr_manager") {
+        if (sharedPreference.getData("role") == "admin" || sharedPreference.getData("role") == "hr_manager") {
             binding!!.addInterview.visibility = View.VISIBLE
             binding!!.statusChange.visibility = View.VISIBLE
-        }else{
-            binding!!.addInterview.visibility=View.GONE
-            binding!!.statusChange.visibility=View.GONE
+        } else {
+            binding!!.addInterview.visibility = View.GONE
+            binding!!.statusChange.visibility = View.GONE
         }
 
 
@@ -149,11 +151,12 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
         }
 
         binding.back.setOnClickListener {
+            Candidates.refresh.onRefresh()
             finish()
         }
 
         binding.statusChange.setOnClickListener {
-            showCustomMenu(binding.tvapproval)
+            showCustomMenu(it)
         }
 
         binding.addInterview.setOnClickListener {
@@ -198,11 +201,8 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
         popupWindow.showAsDropDown(view)
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     fun gotoBack(view: View) {
+        Candidates.refresh.onRefresh()
         finish()
     }
 
@@ -220,26 +220,34 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
                 call: Call<CandidateDetails?>,
                 response: Response<CandidateDetails?>
             ) {
-                if (response.body()?.status == true) {
+                if (response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
-                    binding.comments.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.comments.setHasFixedSize(true)
-                    binding.comments.adapter =
-                        CommentAdapter(applicationContext!!, response.body()?.comments)
+                        binding.comments.layoutManager = LinearLayoutManager(applicationContext)
+                        binding.comments.setHasFixedSize(true)
+                        binding.comments.adapter =
+                            CommentAdapter(applicationContext!!, response.body()?.comments)
 
 
-                    binding.interviews.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.interviews.setHasFixedSize(true)
-                    binding.interviews.adapter =
-                        InterviewAdapter(applicationContext!!, response.body()?.candidateRounds)
+                        binding.interviews.layoutManager = LinearLayoutManager(applicationContext)
+                        binding.interviews.setHasFixedSize(true)
+                        binding.interviews.adapter =
+                            InterviewAdapter(applicationContext!!, response.body()?.candidateRounds)
 
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
                 } else {
                     Toast.makeText(
-                        applicationContext,
-                        response.body()?.message,
+                        this@CandidateDetailActivity,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
                 progressDisplay.dismiss()
 
@@ -329,148 +337,156 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
                 call: Call<Interviewers?>,
                 response: Response<Interviewers?>
             ) {
-                if (response.body()?.status == true) {
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
-                    /*  Status  */
-                    var statusList = Array(response.body()!!.roundStatus!!.size + 1) { "" }
-                    statusList[0] = "-- Select --"
-                    var i = 0
-                    for (data in response.body()!!.roundStatus!!) {
-                        statusList[i + 1] = data?.name.toString()
-                        i++
-                    }
-
-
-                    val adapter = ArrayAdapter<String>(
-                        this@CandidateDetailActivity,
-                        android.R.layout.simple_spinner_item,
-                        statusList
-                    )
-
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    view.adapter = adapter
-
-                    view.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                if (position != 0) {
-                                    status =
-                                        response.body()!!.roundStatus?.get(position - 1)?.slug.toString()
-                                } else {
-                                    status = ""
-                                }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-                                // Do nothing
-                            }
+                        /*  Status  */
+                        var statusList = Array(response.body()!!.roundStatus!!.size + 1) { "" }
+                        statusList[0] = "-- Select --"
+                        var i = 0
+                        for (data in response.body()!!.roundStatus!!) {
+                            statusList[i + 1] = data?.name.toString()
+                            i++
                         }
 
 
-                    /*  Status  */
+                        val adapter = ArrayAdapter<String>(
+                            this@CandidateDetailActivity,
+                            android.R.layout.simple_spinner_item,
+                            statusList
+                        )
 
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        view.adapter = adapter
 
-                    /*  Rounds  */
-                    var roundlist = Array(response.body()!!.roundTypes!!.size + 1) { "" }
-                    roundlist[0] = "-- Select --"
-                    var j = 0
-                    for (data in response.body()!!.roundTypes!!) {
-                        roundlist[j + 1] = data?.name.toString()
-                        j++
-                    }
+                        view.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if (position != 0) {
+                                        status =
+                                            response.body()!!.roundStatus?.get(position - 1)?.slug.toString()
+                                    } else {
+                                        status = ""
+                                    }
+                                }
 
-
-                    val adapter1 = ArrayAdapter<String>(
-                        this@CandidateDetailActivity,
-                        android.R.layout.simple_spinner_item,
-                        roundlist
-                    )
-
-                    adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    rounds.adapter = adapter1
-
-                    rounds.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                if (position != 0) {
-                                    roundsTxt =
-                                        parent?.getItemAtPosition(position).toString()
-                                } else {
-                                    roundsTxt = ""
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    // Do nothing
                                 }
                             }
 
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-                                // Do nothing
-                            }
+
+                        /*  Status  */
+
+
+                        /*  Rounds  */
+                        var roundlist = Array(response.body()!!.roundTypes!!.size + 1) { "" }
+                        roundlist[0] = "-- Select --"
+                        var j = 0
+                        for (data in response.body()!!.roundTypes!!) {
+                            roundlist[j + 1] = data?.name.toString()
+                            j++
                         }
 
 
-                    /*  Status  */
+                        val adapter1 = ArrayAdapter<String>(
+                            this@CandidateDetailActivity,
+                            android.R.layout.simple_spinner_item,
+                            roundlist
+                        )
 
+                        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        rounds.adapter = adapter1
 
-                    /*  Status  */
-                    var interviewList = Array(response.body()!!.interviewers!!.size + 1) { "" }
-                    interviewList[0] = "-- Select --"
-                    var k = 0
-                    for (data in response.body()!!.interviewers!!) {
-                        interviewList[k + 1] = data?.name.toString()
-                        k++
-                    }
+                        rounds.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if (position != 0) {
+                                        roundsTxt =
+                                            parent?.getItemAtPosition(position).toString()
+                                    } else {
+                                        roundsTxt = ""
+                                    }
+                                }
 
-
-                    val adapter2 = ArrayAdapter<String>(
-                        this@CandidateDetailActivity,
-                        android.R.layout.simple_spinner_item,
-                        interviewList
-                    )
-
-                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    interviewers.adapter = adapter2
-
-                    interviewers.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                if (position != 0) {
-                                    interviewersTxt =
-                                        response.body()!!.interviewers?.get(position - 1)?.id.toString()
-                                } else {
-                                    interviewersTxt = ""
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    // Do nothing
                                 }
                             }
 
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-                                // Do nothing
-                            }
+
+                        /*  Status  */
+
+
+                        /*  Status  */
+                        var interviewList = Array(response.body()!!.interviewers!!.size + 1) { "" }
+                        interviewList[0] = "-- Select --"
+                        var k = 0
+                        for (data in response.body()!!.interviewers!!) {
+                            interviewList[k + 1] = data?.name.toString()
+                            k++
                         }
 
 
-                    /*  Status  */
-                    progressBar.visibility = View.GONE
+                        val adapter2 = ArrayAdapter<String>(
+                            this@CandidateDetailActivity,
+                            android.R.layout.simple_spinner_item,
+                            interviewList
+                        )
 
-                } else {
-                    progressBar.visibility = View.GONE
+                        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        interviewers.adapter = adapter2
+
+                        interviewers.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if (position != 0) {
+                                        interviewersTxt =
+                                            response.body()!!.interviewers?.get(position - 1)?.id.toString()
+                                    } else {
+                                        interviewersTxt = ""
+                                    }
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    // Do nothing
+                                }
+                            }
+
+
+                        /*  Status  */
+                        progressBar.visibility = View.GONE
+
+                    } else {
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(
+                            this@CandidateDetailActivity,
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+                }else{
                     Toast.makeText(
                         this@CandidateDetailActivity,
-                        response.body()?.message,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
 
             }
@@ -534,21 +550,29 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
                 call: Call<ResponseNormal?>,
                 response: Response<ResponseNormal?>
             ) {
-                if (response.body()?.status == true) {
-                    SnackBarUtils.showTopSnackbar(
-                        this@CandidateDetailActivity,
-                        response.body()?.message ?: "",
-                        getColor(R.color.green)
-                    )
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
+                        SnackBarUtils.showTopSnackbar(
+                            this@CandidateDetailActivity,
+                            response.body()?.message ?: "",
+                            getColor(R.color.green)
+                        )
 
-                    getCandidate()
-                    dialog.dismiss()
-                } else {
-                    SnackBarUtils.showTopSnackbar(
+                        getCandidate()
+                        dialog.dismiss()
+                    } else {
+                        SnackBarUtils.showTopSnackbar(
+                            this@CandidateDetailActivity,
+                            response.body()?.message ?: "",
+                            getColor(R.color.red)
+                        )
+                    }
+                }else{
+                    Toast.makeText(
                         this@CandidateDetailActivity,
-                        response.body()?.message ?: "",
-                        getColor(R.color.red)
-                    )
+                        "Something went wrong !",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 progressBar.visibility = View.GONE
             }
@@ -781,22 +805,30 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
                 call: Call<StatusList?>,
                 response: Response<StatusList?>
             ) {
-                if (response.body()?.status == true) {
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
 
-                    statusList = response.body()!!.candidateStatus
+                        statusList = response.body()!!.candidateStatus
 
 
-                } else {
+                    } else {
 
+                        Toast.makeText(
+                            this@CandidateDetailActivity,
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+
+                }else{
                     Toast.makeText(
                         this@CandidateDetailActivity,
-                        response.body()?.message,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
-
             }
 
             override fun onFailure(call: Call<StatusList?>, t: Throwable) {
@@ -831,18 +863,26 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
                 call: Call<ResponseNormal?>,
                 response: Response<ResponseNormal?>
             ) {
-                if (response.body()?.status == true) {
+                if (response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
-                    binding.tvapproval.text = name
+                        binding.tvapproval.text = name
 
+                    } else {
+
+                        Toast.makeText(
+                            this@CandidateDetailActivity,
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
                 } else {
-
                     Toast.makeText(
                         this@CandidateDetailActivity,
-                        response.body()?.message,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
 
             }
@@ -857,5 +897,10 @@ class CandidateDetailActivity : AppCompatActivity(), RefreshStatus {
             }
         })
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Candidates.refresh.onRefresh()
     }
 }

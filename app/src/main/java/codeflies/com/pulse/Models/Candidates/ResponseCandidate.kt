@@ -2,11 +2,12 @@ package codeflies.com.pulse.Models.Candidates
 
 import codeflies.com.pulse.Models.CandidateDetails.User
 import com.google.gson.annotations.SerializedName
+import java.util.ArrayList
 
 data class ResponseCandidate(
 
 	@field:SerializedName("candidates")
-	val candidates: List<CandidatesItem>? = null,
+	val candidates: ArrayList<CandidatesItem>? = null,
 
 	@field:SerializedName("recruiters")
 	val recruiters: List<Any?>? = null,

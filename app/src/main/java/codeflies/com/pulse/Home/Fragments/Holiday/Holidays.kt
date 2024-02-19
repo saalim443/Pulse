@@ -30,8 +30,8 @@ class Holidays : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHolidaysBinding.inflate(inflater, container, false)
 
-        sharedPreference= SharedPreference(activity)
-        progressDisplay= ProgressDisplay(activity)
+        sharedPreference = SharedPreference(activity)
+        progressDisplay = ProgressDisplay(activity)
 
 
         getHolidays()
@@ -43,21 +43,34 @@ class Holidays : Fragment() {
         val getData: GetData =
             RetrofitClient.getRetrofit().create(GetData::class.java)
         val call: Call<ResponseHoliday> =
-            getData.holiday("Bearer "+sharedPreference.getData("token"))
+            getData.holiday("Bearer " + sharedPreference.getData("token"))
         call.enqueue(object : Callback<ResponseHoliday?> {
-            override fun onResponse(call: Call<ResponseHoliday?>, response: Response<ResponseHoliday?>) {
-                if (response.body()?.status==true) {
+            override fun onResponse(
+                call: Call<ResponseHoliday?>,
+                response: Response<ResponseHoliday?>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
-                    binding?.holiday?.layoutManager = LinearLayoutManager(activity)
-                    binding?.holiday?.setHasFixedSize(true)
-                    binding?.holiday?.adapter= HolidayAdapter(activity!!, response.body()?.holidays)
+                        binding?.holiday?.layoutManager = LinearLayoutManager(activity)
+                        binding?.holiday?.setHasFixedSize(true)
+                        binding?.holiday?.adapter =
+                            HolidayAdapter(activity!!, response.body()?.holidays)
+                    } else {
+                        Toast.makeText(
+                            activity,
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
                 } else {
                     Toast.makeText(
-                        activity,
-                        response.body()?.message ,
+                        context,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+
                 }
 
                 progressDisplay.dismiss()

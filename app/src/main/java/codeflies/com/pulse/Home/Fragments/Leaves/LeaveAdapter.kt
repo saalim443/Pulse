@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.FunctionClass
@@ -13,14 +12,12 @@ import codeflies.com.pulse.Home.Fragments.Leaves.LeaveDetailsActivity
 import codeflies.com.pulse.Models.Leaves.LeavesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.LeaveItemListBinding
-
 import com.bumptech.glide.Glide
-import java.text.SimpleDateFormat
 import java.util.*
 
 
 class LeaveAdapter(
-    val context: Context, private var list: List<LeavesItem>?
+    val context: Context, private var list: ArrayList<LeavesItem>?
 ) :
     RecyclerView.Adapter<LeaveAdapter.MyViewHolder>() {
 
@@ -80,7 +77,18 @@ class LeaveAdapter(
         }
     }
 
+    fun addData(arrayList: ArrayList<LeavesItem>) {
+        list=ArrayList<LeavesItem>().apply {
+            addAll(list!!)
+            addAll(arrayList)
+        }
+        notifyDataSetChanged()
+    }
 
+    fun addClearData() {
+        list?.clear()
+        notifyDataSetChanged()
+    }
 
 
     override fun getItemCount(): Int {

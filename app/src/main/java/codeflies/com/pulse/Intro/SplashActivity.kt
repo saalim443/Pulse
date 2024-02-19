@@ -61,28 +61,40 @@ class SplashActivity : AppCompatActivity() {
                 call: Call<ResponseProfile?>,
                 response: Response<ResponseProfile?>
             ) {
-                if (response.body()?.status == true) {
-                    startActivity(Intent(
-                        this@SplashActivity,
-                        MainActivity::class.java
-                    ))
-                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
-                    finish()
-                } else {
-                    sharedPreference.saveData("token","")
-                    sharedPreference.saveData("user_id","")
-                    sharedPreference.saveData("mobile","")
-                    startActivity(Intent(
-                        this@SplashActivity,
-                        LoginPage::class.java
-                    ))
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                MainActivity::class.java
+                            )
+                        )
+                        sharedPreference.saveData("role", response.body()?.user?.primaryRole)
+                        finish()
+                    } else {
+                        sharedPreference.saveData("token", "")
+                        sharedPreference.saveData("user_id", "")
+                        sharedPreference.saveData("mobile", "")
+                        startActivity(
+                            Intent(
+                                this@SplashActivity,
+                                LoginPage::class.java
+                            )
+                        )
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+                }else{
                     Toast.makeText(
-                        applicationContext,
-                        response.body()?.message.toString(),
+                        this@SplashActivity,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    finish()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
 
             }

@@ -15,6 +15,7 @@ import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
@@ -27,6 +28,7 @@ import codeflies.com.pulse.R
 
 import codeflies.com.pulse.databinding.ActivityAddCandidateBinding
 import codeflies.com.pulse.Helpers.Interfaces.GetData
+import codeflies.com.pulse.Home.Fragments.Candidates.Candidates
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -494,20 +496,42 @@ class AddCandidateActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseNormal>, response: Response<ResponseNormal>) {
                 progressDisplay.dismiss()
                 try {
-                    if(response.body()!!.status==null)
-                    {
+                    if(response.isSuccessful) {
+                        if (response.body()!!.status == true) {
 
-                        Log.i("errorImageResumeOnfailiour",response.body()!!.message.toString())
-                        SnackBarUtils.showTopSnackbar(this@AddCandidateActivity, response.body()!!.message ?: "", Color.RED)
-                    }
-                    else
-                    {
-                        SnackBarUtils.showTopSnackbar(this@AddCandidateActivity, response.body()!!.message ?: "", Color.RED)
+                            Log.i(
+                                "errorImageResumeOnfailiour",
+                                response.body()!!.message.toString()
+                            )
+                            SnackBarUtils.showTopSnackbar(
+                                this@AddCandidateActivity,
+                                response.body()!!.message ?: "",
+                                getColor(R.color.green)
+                            )
+                            Candidates.refresh.onRefresh()
+                            finish()
+                        } else {
+                            SnackBarUtils.showTopSnackbar(
+                                this@AddCandidateActivity,
+                                response.body()!!.message ?: "",
+                                Color.RED
+                            )
 
+                        }
+                    }else{
+                        Toast.makeText(
+                            this@AddCandidateActivity,
+                            "Something went wrong !",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }catch (e:Exception)
                 {
-
+                    Toast.makeText(
+                        this@AddCandidateActivity,
+                        "Something went wrong !",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
 

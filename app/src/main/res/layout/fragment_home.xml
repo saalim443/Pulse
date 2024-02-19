@@ -12,10 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/leaves"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/leaves"/>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"/>
+        </LinearLayout>
 
 
         <com.skydoves.elasticviews.ElasticFloatingActionButton

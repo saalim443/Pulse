@@ -37,7 +37,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
-
     }
 
     @Override
@@ -57,16 +56,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 showNotificationMessage(getApplicationContext(), title, desc, "timestamp", fullScreenIntent);
-                if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+                //if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                     Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     if (MainActivity.activity != null) {
                         MainActivity.activity.finishAffinity();
                     }
-                }
+               // }
                 Log.e("Firebase_response", "logout successfully");
 
+            }else  if (type.equalsIgnoreCase("logout")) {
+                if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+                    if(MainActivity.refreshStatus!=null){
+                        MainActivity.refreshStatus.onRefresh("","");
+                    }
+                }
             } else {
                 if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                     Intent fullScreenIntent = new Intent(this, MainActivity.class)

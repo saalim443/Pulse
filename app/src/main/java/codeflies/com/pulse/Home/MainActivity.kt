@@ -32,18 +32,20 @@ import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityMainBinding
 import com.bumptech.glide.Glide
 import codeflies.com.pulse.Helpers.Interfaces.GetData
+import codeflies.com.pulse.Helpers.Interfaces.RefreshStatus
 import com.google.firebase.FirebaseApp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RefreshStatus {
 
     lateinit var binding: ActivityMainBinding
     lateinit var sharedPreference: SharedPreference
 
     companion object{
         lateinit var activity: Activity
+        lateinit var refreshStatus: RefreshStatus
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.rootLayout)
 
         activity=this
+        refreshStatus=this
         FirebaseApp.initializeApp(this);
         sharedPreference= SharedPreference(this);
         changeMenu(1)
@@ -259,20 +262,24 @@ class MainActivity : AppCompatActivity() {
             getData.notification("Bearer "+sharedPreference.getData("token"))
         call.enqueue(object : Callback<ResponseNotification?> {
             override fun onResponse(call: Call<ResponseNotification?>, response: Response<ResponseNotification?>) {
-                if (response.body()?.status==true) {
-                    var i=0
-                    var count=0;
-                    while (i < response!!.body()?.notifications?.size!!) {
-                        if(response!!.body()?.notifications?.get(i)?.readAt==null){
-                            count++
-                        }
-                        i++
-                    }
+               if(response.isSuccessful) {
+                   if (response.body()?.status == true) {
+                       var i = 0
+                       var count = 0;
+                       while (i < response!!.body()?.notifications?.size!!) {
+                           if (response!!.body()?.notifications?.get(i)?.readAt == null) {
+                               count++
+                           }
+                           i++
+                       }
 
-                    binding.count.text=count.toString()
-                } else {
-                    binding.count.text="0"
-                }
+                       binding.count.text = count.toString()
+                   } else {
+                       binding.count.text = "0"
+                   }
+               }else{
+                   binding.count.text = "0"
+               }
 
             }
 
@@ -301,17 +308,27 @@ class MainActivity : AppCompatActivity() {
                 call: Call<ResponseProfile?>,
                 response: Response<ResponseProfile?>
             ) {
-                if (response.body()?.status == true) {
-                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
-                    Glide.with(applicationContext).load(Constants.IMG_URL+response.body()?.user?.profileImg).placeholder(R.drawable.person).into(binding.profile)
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
+                        sharedPreference.saveData("role", response.body()?.user?.primaryRole)
+                        Glide.with(applicationContext)
+                            .load(Constants.IMG_URL + response.body()?.user?.profileImg)
+                            .placeholder(R.drawable.person).into(binding.profile)
 
-                } else {
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+                }else{
                     Toast.makeText(
-                        applicationContext,
-                        response.body()?.message.toString(),
+                        this@MainActivity,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
 
             }
@@ -336,5 +353,9 @@ class MainActivity : AppCompatActivity() {
                     109
                 )
             }
+    }
+
+    override fun onRefresh(status: String, name: String) {
+        notification()
     }
 }

@@ -11,10 +11,12 @@ import codeflies.com.pulse.Models.Candidates.CandidatesItem
 import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.CandidateItemListBinding
 import codeflies.com.pulse.Candidate.cadidatedetail.CandidateDetailActivity
+import codeflies.com.pulse.Models.Leaves.LeavesItem
+import java.util.ArrayList
 
 
 class CandidateAdapter(
-    val context: Context, private var list: List<CandidatesItem>?
+    val context: Context, private var list: ArrayList<CandidatesItem>?
 ) :
     RecyclerView.Adapter<CandidateAdapter.MyViewHolder>() {
 
@@ -58,6 +60,18 @@ class CandidateAdapter(
 
 
 
+    fun addData(arrayList: ArrayList<CandidatesItem>) {
+        list=ArrayList<CandidatesItem>().apply {
+            addAll(list!!)
+            addAll(arrayList)
+        }
+        notifyDataSetChanged()
+    }
+
+    fun addClearData() {
+        list?.clear()
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
         return list!!.size

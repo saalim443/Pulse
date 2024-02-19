@@ -70,28 +70,36 @@ class LoginPage : AppCompatActivity() {
                 call: Call<ResponseLogin?>,
                 response: Response<ResponseLogin?>
             ) {
-                if (response.body()?.status == true) {
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
+                        Toast.makeText(
+                            applicationContext,
+                            "Welcome back, ${response.body()?.user?.name}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d("fcm_token", response.body()?.user?.token.toString())
+                        Log.d("token", response.body()?.user?.fcmToken.toString())
+                        sharedPreference.saveData("token", response.body()?.user?.token)
+                        sharedPreference.saveData("mobile", response.body()?.user?.mobile)
+                        sharedPreference.saveData("user_id", response.body()?.user?.id.toString())
+                        sharedPreference.saveData("role", response.body()?.user?.primaryRole)
+                        startActivity(Intent(this@LoginPage, MainActivity::class.java))
+                        finishAffinity()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+                }else{
                     Toast.makeText(
-                        applicationContext,
-                        "Welcome back, ${response.body()?.user?.name}",
+                        this@LoginPage,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.d("fcm_token", response.body()?.user?.token.toString() )
-                    Log.d("token", response.body()?.user?.fcmToken.toString() )
-                    sharedPreference.saveData("token", response.body()?.user?.token  )
-                    sharedPreference.saveData("mobile", response.body()?.user?.mobile )
-                    sharedPreference.saveData("user_id", response.body()?.user?.id.toString() )
-                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
-                    startActivity(Intent(this@LoginPage, MainActivity::class.java))
-                    finishAffinity()
-                } else {
-                    Toast.makeText(
-                        applicationContext,
-                        response.body()?.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
                 progressDisplay.dismiss()
             }

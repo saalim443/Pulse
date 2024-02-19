@@ -340,97 +340,105 @@ class EditProfile : AppCompatActivity() {
                 call: Call<ResponseProfile?>,
                 response: Response<ResponseProfile?>
             ) {
-                if (response.body()?.status == true) {
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
-                    if(sharedPreference.getData("role")=="admin") {
-                        binding.aname.setText(response.body()!!.user?.name)
-                        binding.aemail.setText(response.body()!!.user?.email)
-                        binding.amobile.setText(response.body()!!.user?.mobile)
-                        //binding.apassword.setText(response.body()!!.user?.name)
+                        if (sharedPreference.getData("role") == "admin") {
+                            binding.aname.setText(response.body()!!.user?.name)
+                            binding.aemail.setText(response.body()!!.user?.email)
+                            binding.amobile.setText(response.body()!!.user?.mobile)
+                            //binding.apassword.setText(response.body()!!.user?.name)
 
-                        Glide.with(applicationContext)
-                            .load(Constants.IMG_URL + response.body()?.user?.profileImg)
-                            .placeholder(R.drawable.person).into(binding.imageAdmin)
-                    }else {
-                        binding.eCode.text = response.body()!!.user?.employee?.employeeCode
-                        binding.name.setText(response.body()!!.user?.name)
-                        if (response.body()!!.user?.name != "") {
-                            binding.name.isEnabled = false
-                        }
+                            Glide.with(applicationContext)
+                                .load(Constants.IMG_URL + response.body()?.user?.profileImg)
+                                .placeholder(R.drawable.person).into(binding.imageAdmin)
+                        } else {
+                            binding.eCode.text = response.body()!!.user?.employee?.employeeCode
+                            binding.name.setText(response.body()!!.user?.name)
+                            if (response.body()!!.user?.name != "") {
+                                binding.name.isEnabled = false
+                            }
 
-                        binding.mobile.setText(response.body()!!.user?.mobile)
-                        if (response.body()!!.user?.mobile != "") {
-                            binding.mobile.isEnabled = false
-                        }
+                            binding.mobile.setText(response.body()!!.user?.mobile)
+                            if (response.body()!!.user?.mobile != "") {
+                                binding.mobile.isEnabled = false
+                            }
 
-                        binding.aMobile.setText(response.body()!!.user?.employee?.alternateMobile)
-                        if (response.body()!!.user?.employee?.alternateMobile != "") {
-                            binding.aMobile.isEnabled = false
-                        }
+                            binding.aMobile.setText(response.body()!!.user?.employee?.alternateMobile)
+                            if (response.body()!!.user?.employee?.alternateMobile != "") {
+                                binding.aMobile.isEnabled = false
+                            }
 
-                        binding.email.setText(response.body()!!.user?.email)
-                        if (response.body()!!.user?.email != "") {
-                            binding.email.isEnabled = false
-                        }
+                            binding.email.setText(response.body()!!.user?.email)
+                            if (response.body()!!.user?.email != "") {
+                                binding.email.isEnabled = false
+                            }
 
-                        binding.jDate.setText(response.body()!!.user?.employee?.joiningDate)
-                        if (response.body()!!.user?.employee?.joiningDate != "") {
-                            binding.jDate.isEnabled = false
-                        }
+                            binding.jDate.setText(response.body()!!.user?.employee?.joiningDate)
+                            if (response.body()!!.user?.employee?.joiningDate != "") {
+                                binding.jDate.isEnabled = false
+                            }
 
-                        binding.pAddress.setText(response.body()!!.user?.employee?.permanentAddr)
-                        if (response.body()!!.user?.employee?.permanentAddr != "") {
-                            binding.pAddress.isEnabled = false
-                        }
+                            binding.pAddress.setText(response.body()!!.user?.employee?.permanentAddr)
+                            if (response.body()!!.user?.employee?.permanentAddr != "") {
+                                binding.pAddress.isEnabled = false
+                            }
 
-                        binding.tAddress.setText(response.body()!!.user?.employee?.temporaryAddr.toString())
-                        if (response.body()!!.user?.employee?.temporaryAddr != "") {
-                            binding.tAddress.isEnabled = false
-                        }
+                            binding.tAddress.setText(response.body()!!.user?.employee?.temporaryAddr.toString())
+                            if (response.body()!!.user?.employee?.temporaryAddr != "") {
+                                binding.tAddress.isEnabled = false
+                            }
 
-                        binding.fName.setText(response.body()!!.user?.employee?.fatherName)
-                        if (response.body()!!.user?.employee?.fatherName != "") {
-                            binding.fName.isEnabled = false
-                        }
+                            binding.fName.setText(response.body()!!.user?.employee?.fatherName)
+                            if (response.body()!!.user?.employee?.fatherName != "") {
+                                binding.fName.isEnabled = false
+                            }
 
-                        binding.fOcupation.setText(response.body()!!.user?.employee?.fatherProfession.toString())
-                        if (response.body()!!.user?.employee?.fatherProfession != "") {
-                            binding.fOcupation.isEnabled = false
-                        }
-
-
-                        binding.mName.setText(response.body()!!.user?.employee?.motherName)
-                        if (response.body()!!.user?.employee?.motherName != "") {
-                            binding.mName.isEnabled = false
-                        }
+                            binding.fOcupation.setText(response.body()!!.user?.employee?.fatherProfession.toString())
+                            if (response.body()!!.user?.employee?.fatherProfession != "") {
+                                binding.fOcupation.isEnabled = false
+                            }
 
 
-                        binding.mOcupation.setText(response.body()!!.user?.employee?.motherProfession.toString())
-                        if (response.body()!!.user?.employee?.motherProfession != "") {
-                            binding.mOcupation.isEnabled = false
-                        }
+                            binding.mName.setText(response.body()!!.user?.employee?.motherName)
+                            if (response.body()!!.user?.employee?.motherName != "") {
+                                binding.mName.isEnabled = false
+                            }
 
-                        binding.designation.setText(FunctionClass.getRole(response.body()!!.user?.primaryRole))
-                        if (response.body()!!.user?.primaryRole != "") {
-                            binding.designation.isEnabled = false
-                        }
 
-                        binding.bDate.setText(FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth))
-                        if (response.body()!!.user?.employee?.dateOfBirth != "") {
-                            binding.bDate.isEnabled = false
-                        }
+                            binding.mOcupation.setText(response.body()!!.user?.employee?.motherProfession.toString())
+                            if (response.body()!!.user?.employee?.motherProfession != "") {
+                                binding.mOcupation.isEnabled = false
+                            }
+
+                            binding.designation.setText(FunctionClass.getRole(response.body()!!.user?.primaryRole))
+                            if (response.body()!!.user?.primaryRole != "") {
+                                binding.designation.isEnabled = false
+                            }
+
+                            binding.bDate.setText(FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth))
+                            if (response.body()!!.user?.employee?.dateOfBirth != "") {
+                                binding.bDate.isEnabled = false
+                            }
 //
-                        Glide.with(applicationContext)
-                            .load(Constants.IMG_URL + response.body()?.user?.profileImg)
-                            .placeholder(R.drawable.person).into(binding.image)
+                            Glide.with(applicationContext)
+                                .load(Constants.IMG_URL + response.body()?.user?.profileImg)
+                                .placeholder(R.drawable.person).into(binding.image)
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                     }
-                } else {
+                }else{
                     Toast.makeText(
-                        applicationContext,
-                        response.body()?.message.toString(),
+                        this@EditProfile,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
                 progressDisplay.dismiss()
             }
@@ -645,58 +653,66 @@ class EditProfile : AppCompatActivity() {
                 call: Call<ResponseDocuments?>,
                 response: Response<ResponseDocuments?>
             ) {
-                if (response.body()?.status == true) {
-                    var typeList = Array(response.body()!!.docTypes!!.size + 1) { "" }
-                    typeList[0] = "-- Select --"
-                    var i = 0
-                    for (data in response.body()!!.docTypes!!) {
-                        typeList[i + 1] = data?.title.toString()
-                        i++
-                    }
-
-
-                    val adapter = ArrayAdapter<String>(
-                        this@EditProfile,
-                        android.R.layout.simple_spinner_item,
-                        typeList
-                    )
-
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    binding.docType.adapter = adapter
-
-                    binding.docType.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                if (position != 0) {
-                                    doctype =
-                                        parent?.getItemAtPosition(position).toString()
-                                } else {
-                                    doctype = ""
-                                }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-                                // Do nothing
-                            }
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
+                        var typeList = Array(response.body()!!.docTypes!!.size + 1) { "" }
+                        typeList[0] = "-- Select --"
+                        var i = 0
+                        for (data in response.body()!!.docTypes!!) {
+                            typeList[i + 1] = data?.title.toString()
+                            i++
                         }
 
 
+                        val adapter = ArrayAdapter<String>(
+                            this@EditProfile,
+                            android.R.layout.simple_spinner_item,
+                            typeList
+                        )
 
-                    binding.documents.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.documents.setHasFixedSize(true)
-                    binding.documents.adapter =
-                        DocumentListAdapter(applicationContext, response.body()!!.documents)
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.docType.adapter = adapter
+
+                        binding.docType.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    if (position != 0) {
+                                        doctype =
+                                            parent?.getItemAtPosition(position).toString()
+                                    } else {
+                                        doctype = ""
+                                    }
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                    // Do nothing
+                                }
+                            }
 
 
-                } else {
+
+                        binding.documents.layoutManager = LinearLayoutManager(applicationContext)
+                        binding.documents.setHasFixedSize(true)
+                        binding.documents.adapter =
+                            DocumentListAdapter(applicationContext, response.body()!!.documents)
+
+
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }else{
                     Toast.makeText(
-                        applicationContext,
-                        response.body()?.message.toString(),
+                        this@EditProfile,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -816,22 +832,30 @@ class EditProfile : AppCompatActivity() {
                 call: Call<ResponseNormal?>,
                 response: Response<ResponseNormal?>
             ) {
-                if (response.body()?.status == true) {
-                    SnackBarUtils.showTopSnackbar(
-                        this@EditProfile,
-                        response.body()?.message ?: "",
-                        getColor(R.color.green)
-                    )
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
+                        SnackBarUtils.showTopSnackbar(
+                            this@EditProfile,
+                            response.body()?.message ?: "",
+                            getColor(R.color.green)
+                        )
 
-                    binding.newPass.setText("")
-                    binding.oldPass.setText("")
-                    binding.confirmPass.setText("")
-                } else {
-                    SnackBarUtils.showTopSnackbar(
+                        binding.newPass.setText("")
+                        binding.oldPass.setText("")
+                        binding.confirmPass.setText("")
+                    } else {
+                        SnackBarUtils.showTopSnackbar(
+                            this@EditProfile,
+                            response.body()?.message ?: "",
+                            getColor(R.color.red)
+                        )
+                    }
+                }else{
+                    Toast.makeText(
                         this@EditProfile,
-                        response.body()?.message ?: "",
-                        getColor(R.color.red)
-                    )
+                        "Something went wrong !",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 progressDisplay.dismiss()
             }

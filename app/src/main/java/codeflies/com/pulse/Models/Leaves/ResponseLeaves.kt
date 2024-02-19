@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class ResponseLeaves(
 
 	@field:SerializedName("leaves")
-	val leaves: List<LeavesItem>? = null,
+	val leaves: ArrayList<LeavesItem>? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,

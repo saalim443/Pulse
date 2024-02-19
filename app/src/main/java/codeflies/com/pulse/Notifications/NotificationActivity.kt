@@ -46,29 +46,41 @@ class NotificationActivity : AppCompatActivity() {
             getData.notification("Bearer "+sharedPreference.getData("token"))
         call.enqueue(object : Callback<ResponseNotification?> {
             override fun onResponse(call: Call<ResponseNotification?>, response: Response<ResponseNotification?>) {
-                if (response.body()?.status==true) {
+              if(response.isSuccessful) {
+                  if (response.body()?.status == true) {
 
-                    binding.notifications.layoutManager = LinearLayoutManager(this@NotificationActivity)
-                    binding.notifications.setHasFixedSize(true)
-                    binding.notifications.adapter = NotificationAdapter(response.body()!!.notifications, this@NotificationActivity)
-                    if(response.body()?.notifications?.size==0) {
-                        binding.noData.visibility= View.VISIBLE
-                        binding.notifications.visibility= View.GONE
-                    }else{
-                        binding.noData.visibility= View.GONE
-                        binding.notifications.visibility= View.VISIBLE
-                    }
-                } else {
-                    binding.noData.visibility= View.VISIBLE
-                    binding.notifications.visibility= View.GONE
-                    Toast.makeText(
-                        applicationContext,
-                        response.body()?.message ,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
-                }
+                      binding.notifications.layoutManager =
+                          LinearLayoutManager(this@NotificationActivity)
+                      binding.notifications.setHasFixedSize(true)
+                      binding.notifications.adapter = NotificationAdapter(
+                          response.body()!!.notifications,
+                          this@NotificationActivity
+                      )
+                      if (response.body()?.notifications?.size == 0) {
+                          binding.noData.visibility = View.VISIBLE
+                          binding.notifications.visibility = View.GONE
+                      } else {
+                          binding.noData.visibility = View.GONE
+                          binding.notifications.visibility = View.VISIBLE
+                      }
+                  } else {
+                      binding.noData.visibility = View.VISIBLE
+                      binding.notifications.visibility = View.GONE
+                      Toast.makeText(
+                          applicationContext,
+                          response.body()?.message,
+                          Toast.LENGTH_SHORT
+                      ).show()
+                      // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                  }
 
+              }else{
+                  Toast.makeText(
+                      this@NotificationActivity,
+                      "Something went wrong !",
+                      Toast.LENGTH_SHORT
+                  ).show()
+              }
                 readNotification()
                 progressDisplay.dismiss()
             }
@@ -94,12 +106,7 @@ class NotificationActivity : AppCompatActivity() {
             getData.readNotification("Bearer "+sharedPreference.getData("token"))
         call.enqueue(object : Callback<ResponseNormal?> {
             override fun onResponse(call: Call<ResponseNormal?>, response: Response<ResponseNormal?>) {
-                if (response.body()?.status==true) {
 
-
-                } else {
-
-                }
             }
 
             override fun onFailure(call: Call<ResponseNormal?>, t: Throwable) {

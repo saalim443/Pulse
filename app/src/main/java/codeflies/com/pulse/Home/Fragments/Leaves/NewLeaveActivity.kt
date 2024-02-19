@@ -256,36 +256,46 @@ class NewLeaveActivity : AppCompatActivity() {
                 response: Response<ResponseNormal>
             ) {
                 progressDisplay.dismiss()
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse?.status == true) {
-                        finish()
+                if(response.isSuccessful) {
+                    if (response.isSuccessful) {
+                        val apiResponse = response.body()
+                        if (apiResponse?.status == true) {
+                            Home.refresh.onRefresh()
+                            finish()
+                        } else {
+                            SnackBarUtils.showTopSnackbar(
+                                this@NewLeaveActivity,
+                                apiResponse?.message ?: "",
+                                Color.RED
+                            )
+                        }
                     } else {
-                        SnackBarUtils.showTopSnackbar(
-                            this@NewLeaveActivity,
-                            apiResponse?.message ?: "",
-                            Color.RED
-                        )
+                        val errorResponse = response.errorBody()?.string()
+                        val gson = Gson()
+                        try {
+                            val errorJson = gson.fromJson(errorResponse, JsonObject::class.java)
+                            val errorMessage = errorJson.get("message").asString
+                            SnackBarUtils.showTopSnackbar(
+                                this@NewLeaveActivity,
+                                errorMessage,
+                                Color.RED
+                            )
+                        } catch (e: Exception) {
+                            SnackBarUtils.showTopSnackbar(
+                                this@NewLeaveActivity,
+                                e.message ?: "",
+                                Color.RED
+                            )
+                        }
                     }
-                } else {
-                    val errorResponse = response.errorBody()?.string()
-                    val gson = Gson()
-                    try {
-                        val errorJson = gson.fromJson(errorResponse, JsonObject::class.java)
-                        val errorMessage = errorJson.get("message").asString
-                        SnackBarUtils.showTopSnackbar(
-                            this@NewLeaveActivity,
-                            errorMessage,
-                            Color.RED
-                        )
-                    } catch (e: Exception) {
-                        SnackBarUtils.showTopSnackbar(
-                            this@NewLeaveActivity,
-                            e.message ?: "",
-                            Color.RED
-                        )
-                    }
+                }else{
+                    Toast.makeText(
+                        this@NewLeaveActivity,
+                        "Something went wrong !",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
             }
 
             override fun onFailure(call: Call<ResponseNormal>, t: Throwable) {
@@ -351,50 +361,58 @@ class NewLeaveActivity : AppCompatActivity() {
             getData.notify_to("Bearer " + sharedPreference.getData("token"))
         call.enqueue(object : Callback<NotifyTo?> {
             override fun onResponse(call: Call<NotifyTo?>, response: Response<NotifyTo?>) {
-                if (response.body()?.status == true) {
-                    val notifyToList: List<String>? =
-                        response.body()?.users?.mapNotNull { it?.email }
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
+                        val notifyToList: List<String>? =
+                            response.body()?.users?.mapNotNull { it?.email }
 
-                    if (!notifyToList.isNullOrEmpty()) {
-                        // Assuming you have a spinner named 'notifyToSpinner' in your layout XML
-                        val adapter = ArrayAdapter<String>(
+                        if (!notifyToList.isNullOrEmpty()) {
+                            // Assuming you have a spinner named 'notifyToSpinner' in your layout XML
+                            val adapter = ArrayAdapter<String>(
+                                this@NewLeaveActivity,
+                                android.R.layout.simple_spinner_item,
+                                notifyToList
+                            )
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            binding.notifyToSpinner.adapter = adapter
+
+                            binding.notifyToSpinner.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View?,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+                                        // Get selected email
+                                        val selectedEmail =
+                                            parent?.getItemAtPosition(position).toString()
+                                        // Call function to fetch RecyclerView data based on selected email
+
+                                        emailStringList.add(response.body()?.users?.get(position)?.id.toString())
+                                        fetchRecyclerViewData(selectedEmail)
+                                    }
+
+                                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                                        // Do nothing
+                                    }
+                                }
+                        }
+
+                    } else {
+                        Toast.makeText(
                             this@NewLeaveActivity,
-                            android.R.layout.simple_spinner_item,
-                            notifyToList
-                        )
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        binding.notifyToSpinner.adapter = adapter
-
-                        binding.notifyToSpinner.onItemSelectedListener =
-                            object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    // Get selected email
-                                    val selectedEmail =
-                                        parent?.getItemAtPosition(position).toString()
-                                    // Call function to fetch RecyclerView data based on selected email
-
-                                    emailStringList.add(response.body()?.users?.get(position)?.id.toString())
-                                    fetchRecyclerViewData(selectedEmail)
-                                }
-
-                                override fun onNothingSelected(parent: AdapterView<*>?) {
-                                    // Do nothing
-                                }
-                            }
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                     }
-
-                } else {
+                }else{
                     Toast.makeText(
                         this@NewLeaveActivity,
-                        response.body()?.message,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
 
                 progressDisplay.dismiss()
@@ -515,7 +533,7 @@ class NewLeaveActivity : AppCompatActivity() {
 
             } else {
                 // Output the difference in days
-                binding.LeaveDay.text = differenceInDays.toString()
+                binding.LeaveDay.text = (differenceInDays+1).toString()
             }
             println("Difference in days: $differenceInDays")
         } catch (e: Exception) {

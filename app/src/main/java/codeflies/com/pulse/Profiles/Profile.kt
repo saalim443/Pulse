@@ -97,40 +97,53 @@ class Profile : AppCompatActivity()   {
                 call: Call<ResponseProfile?>,
                 response: Response<ResponseProfile?>
             ) {
-                if (response.body()?.status == true) {
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
-                    binding.name.text = response.body()!!.user?.name
-                    binding.mobile.text = response.body()!!.user?.mobile
-                    binding.email.text = response.body()!!.user?.email
-                    binding.job.text = FunctionClass.getRole(response.body()!!.user?.primaryRole)
-                    if (sharedPreference.getData("role") != "admin") {
-                        binding.salary.text = response.body()!!.user?.currentSalary?.amount
-                    }
-                    if (sharedPreference.getData("role") == "employee") {
-                        binding.dob.text =
-                            FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth)
-                        binding.managerList.layoutManager =
-                            LinearLayoutManager(this@Profile, LinearLayoutManager.HORIZONTAL, false)
-                        binding.managerList.setHasFixedSize(true)
-                        binding.managerList.adapter = ManagersListAdapter(
-                            applicationContext,
-                            response!!.body()?.user?.employee?.managers
-                        )
+                        binding.name.text = response.body()!!.user?.name
+                        binding.mobile.text = response.body()!!.user?.mobile
+                        binding.email.text = response.body()!!.user?.email
+                        binding.job.text =
+                            FunctionClass.getRole(response.body()!!.user?.primaryRole)
+                        if (sharedPreference.getData("role") != "admin") {
+                            binding.salary.text = response.body()!!.user?.currentSalary?.amount
+                        }
+                        if (sharedPreference.getData("role") == "employee") {
+                            binding.dob.text =
+                                FunctionClass.changeDate(response.body()!!.user?.employee?.dateOfBirth)
+                            binding.managerList.layoutManager =
+                                LinearLayoutManager(
+                                    this@Profile,
+                                    LinearLayoutManager.HORIZONTAL,
+                                    false
+                                )
+                            binding.managerList.setHasFixedSize(true)
+                            binding.managerList.adapter = ManagersListAdapter(
+                                applicationContext,
+                                response!!.body()?.user?.employee?.managers
+                            )
+                        } else {
+                            binding.managerList.visibility = View.GONE
+                        }
+                        sharedPreference.saveData("role", response.body()?.user?.primaryRole)
+                        Glide.with(applicationContext)
+                            .load(Constants.IMG_URL + response.body()?.user?.profileImg)
+                            .placeholder(R.drawable.person).into(binding.image)
+
                     } else {
-                        binding.managerList.visibility = View.GONE
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                     }
-                    sharedPreference.saveData("role", response.body()?.user?.primaryRole )
-                    Glide.with(applicationContext)
-                        .load(Constants.IMG_URL + response.body()?.user?.profileImg)
-                        .placeholder(R.drawable.person).into(binding.image)
-
-                } else {
+                }else{
                     Toast.makeText(
-                        applicationContext,
-                        response.body()?.message.toString(),
+                        this@Profile,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
                 progressDisplay.dismiss()
             }
@@ -191,21 +204,29 @@ class Profile : AppCompatActivity()   {
                 call: Call<ResponseNormal?>,
                 response: Response<ResponseNormal?>
             ) {
-                if (response.body()?.status == true) {
+                if(response.isSuccessful) {
+                    if (response.body()?.status == true) {
 
-                    sharedPreference.saveData("user_id", "")
-                    sharedPreference.saveData("mobile", "")
-                    sharedPreference.saveData("token", "")
-                    startActivity(Intent(this@Profile, SplashActivity::class.java))
-                    finishAffinity()
+                        sharedPreference.saveData("user_id", "")
+                        sharedPreference.saveData("mobile", "")
+                        sharedPreference.saveData("token", "")
+                        startActivity(Intent(this@Profile, SplashActivity::class.java))
+                        finishAffinity()
 
-                } else {
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            response.body()?.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+                }else{
                     Toast.makeText(
-                        applicationContext,
-                        response.body()?.message.toString(),
+                        this@Profile,
+                        "Something went wrong !",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
                 }
                 progressDisplay.dismiss()
             }
