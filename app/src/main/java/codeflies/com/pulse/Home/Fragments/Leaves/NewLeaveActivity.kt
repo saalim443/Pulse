@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.LinearLayoutManager
+import codeflies.com.pulse.Helpers.Constants
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
@@ -74,10 +75,9 @@ class NewLeaveActivity : AppCompatActivity() {
             finish()
         }
 
-        ArrayAdapter.createFromResource(
+        ArrayAdapter<String>(
             this,
-            R.array.spinner_options,
-            android.R.layout.simple_spinner_item
+            android.R.layout.simple_spinner_item,Constants.leaveType
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

@@ -685,9 +685,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/edit_bg"
-                    android:entries="@array/spinner_options"
-                    android:prompt="@string/select_option" />
+                    android:background="@drawable/edit_bg" />
 
                 <TextView
                     android:layout_width="match_parent"

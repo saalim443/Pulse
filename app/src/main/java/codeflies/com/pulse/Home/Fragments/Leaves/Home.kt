@@ -92,7 +92,7 @@ class Home : Fragment(), Refresh {
     }
 
     private fun getLeaves() {
-        if(page==0) {
+        if(page==1) {
             progressDisplay.show()
         }else{
             binding?.progressBar?.visibility=View.VISIBLE
@@ -134,7 +134,7 @@ class Home : Fragment(), Refresh {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                if(page==0) {
+                if(page==1) {
                     progressDisplay.dismiss()
                 }else{
                     binding?.progressBar?.visibility=View.GONE
@@ -142,7 +142,7 @@ class Home : Fragment(), Refresh {
             }
 
             override fun onFailure(call: Call<ResponseLeaves?>, t: Throwable) {
-                if(page==0) {
+                if(page==1) {
                     progressDisplay.dismiss()
                 }else{
                     binding?.progressBar?.visibility=View.GONE
@@ -157,7 +157,7 @@ class Home : Fragment(), Refresh {
     }
 
     override fun onRefresh() {
-        page=0
+        page=1
         scrollStatus = 1;
         leaveAdapter.addClearData()
        getLeaves()

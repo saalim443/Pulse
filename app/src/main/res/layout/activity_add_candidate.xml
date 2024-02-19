@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ubuntu_medium"
-                android:text="Add Candidate"
+                android:text="@string/add_candidate"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Name *"
+                android:text="@string/name"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -57,7 +57,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:inputType="textCapSentences"
                 android:lines="2"
                 android:paddingStart="10dp"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Email *"
+                android:text="@string/email"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -81,7 +81,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:inputType="textCapSentences"
                 android:lines="2"
                 android:paddingStart="10dp"
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Mobile *"
+                android:text="@string/mobile"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -105,7 +105,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
-                android:hint="Mobile"
+                android:hint="@string/mobile"
                 android:lines="1"
                 android:maxLength="10"
                 android:minLines="1"
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Alternate Mobile *"
+                android:text="@string/alternate_mobile"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -135,7 +135,7 @@
                 android:minLines="1"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
-                android:hint="AlternateMobile"
+                android:hint="@string/alternate_mobile"
                 android:inputType="phone"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Designation *"
+                android:text="@string/designation"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -156,15 +156,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg"
-                android:entries="@array/spinner_options_designation"
-                android:prompt="@string/select_option_designation" />
+                android:background="@drawable/edit_bg"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Experience *"
+                android:text="@string/experience"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -179,9 +177,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_bg"
-                    android:entries="@array/spinner_options_year"
-                    android:prompt="@string/select_option_year" />
+                    android:background="@drawable/edit_bg" />
 
 
 
@@ -193,9 +189,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_bg"
-                    android:entries="@array/spinner_options_month"
-                    android:prompt="@string/select_option_month" />
+                    android:background="@drawable/edit_bg" />
 
             </LinearLayout>
 
@@ -215,7 +209,7 @@
                     android:background="@drawable/edit_bg"
                     android:backgroundTint="@color/pulse_color"
                     android:padding="10dp"
-                    android:text="Choose Files"
+                    android:text="@string/choose_files"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -226,7 +220,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/ubuntu_medium"
                     android:gravity="center_vertical"
-                    android:hint="No file chosen"
+                    android:hint="@string/no_file_chosen"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:textColor="@color/black"
@@ -240,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Notice Period *"
+                android:text="@string/notice_period"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -251,7 +245,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/edit_bg"
                 android:fontFamily="@font/ubuntu_medium"
-                android:hint="Notice Period"
+                android:hint="@string/notice_period"
                 android:inputType="number"
                 android:lines="2"
                 android:paddingStart="10dp"
@@ -263,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Current Salary *"
+                android:text="@string/current_salary"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
             <LinearLayout
@@ -279,7 +273,7 @@
                     android:background="@color/pulse_color"
                     android:backgroundTint="@color/pulse_color"
                     android:padding="10dp"
-                    android:text="Rs."
+                    android:text="@string/rupee_symbol"
                     android:textColor="@color/white"/>
 
                 <EditText
@@ -305,7 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Expected Salary *"
+                android:text="@string/expected_salary"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
             <LinearLayout
@@ -321,7 +315,7 @@
                     android:background="@color/pulse_color"
                     android:backgroundTint="@color/pulse_color"
                     android:padding="10dp"
-                    android:text="Rs."
+                    android:text="@string/rupee_symbol"
                     android:textColor="@color/white"/>
 
                 <EditText
@@ -332,6 +326,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/ubuntu_medium"
                     android:hint=""
+                    android:inputType="number"
                     android:gravity="center_vertical"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
@@ -347,7 +342,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Status *"
+                android:text="@string/status"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -356,15 +351,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg"
-                android:entries="@array/spinner_options_status"
-                android:prompt="@string/select_option_status" />
+                android:background="@drawable/edit_bg" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Recruiter *"
+                android:text="@string/recruiter"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -373,17 +366,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/edit_bg"
-                android:entries="@array/spinner_options_recruiter"
-                android:prompt="@string/select_option_recruiter"
-           />
+                android:background="@drawable/edit_bg" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
-                android:text="Remark *"
+                android:text="@string/remark"
                 android:textColor="@color/black_light"
                 android:textSize="15.5dp" />
 
@@ -423,7 +413,7 @@
                 android:backgroundTint="@color/pulse_color"
                 android:padding="10dp"
                 android:layout_marginTop="30dp"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textColor="@color/white"
                 app:button_duration="200"
                 app:button_scale="0.93" />

@@ -8,84 +8,25 @@
     <string name="logout_desc">Are you sure to want logout from the app?</string>
     <string name="yeah">Yeah! sure</string>
     <string name="not_now">Not Now</string>
+    <string name="default_notification_channel_id"/>
 
-    <string name="select_option">Select an option</string>
-    <string-array name="spinner_options">
-        <item>--Select--</item>
-        <item>First Half Leave</item>
-        <item>Second Half Leave</item>
-        <item>Full Day Leave</item>
-    </string-array>
-
-    <string name="select_option_year">yyyy</string>
-    <string-array name="spinner_options_year">
-        <item>yyyy</item>
-        <item>1 </item>
-        <item>2 </item>
-        <item>3 </item>
-        <item>4 </item>
-        <item>5 </item>
-        <item>6 </item>
-        <item>7 </item>
-        <item>8 </item>
-        <item>9 </item>
-        <item>10 </item>
-        <item>11 </item>
-        <item>12 </item>
-        <item>13 </item>
-        <item>14 </item>
-        <item>15 </item>
-    </string-array>
-
-    <string name="select_option_month">Select an option</string>
-    <string-array name="spinner_options_month">
-        <item>mm</item>
-        <item>1 </item>
-        <item>2 </item>
-        <item>3 </item>
-        <item>4 </item>
-        <item>5 </item>
-        <item>6 </item>
-        <item>7 </item>
-        <item>8 </item>
-        <item>9 </item>
-        <item>10 </item>
-        <item>11 </item>
-        <item>12 </item>
-    </string-array>
+    <string name="add_candidate">Add Candidate</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="mobile">Mobile</string>
+    <string name="alternate_mobile">Alternate Mobile</string>
+    <string name="designation">Designation</string>
+    <string name="experience">Experience</string>
+    <string name="choose_files">Choose Files</string>
+    <string name="no_file_chosen">No file chosen</string>
+    <string name="notice_period">Notice Period</string>
+    <string name="current_salary">Current Salary</string>
+    <string name="rupee_symbol">Rs.</string>
+    <string name="expected_salary">Expected Salary</string>
+    <string name="status">Status</string>
+    <string name="recruiter">Recruiter</string>
+    <string name="remark">Remark</string>
+    <string name="submit">Submit</string>
 
 
-    <string name="select_option_designation">Select an option</string>
-    <string-array name="spinner_options_designation">
-        <item>--Select--</item>
-        <item>Native Application Developer</item>
-        <item>Hybrid Application Developer</item>
-        <item>Android Application Developer</item>
-        <item>IOS Application Developer</item>
-        <item>Php  Developer</item>
-        <item></item>
-    </string-array>
-    <string name="select_option_status">Select an option</string>
-    <string-array name="spinner_options_status">
-        <item>--Select--</item>
-        <item>Pipeline</item>
-        <item>Pending</item>
-        <item>Progress</item>
-        <item>On Hold</item>
-        <item>Rejected</item>
-        <item>Selected</item>
-        <item>Joined</item>
-        <item>Not Interested</item>
-        <item>Unresponsive</item>
-        <item></item>
-    </string-array>
-
-    <string name="select_option_recruiter">Select an option</string>
-    <string name="default_notification_channel_id" />
-    <string-array name="spinner_options_recruiter">
-        <item>--Select--</item>
-        <item>Anjali Shakhya</item>
-        <item>Kajal Mansoori</item>
-        <item></item>
-    </string-array>
 </resources>

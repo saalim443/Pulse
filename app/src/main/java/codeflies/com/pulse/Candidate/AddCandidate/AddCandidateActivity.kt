@@ -15,8 +15,15 @@ import android.provider.OpenableColumns
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
+import androidx.recyclerview.widget.RecyclerView
+import codeflies.com.pulse.Helpers.Constants
+import codeflies.com.pulse.Helpers.FunctionClass
 import codeflies.com.pulse.Helpers.ProgressDisplay
 import codeflies.com.pulse.Helpers.RetrofitClient
 import codeflies.com.pulse.Helpers.SharedPreference
@@ -29,6 +36,8 @@ import codeflies.com.pulse.R
 import codeflies.com.pulse.databinding.ActivityAddCandidateBinding
 import codeflies.com.pulse.Helpers.Interfaces.GetData
 import codeflies.com.pulse.Home.Fragments.Candidates.Candidates
+import codeflies.com.pulse.Models.Candidates.ResponseRecruiters
+import codeflies.com.pulse.Models.Leaves.LeaveStatusDetails
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -51,7 +60,6 @@ class AddCandidateActivity : AppCompatActivity() {
 
     private val REQUEST_CODE_PERMISSION = 123
     val REQUEST_CODE = 200
-    private var imageUriList = mutableListOf<Uri>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,86 +69,12 @@ class AddCandidateActivity : AppCompatActivity() {
         sharedPreference = SharedPreference(this)
         progressDisplay = ProgressDisplay(this)
 
-        binding.spnDesignation.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    selectedItemDesignation = parent?.getItemAtPosition(position).toString()
-                    // Do something with the selected item
-                }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // Handle case when nothing is selected
-                }
-            }
+        setSpinner()
 
-        binding.spnYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedItemyyyy = parent?.getItemAtPosition(position).toString()
-                // Do something with the selected item
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle case when nothing is selected
-            }
-        }
 
-        binding.spnMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedItemmm = parent?.getItemAtPosition(position).toString()
-                // Do something with the selected item
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle case when nothing is selected
-            }
-        }
-
-        binding.spnStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedItemstatus = parent?.getItemAtPosition(position).toString()
-                // Do something with the selected item
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle case when nothing is selected
-            }
-        }
-
-        binding.spnRecruiter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedItemrecruiter = parent?.getItemAtPosition(position).toString()
-                // Do something with the selected item
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle case when nothing is selected
-            }
-        }
 
 
         binding.chooseFiles.setOnClickListener {
@@ -153,7 +87,7 @@ class AddCandidateActivity : AppCompatActivity() {
                         permissionsToRequest.toTypedArray(),
                         REQUEST_CODE_PERMISSION
                     )
-                }else{
+                } else {
                     openGalleryForImages()
                 }
             } else {
@@ -163,7 +97,7 @@ class AddCandidateActivity : AppCompatActivity() {
                         permissionsToRequest.toTypedArray(),
                         REQUEST_CODE_PERMISSION
                     )
-                }else{
+                } else {
                     openGalleryForImages()
                 }
             }
@@ -172,8 +106,6 @@ class AddCandidateActivity : AppCompatActivity() {
         }
 
         binding.login.setOnClickListener {
-
-
 
 
             if (isValid()) {
@@ -200,7 +132,8 @@ class AddCandidateActivity : AppCompatActivity() {
             fileName = document?.name
         } else {
             // Handle other URI types
-            val cursor = this@AddCandidateActivity.contentResolver.query(uri, null, null, null, null)
+            val cursor =
+                this@AddCandidateActivity.contentResolver.query(uri, null, null, null, null)
 
             cursor?.use {
                 if (it.moveToFirst()) {
@@ -239,38 +172,16 @@ class AddCandidateActivity : AppCompatActivity() {
 
     }
 
+
+    var selectedImageUri: Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
 
-            // if multiple images are selected
-            if (data?.clipData != null) {
-                val count = data.clipData!!.itemCount
+            binding.filesCount.text =
+                FunctionClass.getFileNameFromUri(selectedImageUri!!, this@AddCandidateActivity)
 
-                for (i in 0 until count) {
-                    val imageUri: Uri = data.clipData!!.getItemAt(i).uri
-                    //     val filePath = getPathFromUri(imageUri)
-                    // Log.e("filePath","filePath = "+filePath)
-                    // Now 'filePath' contains the file path corresponding to the Uri
-                    imageUriList.add(imageUri)
-
-                    // iv_image.setImageURI(imageUri) Here you can assign your Image URI to the ImageViews
-                }
-
-                binding.filesCount.text = imageUriList.size.toString() + " Files"
-
-            } else if (data?.data != null) {
-                // if a single image is selected
-
-                val imageUri: Uri = data.data!!
-                // val filePath = getPathFromUri(imageUri)
-                // Now 'filePath' contains the file path corresponding to the Uri
-                imageUriList.add(imageUri)
-
-                binding.filesCount.text = "1 File"
-                // iv_image.setImageURI(imageUri) Here you can assign the picked image uri to your imageview
-            }
         }
     }
 
@@ -289,151 +200,115 @@ class AddCandidateActivity : AppCompatActivity() {
     }
 
 
-
     private fun isValid(): Boolean {
-
 
 
         if (binding.edtName.text.isEmpty()) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Name is required!",
-                R.color.red
+                getColor(R.color.red)
             )
             binding.edtName.requestFocus()
             return false
-        }
-
-       else if (binding.edtEmail.text.isEmpty()) {
+        } else if (binding.edtEmail.text.isEmpty()) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Email is required!",
-                R.color.red
+                getColor(R.color.red)
             )
             binding.edtEmail.requestFocus()
             return false
-        }
-
-        else if (binding.edtMobile.text.isEmpty()) {
+        } else if (binding.edtMobile.text.isEmpty()) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Mobile number is required!",
-                R.color.red
+                getColor(R.color.red)
             )
             binding.edtMobile.requestFocus()
             return false
-        }
-
-        else if (binding.edtAlternateMobile.text.isEmpty()) {
+        } else if (binding.edtAlternateMobile.text.isEmpty()) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Alternate mobile number is required!",
-                R.color.red
+                getColor(R.color.red)
             )
             binding.edtAlternateMobile.requestFocus()
             return false
-        }
-
-        else if (binding.edtNoticePeriod.text.isEmpty()) {
+        }else if (selectedItemDesignation.equals("-- Select --")) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
-                "Notice period is required!",
-                R.color.red
+                "Designation is required!",
+                getColor(R.color.red)
             )
             binding.edtNoticePeriod.requestFocus()
             return false
-        }
-
-        else if (binding.edtCurrentSalary.text.isEmpty()) {
+        }else if (selectedItemyyyy.equals("YYYY")) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Experience Year is required!",
+                getColor(R.color.red)
+            )
+            binding.edtNoticePeriod.requestFocus()
+            return false
+        }else if (selectedItemmm.equals("MM")) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Experience Month is required!",
+                getColor(R.color.red)
+            )
+            binding.edtNoticePeriod.requestFocus()
+            return false
+        } else if (binding.edtNoticePeriod.text.isEmpty()) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Notice period is required!",
+                getColor(R.color.red)
+            )
+            binding.edtNoticePeriod.requestFocus()
+            return false
+        } else if (binding.edtCurrentSalary.text.isEmpty()) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Current salary is required!",
-                R.color.red
+                getColor(R.color.red)
             )
             binding.edtCurrentSalary.requestFocus()
             return false
-        }
-
-        else if (binding.edtExpectedSalary.text.isEmpty()) {
+        } else if (binding.edtExpectedSalary.text.isEmpty()) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Expected salary is required!",
-                R.color.red
+                getColor(R.color.red)
             )
             binding.edtExpectedSalary.requestFocus()
             return false
-        }
-
-        else if (selectedItemDesignation == null) {
-            SnackBarUtils.showTopSnackbar(
-                this@AddCandidateActivity,
-                "Please select a designation!",
-                R.color.red
-            )
-            return false
-        }
-
-        else if (selectedItemyyyy == null) {
-            SnackBarUtils.showTopSnackbar(
-                this@AddCandidateActivity,
-                "Please select a year!",
-                R.color.red
-            )
-            return false
-        }
-
-        else if (selectedItemmm == null) {
-            SnackBarUtils.showTopSnackbar(
-                this@AddCandidateActivity,
-                "Please select a month!",
-                R.color.red
-            )
-            return false
-        }
-
-        else if (selectedItemrecruiter == null) {
-            SnackBarUtils.showTopSnackbar(
-                this@AddCandidateActivity,
-                "Please select a recruiter!",
-                R.color.red
-            )
-            return false
-        }
-
-        else if (selectedItemstatus == null) {
-            SnackBarUtils.showTopSnackbar(
-                this@AddCandidateActivity,
-                "Please select a status!",
-                R.color.red
-            )
-            return false
-        }
-
-        else if ("selectedFileUri" == null) {
+        }else if ("selectedFileUri" == null) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Please choose Attachedment !",
-                R.color.red
+                getColor(R.color.red)
             )
             return false
-        }
-
-        else if (binding.remarkWriteYourContent.text.isEmpty()) {
+        } else if (selectedItemstatus.equals("-- Select --")) {
+            SnackBarUtils.showTopSnackbar(
+                this@AddCandidateActivity,
+                "Status is required!",
+                getColor(R.color.red)
+            )
+            binding.edtNoticePeriod.requestFocus()
+            return false
+        }else if (binding.remarkWriteYourContent.text.isEmpty()) {
             SnackBarUtils.showTopSnackbar(
                 this@AddCandidateActivity,
                 "Content is required!",
-                R.color.red
+                getColor(R.color.red)
             )
             return false
         }
 
         return true
     }
-
-
-
-
-
 
 
     fun gotoBack(view: View) {
@@ -445,30 +320,50 @@ class AddCandidateActivity : AppCompatActivity() {
     private fun uploadLeave() {
         progressDisplay.show()
         val token = sharedPreference.getData("token").toString()
-        val name = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtName.text.toString())
-        val email = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtEmail.text.toString())
-        val mobile = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtMobile.text.toString())
-        val alternateMobile = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtAlternateMobile.text.toString())
-        val currentsalary = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtCurrentSalary.text.toString())
-        val expectedSalary = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtExpectedSalary.text.toString())
-        val remarks = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.remarkWriteYourContent.text.toString())
-        val noticePeriod = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtNoticePeriod.text.toString())
-        val year = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemyyyy)
-        val month = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemmm)
-        val status = RequestBody.create("text/plain".toMediaTypeOrNull(),selectedItemstatus)
-        val designation = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemDesignation)
+        val name =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtName.text.toString())
+        val email =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtEmail.text.toString())
+        val mobile =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtMobile.text.toString())
+        val alternateMobile = RequestBody.create(
+            "text/plain".toMediaTypeOrNull(),
+            binding.edtAlternateMobile.text.toString()
+        )
+        val currentsalary = RequestBody.create(
+            "text/plain".toMediaTypeOrNull(),
+            binding.edtCurrentSalary.text.toString()
+        )
+        val expectedSalary = RequestBody.create(
+            "text/plain".toMediaTypeOrNull(),
+            binding.edtExpectedSalary.text.toString()
+        )
+        val remarks = RequestBody.create(
+            "text/plain".toMediaTypeOrNull(),
+            binding.remarkWriteYourContent.text.toString()
+        )
+        val noticePeriod = RequestBody.create(
+            "text/plain".toMediaTypeOrNull(),
+            binding.edtNoticePeriod.text.toString()
+        )
+        val year = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemyyyy)
+        val month = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemmm)
+        val status = RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemstatus)
+        val designation =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), selectedItemDesignation)
         val recruiter = RequestBody.create("text/plain".toMediaTypeOrNull(), "13")
 
-        val imageParts = mutableListOf<MultipartBody.Part>()
-        for (uri in imageUriList) {
-            val fileName = getFileNameFromUriWithoutPath(uri)
-            val file = File(getRealPathFromUri(this@AddCandidateActivity, uri))
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-            val imagePart =
-                MultipartBody.Part.createFormData("resume", fileName ?: "", requestFile)
-            imageParts.add(imagePart)
-        }
 
+
+        var imagePart: MultipartBody.Part? = null
+        if (selectedImageUri != null) {
+            val fileName =
+                FunctionClass.getFileNameFromUriWithoutPath(this@AddCandidateActivity, selectedImageUri!!)
+            val file = File(getRealPathFromUri(this@AddCandidateActivity, selectedImageUri!!))
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            imagePart =
+                MultipartBody.Part.createFormData("resume", fileName ?: "", requestFile)
+        }
 
 
         // Make the API call
@@ -488,15 +383,17 @@ class AddCandidateActivity : AppCompatActivity() {
             status,
             remarks,
             recruiter,
-            imageParts.last()
-
+            imagePart
 
         )
         call.enqueue(object : Callback<ResponseNormal> {
-            override fun onResponse(call: Call<ResponseNormal>, response: Response<ResponseNormal>) {
+            override fun onResponse(
+                call: Call<ResponseNormal>,
+                response: Response<ResponseNormal>
+            ) {
                 progressDisplay.dismiss()
                 try {
-                    if(response.isSuccessful) {
+                    if (response.isSuccessful) {
                         if (response.body()!!.status == true) {
 
                             Log.i(
@@ -518,15 +415,14 @@ class AddCandidateActivity : AppCompatActivity() {
                             )
 
                         }
-                    }else{
+                    } else {
                         Toast.makeText(
                             this@AddCandidateActivity,
                             "Something went wrong !",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                }catch (e:Exception)
-                {
+                } catch (e: Exception) {
                     Toast.makeText(
                         this@AddCandidateActivity,
                         "Something went wrong !",
@@ -535,22 +431,199 @@ class AddCandidateActivity : AppCompatActivity() {
                 }
 
 
-
-
-
             }
 
             override fun onFailure(call: Call<ResponseNormal>, t: Throwable) {
                 progressDisplay.dismiss()
                 SnackBarUtils.showTopSnackbar(this@AddCandidateActivity, t.message ?: "", Color.RED)
-                Log.i("errorImageResumeOnfailiour",t.message.toString())
+                Log.i("errorImageResumeOnfailiour", t.message.toString())
 
             }
         })
     }
 
 
+    fun setSpinner() {
+        val adDesignation = ArrayAdapter<String>(
+            this@AddCandidateActivity,
+            android.R.layout.simple_spinner_item,
+            Constants.designation
+        )
+        adDesignation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spnDesignation.adapter = adDesignation
+
+        binding.spnDesignation.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    selectedItemDesignation = parent?.getItemAtPosition(position).toString()
+
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Do nothing
+                }
+            }
 
 
+        val adYear = ArrayAdapter<String>(
+            this@AddCandidateActivity,
+            android.R.layout.simple_spinner_item,
+            Constants.year
+        )
+        adYear.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spnYear.adapter = adYear
+
+        binding.spnYear.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    selectedItemyyyy = parent?.getItemAtPosition(position).toString()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Do nothing
+                }
+            }
+
+        val adMonth = ArrayAdapter<String>(
+            this@AddCandidateActivity,
+            android.R.layout.simple_spinner_item,
+            Constants.month
+        )
+        adMonth.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spnMonth.adapter = adMonth
+
+        binding.spnMonth.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    selectedItemmm = parent?.getItemAtPosition(position).toString()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Do nothing
+                }
+            }
+
+        val adStatus = ArrayAdapter<String>(
+            this@AddCandidateActivity,
+            android.R.layout.simple_spinner_item,
+            Constants.status
+        )
+        adStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spnStatus.adapter = adStatus
+
+        binding.spnStatus.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    selectedItemstatus = parent?.getItemAtPosition(position).toString()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // Do nothing
+                }
+            }
+
+        getRecruiters()
+    }
+
+
+    fun getRecruiters() {
+
+        Log.e("token", "Bearer " + sharedPreference.getData("token"))
+        val getData: GetData =
+            RetrofitClient.getRetrofit().create(GetData::class.java)
+        val call: Call<ResponseRecruiters> =
+            getData.getRecruiters("Bearer " + sharedPreference.getData("token"))
+        call.enqueue(object : Callback<ResponseRecruiters?> {
+            override fun onResponse(
+                call: Call<ResponseRecruiters?>,
+                response: Response<ResponseRecruiters?>
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body()?.status == true) {
+                        val notifyToList: List<String>? =
+                            response.body()?.recruiters?.mapNotNull { it?.name }
+
+                        if (!notifyToList.isNullOrEmpty()) {
+                            val adStatus = ArrayAdapter<String>(
+                                this@AddCandidateActivity,
+                                android.R.layout.simple_spinner_item,
+                                notifyToList
+                            )
+                            adStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            binding.spnRecruiter.adapter = adStatus
+
+                            binding.spnRecruiter.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View?,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+
+                                        selectedItemrecruiter =
+                                            parent?.getItemAtPosition(position).toString()
+                                    }
+
+                                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                                        // Do nothing
+                                    }
+                                }
+                        }
+
+                    } else {
+                        Toast.makeText(
+                            this@AddCandidateActivity,
+                            response.body()?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Toast.makeText( Dashboard.activity, "Sorry!! someone has already accepted the ride", Toast.LENGTH_SHORT ).show();
+                    }
+                } else {
+                    Toast.makeText(
+                        this@AddCandidateActivity,
+                        "Something went wrong !",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                progressDisplay.dismiss()
+            }
+
+            override fun onFailure(call: Call<ResponseRecruiters?>, t: Throwable) {
+                progressDisplay.dismiss()
+                Toast.makeText(
+                    this@AddCandidateActivity,
+                    "Something went wrong !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+    }
 
 }

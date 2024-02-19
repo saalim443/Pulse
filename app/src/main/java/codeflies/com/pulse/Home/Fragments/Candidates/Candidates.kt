@@ -33,7 +33,7 @@ class Candidates : Fragment(), Refresh {
 
     lateinit var candidateAdapter: CandidateAdapter
     var scrollStatus=0
-    var page=0
+    var page=1
     val limit=30
 
     companion object{
@@ -92,7 +92,7 @@ class Candidates : Fragment(), Refresh {
         }
     }
     private fun getCandidate() {
-        if(page==0) {
+        if(page==1) {
             progressDisplay.show()
         }else{
             binding?.progressBar?.visibility=View.VISIBLE
@@ -131,7 +131,7 @@ class Candidates : Fragment(), Refresh {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                if(page==0) {
+                if(page==1) {
                     progressDisplay.dismiss()
                 }else{
                     binding?.progressBar?.visibility=View.GONE
@@ -139,7 +139,7 @@ class Candidates : Fragment(), Refresh {
             }
 
             override fun onFailure(call: Call<ResponseCandidate?>, t: Throwable) {
-                if(page==0) {
+                if(page==1) {
                     progressDisplay.dismiss()
                 }else{
                     binding?.progressBar?.visibility=View.GONE
@@ -154,7 +154,7 @@ class Candidates : Fragment(), Refresh {
     }
 
     override fun onRefresh() {
-        page=0
+        page=1
         scrollStatus = 1;
         candidateAdapter.addClearData()
         getCandidate()

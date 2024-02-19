@@ -5,6 +5,7 @@ import codeflies.com.pulse.Models.CandidateDetails.CandidateDetails
 import codeflies.com.pulse.Models.CandidateDetails.CandidateStatus
 import codeflies.com.pulse.Models.CandidateDetails.Interviewers
 import codeflies.com.pulse.Models.Candidates.ResponseCandidate
+import codeflies.com.pulse.Models.Candidates.ResponseRecruiters
 import codeflies.com.pulse.Models.Candidates.StatusList
 import codeflies.com.pulse.Models.Holidays.ResponseHoliday
 import codeflies.com.pulse.Models.Leaves.LeaveStatusDetails
@@ -143,7 +144,7 @@ interface GetData {
         @Part("status") status: RequestBody,
         @Part("remarks") remarks: RequestBody,
         @Part("recruiter_id") recruiter: RequestBody,
-        @Part resume: MultipartBody.Part
+        @Part resume: MultipartBody.Part?
     ): Call<ResponseNormal>
 
 
@@ -252,4 +253,10 @@ interface GetData {
         @Path("id") id: String?,
         @Query("status") status: String?,
     ): Call<ResponseNormal>
+
+    @Headers("Accept: application/json")
+    @GET("api/recruitment/candidates/recruiters")
+    fun getRecruiters(
+        @Header("Authorization") token: String?,
+    ): Call<ResponseRecruiters>
 }
